@@ -1,0 +1,292 @@
+{
+  "common": {
+    "home": "Trang chủ",
+    "about": "Giới thiệu",
+    "ecosystem": "Hệ sinh thái",
+    "courses": "Khóa học",
+    "instructors": "Giảng viên",
+    "news": "Tin tức",
+    "books": "Sách",
+    "library": "Thư viện",
+    "contact": "Liên hệ",
+    "search": "Tìm kiếm",
+    "login": "Đăng nhập",
+    "register": "Đăng ký",
+    "logout": "Đăng xuất",
+    "readMore": "Xem thêm",
+    "learnMore": "Tìm hiểu thêm",
+    "viewAll": "Xem tất cả",
+    "back": "Quay lại",
+    "next": "Tiếp theo",
+    "previous": "Trước",
+    "submit": "Gửi",
+    "cancel": "Hủy",
+    "close": "Đóng",
+    "loading": "Đang tải...",
+    "noResults": "Không tìm thấy kết quả",
+    "error": "Đã có lỗi xảy ra"
+  },
+  "header": {
+    "slogan": "Giáo dục từ miền Tây - Phát triển nguồn nhân lực Đồng bằng sông Cửu Long",
+    "ecosystemTitle": "Hệ sinh thái Novaedu:",
+    "searchPlaceholder": "Tìm kiếm khóa học, tin tức...",
+    "registerNow": "Đăng ký ngay",
+    "myAccount": "Tài khoản của tôi",
+    "myCourses": "Khóa học của tôi",
+    "profile": "Hồ sơ",
+    "settings": "Cài đặt"
+  },
+  "footer": {
+    "companyName": "CÔNG TY CP CÔNG NGHỆ GIÁO DỤC HAPPY WORLD MEKONG",
+    "aboutUs": "Về chúng tôi",
+    "ecosystem": "Hệ sinh thái",
+    "services": "Dịch vụ",
+    "quickLinks": "Liên kết nhanh",
+    "address": "Địa chỉ",
+    "email": "Email",
+    "hotline": "Hotline",
+    "followUs": "Theo dõi chúng tôi",
+    "copyright": "2025 Bản quyền thuộc về Happy World Mekong",
+    "policy": "Chính sách bảo mật",
+    "terms": "Điều khoản sử dụng",
+    "faqs": "Câu hỏi thường gặp",
+    "careers": "Tuyển dụng"
+  },
+  "home": {
+    "heroBadge": "🎯 Điểm chạm kỹ năng",
+    "heroTitle": "HAPPY WORLD MEKONG",
+    "heroSlogan": "Kiến tạo tương lai - Khai phóng tiềm năng thế hệ trẻ",
+    "heroDescription": "Tiên phong mang đến cơ hội trang bị kỹ năng mềm, kiến thức nền tảng và năng lực tương lai thông qua các chương trình, giải pháp giáo dục hiện đại và dịch vụ công nghệ mới",
+    "exploreCourses": "Khám phá khóa học",
+    "consultNow": "Đăng ký tư vấn",
+    "featuredCoursesTitle": "Khóa học nổi bật",
+    "ecosystemTitle": "Hệ sinh thái",
+    "ecosystemSubtitle": "Hệ sinh thái của HAPPY WORLD MEKONG",
+    "aboutTitle": "Giới thiệu về Happy World Mekong",
+    "aboutSubtitle": "Về chúng tôi",
+    "vision": "Tầm nhìn",
+    "mission": "Sứ mệnh",
+    "coreValues": "Giá trị cốt lõi",
+    "visionContent": "Trở thành Thương hiệu tiên phong dẫn đầu khu vực trong việc khai phóng tiềm năng thế hệ trẻ, tạo ra chuẩn mực mới về trang bị năng lực toàn diện để kiến tạo một tương lai thịnh vượng và hạnh phúc",
+    "missionContent": "Happy World Mekong trở thành điểm chạm kỹ năng, luôn tiên phong mang đến cơ hội trang bị kỹ năng mềm, kiến thức nền tảng và năng lực tương lai thông qua các chương trình, giải pháp giáo dục hiện đại và dịch vụ công nghệ mới; Kiến tạo tương lai bằng cách khai phóng tiềm năng của thế hệ trẻ, góp phần xây dựng một thế giới hạnh phúc",
+    "coreValuesContent": "Tiên phong - Toàn diện - Bền vững",
+    "coreValue1": "Tiên phong",
+    "coreValue1Desc": "Dẫn đầu và sáng tạo, áp dụng công nghệ mới, tạo ra chuẩn mực mới trong giáo dục",
+    "coreValue2": "Toàn diện", 
+    "coreValue2Desc": "Trang bị đầy đủ kỹ năng mềm, kiến thức nền tảng và năng lực tương lai cho người học",
+    "coreValue3": "Bền vững",
+    "coreValue3Desc": "Tạo ra sự phát triển lâu dài cho cá nhân và xã hội, kiến tạo tương lai thịnh vượng",
+    "statsTitle": "Những con số nổi bật",
+    "achievementsTitle": "Thành tựu của HAPPY WORLD MEKONG",
+    "videosTitle": "Truyền thông về HAPPY WORLD MEKONG",
+    "newsTitle": "Tin tức nổi bật",
+    "partnersTitle": "Đối tác chiến lược"
+  },
+  "courses": {
+    "title": "Khóa học",
+    "searchPlaceholder": "Tìm kiếm khóa học...",
+    "filterBy": "Lọc theo",
+    "sortBy": "Sắp xếp",
+    "allCourses": "Tất cả khóa học",
+    "byCenters": "Theo Trung tâm",
+    "byLevel": "Theo cấp độ",
+    "byType": "Theo loại hình",
+    "byDuration": "Theo thời lượng",
+    "byPrice": "Theo giá",
+    "clearFilters": "Xóa bộ lọc",
+    "newest": "Mới nhất",
+    "popular": "Phổ biến nhất",
+    "priceLowToHigh": "Giá thấp đến cao",
+    "priceHighToLow": "Giá cao đến thấp",
+    "highestRated": "Đánh giá cao nhất",
+    "students": "học viên",
+    "lessons": "bài học",
+    "weeks": "tuần",
+    "hours": "giờ",
+    "enrollNow": "Đăng ký ngay",
+    "addToWishlist": "Thêm vào yêu thích",
+    "free": "Miễn phí",
+    "bestseller": "Bán chạy",
+    "new": "Mới",
+    "hot": "Hot",
+    "certificate": "Chứng chỉ",
+    "jobSupport": "Hỗ trợ việc làm",
+    "online": "Online",
+    "offline": "Offline"
+  },
+  "courseDetail": {
+    "overview": "Tổng quan",
+    "curriculum": "Nội dung khóa học",
+    "instructor": "Giảng viên",
+    "reviews": "Đánh giá",
+    "faqs": "Câu hỏi thường gặp",
+    "whatYouWillLearn": "Bạn sẽ học được gì",
+    "requirements": "Yêu cầu",
+    "suitableFor": "Phù hợp với",
+    "courseIncludes": "Khóa học bao gồm",
+    "lifetimeAccess": "Truy cập trọn đời",
+    "freeRetake": "Học lại miễn phí",
+    "moneyBackGuarantee": "Hoàn tiền 30 ngày",
+    "qualityCommitment": "Cam kết chất lượng",
+    "multiDevice": "Học trên mọi thiết bị",
+    "addToCart": "Thêm vào giỏ",
+    "consultFree": "Tư vấn miễn phí",
+    "relatedCourses": "Khóa học liên quan",
+    "instructorCourses": "Khóa học khác của giảng viên"
+  },
+  "instructors": {
+    "title": "Đội ngũ giảng viên & chuyên gia",
+    "subtitle": "Những người dẫn đầu trong lĩnh vực đào tạo",
+    "yearsExperience": "năm kinh nghiệm",
+    "viewProfile": "Xem hồ sơ",
+    "expertise": "Chuyên môn",
+    "achievements": "Thành tựu",
+    "coursesTeaching": "Đang giảng dạy"
+  },
+  "news": {
+    "title": "Tin tức & Sự kiện",
+    "allNews": "Tất cả",
+    "activities": "Tin hoạt động",
+    "recruitment": "Tin tuyển dụng",
+    "events": "Sự kiện",
+    "latest": "Mới nhất",
+    "mostViewed": "Xem nhiều nhất",
+    "featured": "Nổi bật",
+    "readMore": "Đọc tiếp",
+    "relatedPosts": "Bài viết liên quan",
+    "sameCategory": "Cùng chuyên mục",
+    "sharePost": "Chia sẻ bài viết",
+    "author": "Tác giả",
+    "publishedOn": "Đăng ngày",
+    "readingTime": "phút đọc",
+    "views": "lượt xem"
+  },
+  "contact": {
+    "title": "Liên hệ với chúng tôi",
+    "subtitle": "Chúng tôi luôn sẵn sàng lắng nghe và hỗ trợ bạn",
+    "fullName": "Họ và tên",
+    "email": "Email",
+    "phone": "Điện thoại",
+    "subject": "Chủ đề",
+    "message": "Nội dung",
+    "send": "Gửi",
+    "selectTopic": "Chọn chủ đề quan tâm",
+    "topics": {
+      "consultation": "Tư vấn",
+      "partnership": "Đề nghị hợp tác",
+      "complaint": "Khiếu nại",
+      "feedback": "Góp ý",
+      "other": "Khác"
+    },
+    "successMessage": "Cảm ơn bạn đã liên hệ! Chúng tôi sẽ phản hồi sớm nhất.",
+    "errorMessage": "Có lỗi xảy ra. Vui lòng thử lại sau."
+  },
+  "ecosystem": {
+    "title": "Hệ sinh thái giáo dục toàn diện",
+    "subtitle": "9 Trung tâm chuyên biệt phục vụ mọi nhu cầu đào tạo",
+    "centers": {
+      "skillsPro": {
+        "name": "Mekong Skills Pro",
+        "description": "Chương trình đào tạo kỹ năng chuyên sâu",
+        "features": [
+          "Kỹ năng mềm cơ bản",
+          "Kỹ năng lãnh đạo",
+          "Kỹ năng bán hàng & marketing",
+          "Chứng chỉ quốc tế"
+        ]
+      },
+      "careerGuide": {
+        "name": "Mekong Career Guide",
+        "description": "Hệ thống hướng nghiệp online",
+        "features": [
+          "Định hướng nghề nghiệp",
+          "Tư vấn chọn ngành",
+          "Test trắc nghiệm",
+          "Kết nối trường ĐH"
+        ]
+      },
+      "boss": {
+        "name": "Mekong Boss",
+        "description": "Đào tạo doanh nhân & khởi nghiệp",
+        "features": [
+          "Chương trình CEO",
+          "Kỹ năng khởi nghiệp",
+          "Business plan",
+          "Kết nối nhà đầu tư"
+        ]
+      },
+      "teen": {
+        "name": "Mekong Teen",
+        "description": "Giáo dục học sinh toàn diện",
+        "features": [
+          "Kỹ năng sống",
+          "Tư duy sáng tạo",
+          "Camp hè",
+          "Hoạt động ngoại khóa"
+        ]
+      },
+      "book": {
+        "name": "Mekong Book",
+        "description": "Xuất bản sách & tài liệu",
+        "features": [
+          "Sách kỹ năng",
+          "Sách kinh doanh",
+          "E-book",
+          "Audiobook"
+        ]
+      },
+      "job": {
+        "name": "Mekong Job",
+        "description": "Nền tảng kết nối việc làm",
+        "features": [
+          "Kết nối việc làm",
+          "Tuyển dụng",
+          "Tư vấn CV",
+          "Job fair"
+        ]
+      },
+      "space": {
+        "name": "Mekong Space",
+        "description": "Không gian học tập & coworking",
+        "features": [
+          "Coworking space",
+          "Phòng đào tạo",
+          "Thư viện",
+          "Event space"
+        ]
+      },
+      "agri": {
+        "name": "Mekong Agri Academy",
+        "description": "Đào tạo nông nghiệp công nghệ cao",
+        "features": [
+          "Nông nghiệp hữu cơ",
+          "VietGAP",
+          "Khởi nghiệp nông nghiệp",
+          "Chuyển đổi số"
+        ]
+      },
+      "innovation": {
+        "name": "Mekong Innovation Hub",
+        "description": "Trung tâm đổi mới sáng tạo",
+        "features": [
+          "Inkubator",
+          "Mentoring",
+          "Pitch training",
+          "Demo day"
+        ]
+      }
+    }
+  },
+  "stats": {
+    "students": "Học viên đã đào tạo",
+    "courses": "Khóa học chất lượng",
+    "instructors": "Giảng viên & Chuyên gia",
+    "partners": "Đối tác chiến lược"
+  },
+  "gallery": {
+    "photos": "Hình ảnh",
+    "videos": "Videos",
+    "documents": "Tài liệu"
+  }
+}
+

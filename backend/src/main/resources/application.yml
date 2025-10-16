@@ -1,0 +1,54 @@
+spring:
+  application:
+    name: happyworld-mekong-backend
+  
+  profiles:
+    active: dev
+  
+  jpa:
+    open-in-view: false
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+        use_sql_comments: true
+  
+  servlet:
+    multipart:
+      max-file-size: 50MB
+      max-request-size: 50MB
+
+server:
+  port: 8080
+  error:
+    include-message: always
+    include-binding-errors: always
+
+# App configuration
+app:
+  name: Happy World Mekong
+  version: 1.0.0
+  frontend-url: http://localhost:5173
+  cors:
+    allowed-origins:
+      - http://localhost:5173
+      - http://localhost:3000
+    allowed-methods:
+      - GET
+      - POST
+      - PUT
+      - PATCH
+      - DELETE
+      - OPTIONS
+    allowed-headers:
+      - "*"
+    allow-credentials: true
+
+# Logging
+logging:
+  level:
+    root: INFO
+    com.happyworld.mekong: DEBUG
+    org.hibernate.SQL: DEBUG
+    org.hibernate.type.descriptor.sql.BasicBinder: TRACE
+

@@ -1,0 +1,292 @@
+{
+  "common": {
+    "home": "Home",
+    "about": "About",
+    "ecosystem": "Ecosystem",
+    "courses": "Courses",
+    "instructors": "Instructors",
+    "news": "News",
+    "books": "Books",
+    "library": "Library",
+    "contact": "Contact",
+    "search": "Search",
+    "login": "Login",
+    "register": "Sign Up",
+    "logout": "Logout",
+    "readMore": "Read more",
+    "learnMore": "Learn more",
+    "viewAll": "View all",
+    "back": "Back",
+    "next": "Next",
+    "previous": "Previous",
+    "submit": "Submit",
+    "cancel": "Cancel",
+    "close": "Close",
+    "loading": "Loading...",
+    "noResults": "No results found",
+    "error": "An error occurred"
+  },
+  "header": {
+    "slogan": "Education from the West - Developing Human Resources in Mekong Delta",
+    "ecosystemTitle": "Happy World Ecosystem:",
+    "searchPlaceholder": "Search courses, news...",
+    "registerNow": "Register Now",
+    "myAccount": "My Account",
+    "myCourses": "My Courses",
+    "profile": "Profile",
+    "settings": "Settings"
+  },
+  "footer": {
+    "companyName": "HAPPY WORLD MEKONG EDUCATION TECHNOLOGY CO., LTD",
+    "aboutUs": "About Us",
+    "ecosystem": "Ecosystem",
+    "services": "Services",
+    "quickLinks": "Quick Links",
+    "address": "Address",
+    "email": "Email",
+    "hotline": "Hotline",
+    "followUs": "Follow Us",
+    "copyright": "2025 All Rights Reserved by Happy World Mekong",
+    "policy": "Privacy Policy",
+    "terms": "Terms of Service",
+    "faqs": "FAQs",
+    "careers": "Careers"
+  },
+  "home": {
+    "heroBadge": "🎯 Skills Touch Point",
+    "heroTitle": "HAPPY WORLD MEKONG",
+    "heroSlogan": "Building the Future - Unleashing Youth Potential",
+    "heroDescription": "Pioneering opportunities to equip soft skills, foundational knowledge and future capabilities through modern education programs, solutions and new technology services",
+    "exploreCourses": "Explore Courses",
+    "consultNow": "Get Consultation",
+    "featuredCoursesTitle": "Featured Courses",
+    "ecosystemTitle": "Ecosystem",
+    "ecosystemSubtitle": "HAPPY WORLD MEKONG Ecosystem",
+    "aboutTitle": "About Happy World Mekong",
+    "aboutSubtitle": "About Us",
+    "vision": "Vision",
+    "mission": "Mission",
+    "coreValues": "Core Values",
+    "visionContent": "To become a pioneering brand leading the region in unleashing youth potential, creating new standards for comprehensive capacity building to construct a prosperous and happy future",
+    "missionContent": "Happy World Mekong becomes a skills touch point, always pioneering to bring opportunities to equip soft skills, foundational knowledge and future capabilities through modern education programs, solutions and new technology services; Building the future by unleashing youth potential, contributing to building a happy world",
+    "coreValuesContent": "Pioneering - Comprehensive - Sustainable",
+    "coreValue1": "Pioneering",
+    "coreValue1Desc": "Leading and innovating, applying new technology, creating new standards in education",
+    "coreValue2": "Comprehensive",
+    "coreValue2Desc": "Fully equipping soft skills, foundational knowledge and future capabilities for learners",
+    "coreValue3": "Sustainable",
+    "coreValue3Desc": "Creating long-term development for individuals and society, building a prosperous future",
+    "statsTitle": "Key Achievements",
+    "achievementsTitle": "HAPPY WORLD MEKONG Achievements",
+    "videosTitle": "Media Coverage",
+    "newsTitle": "Featured News",
+    "partnersTitle": "Strategic Partners"
+  },
+  "courses": {
+    "title": "Courses",
+    "searchPlaceholder": "Search courses...",
+    "filterBy": "Filter by",
+    "sortBy": "Sort by",
+    "allCourses": "All Courses",
+    "byCenters": "By Centers",
+    "byLevel": "By Level",
+    "byType": "By Type",
+    "byDuration": "By Duration",
+    "byPrice": "By Price",
+    "clearFilters": "Clear Filters",
+    "newest": "Newest",
+    "popular": "Most Popular",
+    "priceLowToHigh": "Price: Low to High",
+    "priceHighToLow": "Price: High to Low",
+    "highestRated": "Highest Rated",
+    "students": "students",
+    "lessons": "lessons",
+    "weeks": "weeks",
+    "hours": "hours",
+    "enrollNow": "Enroll Now",
+    "addToWishlist": "Add to Wishlist",
+    "free": "Free",
+    "bestseller": "Bestseller",
+    "new": "New",
+    "hot": "Hot",
+    "certificate": "Certificate",
+    "jobSupport": "Job Support",
+    "online": "Online",
+    "offline": "Offline"
+  },
+  "courseDetail": {
+    "overview": "Overview",
+    "curriculum": "Curriculum",
+    "instructor": "Instructor",
+    "reviews": "Reviews",
+    "faqs": "FAQs",
+    "whatYouWillLearn": "What You Will Learn",
+    "requirements": "Requirements",
+    "suitableFor": "Suitable For",
+    "courseIncludes": "This course includes",
+    "lifetimeAccess": "Lifetime Access",
+    "freeRetake": "Free Retake",
+    "moneyBackGuarantee": "30-Day Money Back",
+    "qualityCommitment": "Quality Commitment",
+    "multiDevice": "Learn on Any Device",
+    "addToCart": "Add to Cart",
+    "consultFree": "Free Consultation",
+    "relatedCourses": "Related Courses",
+    "instructorCourses": "More from this Instructor"
+  },
+  "instructors": {
+    "title": "Instructors & Experts",
+    "subtitle": "Leading professionals in education",
+    "yearsExperience": "years experience",
+    "viewProfile": "View Profile",
+    "expertise": "Expertise",
+    "achievements": "Achievements",
+    "coursesTeaching": "Teaching"
+  },
+  "news": {
+    "title": "News & Events",
+    "allNews": "All",
+    "activities": "Activities",
+    "recruitment": "Recruitment",
+    "events": "Events",
+    "latest": "Latest",
+    "mostViewed": "Most Viewed",
+    "featured": "Featured",
+    "readMore": "Read more",
+    "relatedPosts": "Related Posts",
+    "sameCategory": "Same Category",
+    "sharePost": "Share Post",
+    "author": "Author",
+    "publishedOn": "Published on",
+    "readingTime": "min read",
+    "views": "views"
+  },
+  "contact": {
+    "title": "Contact Us",
+    "subtitle": "We're always ready to listen and support you",
+    "fullName": "Full Name",
+    "email": "Email",
+    "phone": "Phone",
+    "subject": "Subject",
+    "message": "Message",
+    "send": "Send",
+    "selectTopic": "Select a topic",
+    "topics": {
+      "consultation": "Consultation",
+      "partnership": "Partnership",
+      "complaint": "Complaint",
+      "feedback": "Feedback",
+      "other": "Other"
+    },
+    "successMessage": "Thank you for contacting us! We'll respond soon.",
+    "errorMessage": "An error occurred. Please try again later."
+  },
+  "ecosystem": {
+    "title": "Comprehensive Education Ecosystem",
+    "subtitle": "9 Specialized Centers serving all training needs",
+    "centers": {
+      "skillsPro": {
+        "name": "Mekong Skills Pro",
+        "description": "Professional Skills Training Program",
+        "features": [
+          "Basic Soft Skills",
+          "Leadership Skills",
+          "Sales & Marketing",
+          "International Certification"
+        ]
+      },
+      "careerGuide": {
+        "name": "Mekong Career Guide",
+        "description": "Online Career Guidance System",
+        "features": [
+          "Career Orientation",
+          "Major Selection Counseling",
+          "Career Tests",
+          "University Connections"
+        ]
+      },
+      "boss": {
+        "name": "Mekong Boss",
+        "description": "Entrepreneurship & Business Training",
+        "features": [
+          "CEO Program",
+          "Startup Skills",
+          "Business Planning",
+          "Investor Matching"
+        ]
+      },
+      "teen": {
+        "name": "Mekong Teen",
+        "description": "Comprehensive Student Education",
+        "features": [
+          "Life Skills",
+          "Creative Thinking",
+          "Summer Camps",
+          "Extracurricular Activities"
+        ]
+      },
+      "book": {
+        "name": "Mekong Book",
+        "description": "Publishing & Learning Materials",
+        "features": [
+          "Skills Books",
+          "Business Books",
+          "E-books",
+          "Audiobooks"
+        ]
+      },
+      "job": {
+        "name": "Mekong Job",
+        "description": "Job Connection Platform",
+        "features": [
+          "Job Matching",
+          "Recruitment",
+          "CV Consulting",
+          "Job Fairs"
+        ]
+      },
+      "space": {
+        "name": "Mekong Space",
+        "description": "Learning & Coworking Space",
+        "features": [
+          "Coworking Space",
+          "Training Rooms",
+          "Library",
+          "Event Space"
+        ]
+      },
+      "agri": {
+        "name": "Mekong Agri Academy",
+        "description": "High-Tech Agriculture Training",
+        "features": [
+          "Organic Farming",
+          "VietGAP",
+          "Agri Entrepreneurship",
+          "Digital Transformation"
+        ]
+      },
+      "innovation": {
+        "name": "Mekong Innovation Hub",
+        "description": "Innovation & Startup Center",
+        "features": [
+          "Incubator",
+          "Mentoring",
+          "Pitch Training",
+          "Demo Days"
+        ]
+      }
+    }
+  },
+  "stats": {
+    "students": "Trained Students",
+    "courses": "Quality Courses",
+    "instructors": "Instructors & Experts",
+    "partners": "Strategic Partners"
+  },
+  "gallery": {
+    "photos": "Photos",
+    "videos": "Videos",
+    "documents": "Documents"
+  }
+}
+
