@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect } from 'react'
+import React from 'react'
 import { useLanguage } from '../../i18n/config.jsx'
 
 const LanguageSwitcher = () => {

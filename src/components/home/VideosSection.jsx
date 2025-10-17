@@ -1,48 +1,37 @@
+import React, { useState, useEffect } from 'react'
 import { useLanguage } from '../../i18n/config.jsx'
 import { motion } from 'framer-motion'
+import { videoService } from '../../services/contentService'
 
 const VideosSection = () => {
   const { t, language } = useLanguage()
+  const [videos, setVideos] = useState([])
+  const [loading, setLoading] = useState(true)
 
-  const videos = [
-    {
-      id: 1,
-      title: language === 'vi' ? 'Chuyên gia chia sẻ về Kỹ năng khởi nghiệp' : 'Expert shares about Entrepreneurship Skills',
-      thumbnail: 'https://novaedu.vn/uploads/video-clip/images/anh-lam-chu-cam-xuc.png',
-      url: 'https://novaedu.vn/video-clip/chuyen-gia-do-manh-hung-chia-se-ve-chu-de-lam-chu-cam-xuc-54.html',
-      date: '2020-07-30',
-      author: 'Admin'
-    },
-    {
-      id: 2,
-      title: language === 'vi' ? 'CEO chia sẻ về Kỹ năng thích ứng' : 'CEO shares about Adaptation Skills',
-      thumbnail: 'https://novaedu.vn/uploads/video-clip/images/anh-truyen-hinh.png',
-      url: 'https://novaedu.vn/video-clip/ceo-do-manh-hung-chia-se-ve-ky-nang-thich-ung-1-53.html',
-      date: '2020-07-29',
-      author: 'Admin'
-    },
-    {
-      id: 3,
-      title: language === 'vi' ? 'Giới trẻ và sự vô cảm với cuộc sống' : 'Youth and indifference to life',
-      thumbnail: 'https://novaedu.vn/uploads/video-clip/images/1.jpg',
-      url: 'https://novaedu.vn/video-clip/ceo-do-manh-hung-chia-se-ve-chu-de-gioi-tre-va-su-vo-cam-voi-cuoc-song-52.html',
-      date: '2020-05-26',
-      author: 'Admin'
-    },
-    {
-      id: 4,
-      title: language === 'vi' ? 'Nghệ thuật thỏa hiệp với cảm xúc' : 'The art of emotional compromise',
-      thumbnail: 'https://novaedu.vn/uploads/video-clip/images/tai-xuong-2.jpg',
-      url: 'https://novaedu.vn/video-clip/ceo-do-manh-hung-chia-se-ve-nghe-thuat-thoa-hiep-voi-cam-xuc-51.html',
-      date: '2020-05-26',
-      author: 'Admin'
-    },
-  ]
+  useEffect(() => {
+    const fetchVideos = async () => {
+      try {
+        const response = await videoService.getAllVideos()
+        if (response.success && response.data) {
+          setVideos(response.data.map(video => ({
+            id: video.id,
+            title: language === 'vi' ? video.title : (video.titleEn || video.title),
+            thumbnail: video.thumbnailUrl,
+            url: video.videoUrl,
+            date: video.publishedDate,
+            author: video.author
+          })))
+        }
+      } catch (error) {
+        console.error('Error fetching videos:', error)
+        setVideos([])
+      } finally {
+        setLoading(false)
+      }
+    }
 
-  // Split videos into 2 slides, 4 items each - giống NovaEdu
-  const slide1 = videos.slice(0, 4)
-  const slide2 = videos.slice(4, 8)
-  const allSlides = [slide1, slide2]
+    fetchVideos()
+  }, [language])
 
   return (
     <section className="section-padding" style={{
@@ -58,18 +47,14 @@ const VideosSection = () => {
           </h2>
         </div>
 
-        {/* Bootstrap-style Carousel với 2 slides - giống NovaEdu */}
-        <div id="videosCarousel" className="relative">
-          {/* Carousel Inner */}
-          <div className="overflow-hidden">
-            {allSlides.map((slideVideos, slideIndex) => (
-              <div
-                key={slideIndex}
-                className={`${slideIndex === 0 ? 'block' : 'hidden'} videos-slide`}
-                data-slide={slideIndex}
-              >
+        {/* Videos Grid */}
+        {loading ? (
+          <div className="flex justify-center items-center py-12">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-mekong-blue"></div>
+          </div>
+        ) : videos.length > 0 ? (
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                  {slideVideos.map((video, index) => (
+                  {videos.map((video, index) => (
                     <motion.a
                       key={video.id}
                       href={video.url}
@@ -104,27 +89,11 @@ const VideosSection = () => {
                     </motion.a>
                   ))}
                 </div>
-              </div>
-            ))}
+        ) : (
+          <div className="text-center py-12">
+            <p className="text-gray-500">{language === 'vi' ? 'Không có video' : 'No videos available'}</p>
           </div>
-
-          {/* Carousel Indicators */}
-          <div className="flex justify-center gap-2 mt-8">
-            {allSlides.map((_, index) => (
-              <button
-                key={index}
-                className={`w-3 h-3 rounded-full transition-all ${
-                  index === 0 ? 'bg-mekong-blue w-8' : 'bg-gray-300 hover:bg-gray-400'
-                }`}
-                onClick={() => {
-                  document.querySelectorAll('.videos-slide').forEach((slide, i) => {
-                    slide.classList.toggle('hidden', i !== index)
-                  })
-                }}
-              ></button>
-            ))}
-          </div>
-        </div>
+        )}
       </div>
     </section>
   )

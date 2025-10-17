@@ -1,14 +1,41 @@
-import { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useLanguage } from '../i18n/config.jsx'
 import { motion } from 'framer-motion'
 import NewsCard from '../components/common/NewsCard'
+import api from '../services/api'
 
 const News = () => {
   const { t, language } = useLanguage()
   const [activeCategory, setActiveCategory] = useState('all')
+  const [news, setNews] = useState([])
+  const [loading, setLoading] = useState(true)
 
-  // Mock news data - lấy images từ web gốc
-  const mockNews = [
+  useEffect(() => {
+    const fetchNews = async () => {
+      try {
+        const response = await api.get('/posts', {
+          params: {
+            page: 0,
+            size: 100
+          }
+        })
+        
+        if (response.data.success) {
+          setNews(response.data.data.content || [])
+        }
+      } catch (error) {
+        console.error('Error fetching news:', error)
+        setNews([])
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    fetchNews()
+  }, [language])
+
+  // Mock news data - ONLY for reference, NOT used
+  const mockNewsReference = [
     {
       id: 1,
       slug: 'hop-tac-dai-hoc-can-tho-2025',
@@ -67,8 +94,8 @@ const News = () => {
   ]
 
   const filteredNews = activeCategory === 'all'
-    ? mockNews
-    : mockNews.filter(post => post.category === activeCategory)
+    ? news
+    : news.filter(post => post.category === activeCategory)
 
   return (
     <div className="news-page">

@@ -1,14 +1,31 @@
-import { useState, useEffect } from 'react'
-import { Link, NavLink } from 'react-router-dom'
+import React, { useState, useEffect } from 'react'
+import { Link, NavLink, useNavigate } from 'react-router-dom'
 import { useLanguage } from '../../i18n/config.jsx'
 import LanguageSwitcher from './LanguageSwitcher'
 import { NAV_MENU } from '../../utils/constants'
+import authService from '../../services/authService'
+import toast from '../../utils/toast'
 
 const Header = () => {
-  const { t } = useLanguage()
+  const { t, language } = useLanguage()
+  const navigate = useNavigate()
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const [isSearchOpen, setIsSearchOpen] = useState(false)
   const [activeDropdown, setActiveDropdown] = useState(null)
+  const [user, setUser] = useState(null)
+
+  // Check user login status
+  useEffect(() => {
+    const currentUser = authService.getLocalUser()
+    setUser(currentUser)
+  }, [])
+
+  const handleLogout = () => {
+    authService.logout()
+    setUser(null)
+    toast.success(language === 'vi' ? 'Đăng xuất thành công' : 'Logged out successfully')
+    navigate('/')
+  }
 
   // Close mobile menu on resize
   useEffect(() => {
@@ -117,6 +134,48 @@ const Header = () => {
             <div className="flex items-center gap-2 flex-shrink-0">
               {/* Language Switcher */}
               <LanguageSwitcher />
+
+              {/* User Actions */}
+              {user ? (
+                <div className="hidden md:flex items-center gap-2">
+                  <div className="relative group">
+                    <button className="w-10 h-10 rounded-full bg-mekong-blue text-white flex items-center justify-center hover:bg-mekong-blue-dark transition-colors">
+                      <i className="fas fa-user"></i>
+                    </button>
+                    {/* Dropdown */}
+                    <div className="absolute right-0 top-full mt-2 w-48 bg-white rounded-lg shadow-xl py-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all">
+                      <div className="px-4 py-2 border-b border-gray-200">
+                        <p className="text-sm font-semibold text-gray-900 truncate">{user.fullName || user.email}</p>
+                        <p className="text-xs text-gray-500 truncate">{user.email}</p>
+                      </div>
+                      <button
+                        onClick={handleLogout}
+                        className="w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-50 transition-colors"
+                      >
+                        <i className="fas fa-sign-out-alt mr-2"></i>
+                        {language === 'vi' ? 'Đăng xuất' : 'Logout'}
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              ) : (
+                <div className="hidden md:flex items-center gap-2">
+                  <Link 
+                    to="/login" 
+                    className="w-10 h-10 rounded-full border-2 border-mekong-blue text-mekong-blue hover:bg-mekong-blue hover:text-white transition-all flex items-center justify-center"
+                    title={language === 'vi' ? 'Đăng nhập' : 'Login'}
+                  >
+                    <i className="fas fa-sign-in-alt"></i>
+                  </Link>
+                  <Link 
+                    to="/register" 
+                    className="w-10 h-10 rounded-full bg-mekong-blue text-white hover:bg-mekong-blue-dark transition-colors flex items-center justify-center"
+                    title={language === 'vi' ? 'Đăng ký' : 'Register'}
+                  >
+                    <i className="fas fa-user-plus"></i>
+                  </Link>
+                </div>
+              )}
               
               {/* Search Dropdown - giống NovaEdu */}
               <div className="relative">
@@ -232,14 +291,44 @@ const Header = () => {
                   )}
                 </div>
               ))}
-              <div className="mt-4 px-4">
-                <Link
-                  to="/courses"
-                  className="btn btn-secondary w-full justify-center"
-                  onClick={() => setIsMobileMenuOpen(false)}
-                >
-                  {t('header.registerNow')}
-                </Link>
+              
+              {/* Mobile Auth Actions */}
+              <div className="mt-4 px-4 space-y-2">
+                {user ? (
+                  <>
+                    <div className="text-sm text-center mb-2">
+                      <span className="text-gray-600">{language === 'vi' ? 'Xin chào,' : 'Hello,'}</span>
+                      <span className="font-semibold text-mekong-blue ml-1">{user.fullName || user.email}</span>
+                    </div>
+                    <button
+                      onClick={() => {
+                        handleLogout()
+                        setIsMobileMenuOpen(false)
+                      }}
+                      className="btn btn-outline w-full justify-center"
+                    >
+                      <i className="fas fa-sign-out-alt mr-2"></i>
+                      {language === 'vi' ? 'Đăng xuất' : 'Logout'}
+                    </button>
+                  </>
+                ) : (
+                  <>
+                    <Link
+                      to="/login"
+                      className="btn btn-outline w-full justify-center"
+                      onClick={() => setIsMobileMenuOpen(false)}
+                    >
+                      {language === 'vi' ? 'Đăng nhập' : 'Login'}
+                    </Link>
+                    <Link
+                      to="/register"
+                      className="btn btn-primary w-full justify-center"
+                      onClick={() => setIsMobileMenuOpen(false)}
+                    >
+                      {language === 'vi' ? 'Đăng ký' : 'Register'}
+                    </Link>
+                  </>
+                )}
               </div>
             </nav>
           </div>

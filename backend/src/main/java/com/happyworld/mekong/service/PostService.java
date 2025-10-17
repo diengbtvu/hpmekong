@@ -1,6 +1,7 @@
 package com.happyworld.mekong.service;
 
 import com.happyworld.mekong.dto.request.PostCreateRequest;
+import com.happyworld.mekong.dto.request.PostRequest;
 import com.happyworld.mekong.dto.response.PostResponse;
 import com.happyworld.mekong.entity.Post;
 import com.happyworld.mekong.entity.PostCategory;
@@ -139,6 +140,72 @@ public class PostService {
         }
 
         return builder.build();
+    }
+
+    @Transactional(readOnly = true)
+    public Page<PostResponse> getAllPostsAdmin(Pageable pageable) {
+        log.debug("Admin getting all posts");
+        return postRepository.findAll(pageable).map(this::mapToPostResponse);
+    }
+
+    @Transactional
+    public PostResponse createPostAdmin(PostRequest request) {
+        log.info("Admin creating post: {}", request.getTitle());
+        
+        // Get author (default to admin user ID 1 if not specified)
+        User author = userRepository.findById(request.getAuthorId() != null ? request.getAuthorId() : 1L)
+                .orElseThrow(() -> new ResourceNotFoundException("Author not found"));
+
+        Post post = Post.builder()
+                .title(request.getTitle())
+                .slug(request.getSlug())
+                .excerpt(request.getExcerpt())
+                .content(request.getContent())
+                .featuredImageUrl(request.getFeaturedImageUrl())
+                .author(author)
+                .status(request.getStatus() != null ? Post.PostStatus.valueOf(request.getStatus()) : Post.PostStatus.DRAFT)
+                .isFeatured(request.getIsFeatured())
+                .allowComments(request.getAllowComments())
+                .metaTitle(request.getMetaTitle())
+                .metaDescription(request.getMetaDescription())
+                .metaKeywords(request.getMetaKeywords())
+                .build();
+
+        // Category handling can be added later when PostCategoryRepository is created
+
+        post = postRepository.save(post);
+        return mapToPostResponse(post);
+    }
+
+    @Transactional
+    public PostResponse updatePostAdmin(Long id, PostRequest request) {
+        log.info("Admin updating post: {}", id);
+        
+        Post post = postRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Post not found"));
+
+        post.setTitle(request.getTitle());
+        post.setSlug(request.getSlug());
+        post.setExcerpt(request.getExcerpt());
+        post.setContent(request.getContent());
+        post.setFeaturedImageUrl(request.getFeaturedImageUrl());
+        post.setStatus(request.getStatus() != null ? Post.PostStatus.valueOf(request.getStatus()) : post.getStatus());
+        post.setIsFeatured(request.getIsFeatured());
+        post.setAllowComments(request.getAllowComments());
+        post.setMetaTitle(request.getMetaTitle());
+        post.setMetaDescription(request.getMetaDescription());
+        post.setMetaKeywords(request.getMetaKeywords());
+
+        // Category handling can be added later when PostCategoryRepository is created
+
+        if (request.getAuthorId() != null) {
+            User author = userRepository.findById(request.getAuthorId())
+                    .orElseThrow(() -> new ResourceNotFoundException("Author not found"));
+            post.setAuthor(author);
+        }
+
+        post = postRepository.save(post);
+        return mapToPostResponse(post);
     }
 }
 

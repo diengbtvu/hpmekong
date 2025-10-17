@@ -14,19 +14,20 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/v1/enrollments")
+@RequestMapping("/api/v1")
 @RequiredArgsConstructor
 @Slf4j
 public class EnrollmentController {
 
     private final EnrollmentService enrollmentService;
 
-    @PostMapping
+    @PostMapping("/enrollments")
     public ResponseEntity<ApiResponse<EnrollmentResponse>> enrollCourse(
             @Valid @RequestBody EnrollmentRequest request,
             Authentication authentication) {
@@ -41,7 +42,7 @@ public class EnrollmentController {
                 .body(ApiResponse.success(enrollment, MessageConstants.SUCCESS_ENROLLMENT));
     }
 
-    @GetMapping
+    @GetMapping("/enrollments")
     public ResponseEntity<ApiResponse<Page<EnrollmentResponse>>> getMyEnrollments(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "20") int size,
@@ -56,7 +57,7 @@ public class EnrollmentController {
         return ResponseEntity.ok(ApiResponse.success(enrollments));
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/enrollments/{id}")
     public ResponseEntity<ApiResponse<EnrollmentResponse>> getEnrollmentById(
             @PathVariable Long id,
             Authentication authentication) {
@@ -69,7 +70,7 @@ public class EnrollmentController {
         return ResponseEntity.ok(ApiResponse.success(enrollment));
     }
 
-    @PutMapping("/{id}/progress")
+    @PutMapping("/enrollments/{id}/progress")
     public ResponseEntity<ApiResponse<EnrollmentResponse>> updateProgress(
             @PathVariable Long id,
             @RequestParam int completedLessons,
@@ -81,6 +82,20 @@ public class EnrollmentController {
         EnrollmentResponse enrollment = enrollmentService.updateProgress(id, userId, completedLessons);
         
         return ResponseEntity.ok(ApiResponse.success(enrollment, "Cập nhật tiến độ thành công"));
+    }
+
+    @GetMapping("/admin/enrollments")
+    @PreAuthorize("hasAnyRole('ADMIN', 'SUPER_ADMIN')")
+    public ResponseEntity<ApiResponse<Page<EnrollmentResponse>>> getAllEnrollments(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "20") int size) {
+        
+        log.info("GET /api/v1/admin/enrollments - Admin get all enrollments");
+        
+        Pageable pageable = PageRequest.of(page, size, Sort.by("enrolledAt").descending());
+        Page<EnrollmentResponse> enrollments = enrollmentService.getAllEnrollments(pageable);
+        
+        return ResponseEntity.ok(ApiResponse.success(enrollments));
     }
 
     private Long getUserIdFromAuth(Authentication authentication) {

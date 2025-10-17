@@ -1,9 +1,45 @@
+import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { useLanguage } from '../../i18n/config.jsx'
 import { CENTERS, SOCIAL_LINKS, CONTACT_INFO } from '../../utils/constants'
+import { settingsService } from '../../services/contentService'
 
 const Footer = () => {
   const { t, language } = useLanguage()
+  const [contactInfo, setContactInfo] = useState(CONTACT_INFO)
+  const [socialLinks, setSocialLinks] = useState(SOCIAL_LINKS)
+
+  useEffect(() => {
+    const fetchSettings = async () => {
+      try {
+        // Fetch contact info
+        const contactResponse = await settingsService.getSettingsByGroup('contact')
+        if (contactResponse.success && contactResponse.data) {
+          setContactInfo({
+            address: contactResponse.data.address || CONTACT_INFO.address,
+            email: contactResponse.data.email || CONTACT_INFO.email,
+            hotline: contactResponse.data.hotline || CONTACT_INFO.hotline,
+            workingHours: contactResponse.data.working_hours || CONTACT_INFO.workingHours,
+          })
+        }
+
+        // Fetch social links
+        const socialResponse = await settingsService.getSettingsByGroup('social')
+        if (socialResponse.success && socialResponse.data) {
+          setSocialLinks({
+            facebook: socialResponse.data.facebook || SOCIAL_LINKS.facebook,
+            youtube: socialResponse.data.youtube || SOCIAL_LINKS.youtube,
+            instagram: socialResponse.data.instagram || SOCIAL_LINKS.instagram,
+            tiktok: socialResponse.data.tiktok || SOCIAL_LINKS.tiktok,
+            zalo: socialResponse.data.zalo || SOCIAL_LINKS.zalo,
+          })
+        }
+      } catch (error) {
+        console.error('Error fetching footer settings:', error)
+      }
+    }
+    fetchSettings()
+  }, [])
 
   return (
     <footer className="bg-[#FFFEF8] border-t border-gray-200">
@@ -27,18 +63,18 @@ const Footer = () => {
             <ul className="space-y-2 text-gray-600">
               <li className="flex items-start gap-2">
                 <i className="fas fa-map-marker-alt mt-1 text-mekong-blue"></i>
-                <span>{CONTACT_INFO.address}</span>
+                <span>{contactInfo.address}</span>
               </li>
               <li className="flex items-center gap-2">
                 <i className="fas fa-envelope text-mekong-blue"></i>
-                <a href={`mailto:${CONTACT_INFO.email}`} className="hover:text-mekong-blue transition-colors">
-                  {CONTACT_INFO.email}
+                <a href={`mailto:${contactInfo.email}`} className="hover:text-mekong-blue transition-colors">
+                  {contactInfo.email}
                 </a>
               </li>
               <li className="flex items-center gap-2">
                 <i className="fas fa-phone text-mekong-blue"></i>
-                <a href={`tel:${CONTACT_INFO.hotline}`} className="hover:text-mekong-blue transition-colors">
-                  {CONTACT_INFO.hotline}
+                <a href={`tel:${contactInfo.hotline}`} className="hover:text-mekong-blue transition-colors">
+                  {contactInfo.hotline}
                 </a>
               </li>
             </ul>
@@ -46,7 +82,7 @@ const Footer = () => {
             {/* Social Media */}
             <div className="flex items-center gap-3 mt-4">
               <a
-                href={SOCIAL_LINKS.facebook}
+                href={socialLinks.facebook}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-10 h-10 rounded-full bg-blue-600 text-white flex items-center justify-center hover:scale-110 transition-transform"
@@ -55,7 +91,7 @@ const Footer = () => {
                 <i className="fab fa-facebook-f"></i>
               </a>
               <a
-                href={SOCIAL_LINKS.youtube}
+                href={socialLinks.youtube}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-10 h-10 rounded-full bg-red-600 text-white flex items-center justify-center hover:scale-110 transition-transform"
@@ -64,7 +100,7 @@ const Footer = () => {
                 <i className="fab fa-youtube"></i>
               </a>
               <a
-                href={SOCIAL_LINKS.instagram}
+                href={socialLinks.instagram}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-10 h-10 rounded-full bg-gradient-to-r from-purple-500 to-pink-500 text-white flex items-center justify-center hover:scale-110 transition-transform"
@@ -73,7 +109,7 @@ const Footer = () => {
                 <i className="fab fa-instagram"></i>
               </a>
               <a
-                href={SOCIAL_LINKS.tiktok}
+                href={socialLinks.tiktok}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-10 h-10 rounded-full bg-black text-white flex items-center justify-center hover:scale-110 transition-transform"

@@ -1,13 +1,39 @@
+import React, { useEffect, useState, useRef } from 'react'
 import { useLanguage } from '../../i18n/config.jsx'
 import { motion } from 'framer-motion'
-import { useEffect, useState, useRef } from 'react'
 import { STATS } from '../../utils/constants'
+import { settingsService } from '../../services/contentService'
 
 const StatsSection = () => {
-  const { t } = useLanguage()
+  const { t, language } = useLanguage()
+  const [stats, setStats] = useState(STATS)
   const [counters, setCounters] = useState(STATS.map(() => 0))
   const [hasStarted, setHasStarted] = useState(false)
   const sectionRef = useRef(null)
+
+  // Fetch stats from API
+  useEffect(() => {
+    const fetchStats = async () => {
+      try {
+        const response = await settingsService.getSettingsByGroup('stats')
+        if (response.success && response.data) {
+          const apiStats = [
+            { icon: 'fa-users', count: parseInt(response.data.total_students) || 0, suffix: '+', label: language === 'vi' ? 'Học viên đã đào tạo' : 'Students Trained', color: 'text-mekong-blue' },
+            { icon: 'fa-book-open', count: parseInt(response.data.total_courses) || 0, suffix: '+', label: language === 'vi' ? 'Khóa học chất lượng' : 'Quality Courses', color: 'text-sunrise-orange' },
+            { icon: 'fa-chalkboard-user', count: parseInt(response.data.total_instructors) || 0, suffix: '+', label: language === 'vi' ? 'Giảng viên & Chuyên gia' : 'Instructors & Experts', color: 'text-rice-green' },
+            { icon: 'fa-handshake', count: parseInt(response.data.total_partners) || 0, suffix: '+', label: language === 'vi' ? 'Đối tác chiến lược' : 'Strategic Partners', color: 'text-mekong-blue' },
+          ]
+          setStats(apiStats)
+          setCounters(apiStats.map(() => 0))
+        }
+      } catch (error) {
+        console.error('Error fetching stats:', error)
+        // Set empty stats on error
+        setStats([])
+      }
+    }
+    fetchStats()
+  }, [language])
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -28,7 +54,7 @@ const StatsSection = () => {
   }, [hasStarted])
 
   const animateCounters = () => {
-    STATS.forEach((stat, index) => {
+    stats.forEach((stat, index) => {
       let current = 0
       const target = stat.count
       const increment = target / 100
@@ -67,7 +93,7 @@ const StatsSection = () => {
 
         {/* Stats Grid với hanger-line (xen kẽ cao thấp) */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 relative">
-          {STATS.map((stat, index) => (
+          {stats.map((stat, index) => (
             <motion.div
               key={index}
               initial={{ opacity: 0, scale: 0.8 }}

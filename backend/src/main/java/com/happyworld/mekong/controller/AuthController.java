@@ -41,6 +41,16 @@ public class AuthController {
         return ResponseEntity.ok(ApiResponse.success(response, MessageConstants.SUCCESS_LOGIN));
     }
 
+    @PostMapping("/refresh")
+    public ResponseEntity<ApiResponse<AuthResponse>> refreshToken(@RequestBody java.util.Map<String, String> request) {
+        log.info("POST /api/v1/auth/refresh");
+        
+        String refreshToken = request.get("refreshToken");
+        AuthResponse response = authService.refreshToken(refreshToken);
+        
+        return ResponseEntity.ok(ApiResponse.success(response, "Token refreshed successfully"));
+    }
+
     @PostMapping("/logout")
     public ResponseEntity<ApiResponse<String>> logout() {
         log.info("POST /api/v1/auth/logout");

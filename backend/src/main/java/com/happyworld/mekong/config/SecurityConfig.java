@@ -46,6 +46,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         // Public endpoints
                         .requestMatchers("/api/v1/auth/**").permitAll()
+                        .requestMatchers("/api/v1/public/**").permitAll()  // Add all public content APIs
                         .requestMatchers("/api/v1/courses/**").permitAll()
                         .requestMatchers("/api/v1/posts/**").permitAll()
                         .requestMatchers("/api/v1/jobs/**").permitAll()
@@ -56,6 +57,7 @@ public class SecurityConfig {
                         .requestMatchers("/api/v1/newsletter/subscribe").permitAll()
                         .requestMatchers("/api/v1/health/**").permitAll()
                         .requestMatchers("/actuator/**").permitAll()
+                        .requestMatchers("/uploads/**").permitAll()  // Allow public access to uploaded files
 
                         // Admin endpoints
                         .requestMatchers("/api/v1/admin/**").hasAnyRole("ADMIN", "SUPER_ADMIN")

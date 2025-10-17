@@ -213,6 +213,13 @@ public class PaymentService {
         return "MK-PAY-" + date + "-" + uuid;
     }
 
+    public List<PaymentResponse> getAllPayments() {
+        log.info("Getting all payments");
+        return paymentRepository.findAll().stream()
+                .map(this::mapToPaymentResponse)
+                .toList();
+    }
+
     private PaymentResponse mapToPaymentResponse(Payment payment) {
         return PaymentResponse.builder()
                 .id(payment.getId())

@@ -1,8 +1,37 @@
+import React, { useState, useEffect } from 'react'
 import { useLanguage } from '../i18n/config.jsx'
+import api from '../services/api'
 import { motion } from 'framer-motion'
 
 const About = () => {
   const { t, language } = useLanguage()
+  const [leaders, setLeaders] = useState([])
+  const [loadingLeaders, setLoadingLeaders] = useState(true)
+
+  useEffect(() => {
+    const fetchLeaders = async () => {
+      try {
+        // Get top 3 instructors as leadership team
+        const response = await api.get('/instructors', {
+          params: {
+            page: 0,
+            size: 3
+          }
+        })
+        
+        if (response.data.success && response.data.data.content) {
+          setLeaders(response.data.data.content)
+        }
+      } catch (error) {
+        console.error('Error fetching leaders:', error)
+        // Keep empty array as fallback
+      } finally {
+        setLoadingLeaders(false)
+      }
+    }
+
+    fetchLeaders()
+  }, [])
 
   const mainAreas = [
     {
@@ -242,35 +271,59 @@ const About = () => {
             </h2>
           </motion.div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {[1, 2, 3].map((item) => (
-              <motion.div
-                key={item}
-                initial={{ opacity: 0, scale: 0.9 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                transition={{ delay: item * 0.1 }}
-                viewport={{ once: true }}
-                className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow"
-              >
-                <div className="aspect-square bg-gray-200 flex items-center justify-center">
-                  <i className="fas fa-user-tie text-6xl text-gray-400"></i>
-                </div>
-                <div className="p-6 text-center">
-                  <h4 className="font-bold text-lg mb-1">
-                    {language === 'vi' ? 'Tên lãnh đạo' : 'Leader Name'}
-                  </h4>
-                  <p className="text-mekong-blue font-semibold mb-3">
-                    {language === 'vi' ? 'Chức vụ' : 'Position'}
-                  </p>
-                  <p className="text-gray-600 text-sm">
-                    {language === 'vi' 
-                      ? 'Mô tả ngắn về kinh nghiệm và thành tựu...'
-                      : 'Brief description of experience and achievements...'}
-                  </p>
-                </div>
-              </motion.div>
-            ))}
-          </div>
+          {loadingLeaders ? (
+            <div className="text-center">
+              <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-mekong-blue"></div>
+            </div>
+          ) : leaders.length > 0 ? (
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              {leaders.map((leader, index) => (
+                <motion.div
+                  key={leader.id}
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  whileInView={{ opacity: 1, scale: 1 }}
+                  transition={{ delay: index * 0.1 }}
+                  viewport={{ once: true }}
+                  className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow"
+                >
+                  <div className="aspect-square bg-gray-200 overflow-hidden">
+                    {leader.avatar ? (
+                      <img 
+                        src={leader.avatar} 
+                        alt={leader.name}
+                        className="w-full h-full object-cover"
+                      />
+                    ) : (
+                      <div className="w-full h-full flex items-center justify-center">
+                        <i className="fas fa-user-tie text-6xl text-gray-400"></i>
+                      </div>
+                    )}
+                  </div>
+                  <div className="p-6 text-center">
+                    <h4 className="font-bold text-lg mb-1">
+                      {leader.name}
+                    </h4>
+                    <p className="text-mekong-blue font-semibold mb-3">
+                      {leader.title || (language === 'vi' ? 'Giảng viên' : 'Instructor')}
+                    </p>
+                    <p className="text-gray-600 text-sm">
+                      {leader.bio || leader.expertise || 
+                        (language === 'vi' 
+                          ? 'Chuyên gia với nhiều năm kinh nghiệm trong lĩnh vực giáo dục và đào tạo.'
+                          : 'Expert with years of experience in education and training.')}
+                    </p>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          ) : (
+            <div className="text-center py-12">
+              <i className="fas fa-users text-6xl text-gray-300 mb-4"></i>
+              <p className="text-gray-600">
+                {language === 'vi' ? 'Chưa có thông tin ban lãnh đạo' : 'No leadership information yet'}
+              </p>
+            </div>
+          )}
         </div>
       </section>
     </div>

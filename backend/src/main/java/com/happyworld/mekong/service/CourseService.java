@@ -3,6 +3,7 @@ package com.happyworld.mekong.service;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.happyworld.mekong.dto.request.CourseCreateRequest;
+import com.happyworld.mekong.dto.request.CourseRequest;
 import com.happyworld.mekong.dto.response.*;
 import com.happyworld.mekong.entity.*;
 import com.happyworld.mekong.exception.BadRequestException;
@@ -16,6 +17,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Service
@@ -231,11 +233,14 @@ public class CourseService {
 
         if (course.getInstructor() != null) {
             Instructor instructor = course.getInstructor();
+            User instructorUser = instructor.getUser();
+            Profile profile = instructorUser != null ? instructorUser.getProfile() : null;
+            
             builder.instructor(InstructorBasicResponse.builder()
                     .id(instructor.getId())
-                    .name(instructor.getUser().getProfile().getFullName())
+                    .name(profile != null ? profile.getFullName() : (instructorUser != null ? instructorUser.getEmail() : "Unknown"))
                     .title(instructor.getTitle())
-                    .avatarUrl(instructor.getUser().getProfile().getAvatarUrl())
+                    .avatarUrl(profile != null ? profile.getAvatarUrl() : null)
                     .shortBio(instructor.getShortBio())
                     .averageRating(instructor.getAverageRating())
                     .totalStudents(instructor.getTotalStudents())
@@ -244,6 +249,110 @@ public class CourseService {
         }
 
         return builder.build();
+    }
+
+    @Transactional(readOnly = true)
+    public Page<CourseResponse> getAllCoursesAdmin(Pageable pageable) {
+        log.debug("Admin getting all courses");
+        return courseRepository.findAll(pageable).map(this::mapToCourseResponse);
+    }
+
+    @Transactional
+    public CourseResponse createCourseAdmin(CourseRequest request) {
+        log.info("Admin creating course: {}", request.getTitle());
+        
+        Center center = centerRepository.findById(request.getCenterId())
+                .orElseThrow(() -> new ResourceNotFoundException("Center not found"));
+
+        Category category = null;
+        if (request.getCategoryId() != null) {
+            category = categoryRepository.findById(request.getCategoryId())
+                    .orElseThrow(() -> new ResourceNotFoundException("Category not found"));
+        }
+
+        Instructor instructor = null;
+        if (request.getInstructorId() != null) {
+            instructor = instructorRepository.findById(request.getInstructorId())
+                    .orElseThrow(() -> new ResourceNotFoundException("Instructor not found"));
+        }
+
+        Course course = Course.builder()
+                .title(request.getTitle())
+                .slug(request.getSlug())
+                .subtitle(request.getSubtitle())
+                .description(request.getDescription())
+                .thumbnailUrl(request.getThumbnailUrl())
+                .previewVideoUrl(request.getPreviewVideoUrl())
+                .center(center)
+                .category(category)
+                .instructor(instructor)
+                .price(request.getPrice() != null ? request.getPrice() : BigDecimal.ZERO)
+                .originalPrice(request.getOriginalPrice())
+                .discountPercentage(request.getDiscountPercentage())
+                .isFree(request.getIsFree())
+                .level(request.getLevel() != null ? Course.CourseLevel.valueOf(request.getLevel()) : Course.CourseLevel.ALL_LEVELS)
+                .language(request.getLanguage())
+                .durationHours(request.getDurationHours())
+                .totalLessons(request.getTotalLessons())
+                .hasCertificate(request.getHasCertificate())
+                .status(request.getStatus() != null ? Course.CourseStatus.valueOf(request.getStatus()) : Course.CourseStatus.DRAFT)
+                .startDate(request.getStartDate())
+                .endDate(request.getEndDate())
+                .build();
+
+        course = courseRepository.save(course);
+        return mapToCourseResponse(course);
+    }
+
+    @Transactional
+    public CourseResponse updateCourseAdmin(Long id, CourseRequest request) {
+        log.info("Admin updating course: {}", id);
+        
+        Course course = courseRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Course not found"));
+
+        Center center = centerRepository.findById(request.getCenterId())
+                .orElseThrow(() -> new ResourceNotFoundException("Center not found"));
+
+        course.setTitle(request.getTitle());
+        course.setSlug(request.getSlug());
+        course.setSubtitle(request.getSubtitle());
+        course.setDescription(request.getDescription());
+        course.setThumbnailUrl(request.getThumbnailUrl());
+        course.setPreviewVideoUrl(request.getPreviewVideoUrl());
+        course.setCenter(center);
+        
+        if (request.getCategoryId() != null) {
+            Category category = categoryRepository.findById(request.getCategoryId())
+                    .orElseThrow(() -> new ResourceNotFoundException("Category not found"));
+            course.setCategory(category);
+        } else {
+            course.setCategory(null);
+        }
+
+        if (request.getInstructorId() != null) {
+            Instructor instructor = instructorRepository.findById(request.getInstructorId())
+                    .orElseThrow(() -> new ResourceNotFoundException("Instructor not found"));
+            course.setInstructor(instructor);
+        } else {
+            course.setInstructor(null);
+        }
+
+        course.setPrice(request.getPrice() != null ? request.getPrice() : BigDecimal.ZERO);
+        course.setOriginalPrice(request.getOriginalPrice());
+        course.setDiscountPercentage(request.getDiscountPercentage());
+        course.setIsFree(request.getIsFree());
+        course.setLevel(request.getLevel() != null ? Course.CourseLevel.valueOf(request.getLevel()) : course.getLevel());
+        course.setLanguage(request.getLanguage());
+        course.setDurationHours(request.getDurationHours());
+        course.setTotalLessons(request.getTotalLessons());
+        course.setHasCertificate(request.getHasCertificate());
+        course.setStatus(request.getStatus() != null ? Course.CourseStatus.valueOf(request.getStatus()) : course.getStatus());
+        course.setStartDate(request.getStartDate());
+        course.setEndDate(request.getEndDate());
+
+        course = courseRepository.save(course);
+        return mapToCourseResponse(course);
     }
 }
 

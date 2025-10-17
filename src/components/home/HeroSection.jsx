@@ -1,50 +1,52 @@
+import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { useLanguage } from '../../i18n/config.jsx'
 import { motion } from 'framer-motion'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import { Autoplay, Pagination, EffectCards } from 'swiper/modules'
+import { bannerService } from '../../services/contentService'
 import 'swiper/css'
 import 'swiper/css/effect-cards'
 import 'swiper/css/pagination'
 
 const HeroSection = () => {
   const { t, language } = useLanguage()
+  const [featuredNews, setFeaturedNews] = useState([])
+  const [heroBanner, setHeroBanner] = useState(null)
+  const [loading, setLoading] = useState(true)
 
-  const featuredNews = [
-    {
-      id: 1,
-      title: language === 'vi'
-        ? '📢 [TUẦN SHCD – ĐẠI HỌC CÔNG NGHỆ ĐÔNG Á X HAPPY WORLD MEKONG]'
-        : '📢 [SHCD WEEK – DONG A UNIVERSITY X HAPPY WORLD MEKONG]',
-      excerpt: language === 'vi'
-        ? 'Ngày 24/9/2025, sinh viên Trường Đại học Công nghệ Đông Á đã có một buổi sinh hoạt công dân đặc biệt với chủ đề: "Kỹ năng khởi nghiệp trong kỷ nguyên số"'
-        : 'On September 24, 2025, students of Dong A University of Technology had a special civic activity session on the theme: "Entrepreneurship skills in the digital era"',
-      image: 'https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=600&q=80',
-      link: '/news/tuan-shcd-dai-hoc'
-    },
-    {
-      id: 2,
-      title: language === 'vi'
-        ? '🎉 [HAPPY WORLD MEKONG x HOU] KHAI GIẢNG HỌC PHẦN "PHÁT TRIỂN KỸ NĂNG NGHỀ NGHIỆP"'
-        : '🎉 [HAPPY WORLD MEKONG x HOU] OPENING OF "CAREER SKILLS DEVELOPMENT" COURSE',
-      excerpt: language === 'vi'
-        ? 'Ngày 21/09/2025, tại Khoa Kinh tế - Trường Đại học Mở Hà Nội (HOU), học phần đã chính thức khai giảng trong không khí hứng khởi'
-        : 'On September 21, 2025, at the Faculty of Economics - Hanoi Open University (HOU), the course officially opened in an exciting atmosphere',
-      image: 'https://images.unsplash.com/photo-1427504494785-3a9ca7044f45?w=600&q=80',
-      link: '/news/khai-giang-hoc-phan'
-    },
-    {
-      id: 3,
-      title: language === 'vi'
-        ? '🎉 HAPPY WORLD MEKONG THAM DỰ CHƯƠNG TRÌNH CHÀO ĐÓN TÂN SINH VIÊN K19'
-        : '🎉 HAPPY WORLD MEKONG PARTICIPATES IN WELCOMING FRESHMEN K19',
-      excerpt: language === 'vi'
-        ? 'Ngày 16/09/2025, Chương trình chào đón Tân sinh viên Khóa 19 đã diễn ra long trọng với sự tham gia của hơn 1.000 tân sinh viên'
-        : 'On September 16, 2025, the Freshmen Welcoming Program for Batch 19 took place solemnly with the participation of over 1,000 freshmen',
-      image: 'https://images.unsplash.com/photo-1524178232363-1fb2b075b655?w=600&q=80',
-      link: '/news/chao-don-tan-sinh-vien'
-    },
-  ]
+  useEffect(() => {
+    const fetchBanners = async () => {
+      try {
+        // Fetch HERO banner for main image
+        const heroResponse = await bannerService.getBannersByType('HERO')
+        if (heroResponse.success && heroResponse.data && heroResponse.data.length > 0) {
+          setHeroBanner(heroResponse.data[0]) // Get first active HERO banner
+        }
+
+        // Fetch FEATURED_NEWS for slider
+        const newsResponse = await bannerService.getBannersByType('FEATURED_NEWS')
+        if (newsResponse.success && newsResponse.data) {
+          setFeaturedNews(newsResponse.data.map(banner => ({
+            id: banner.id,
+            title: language === 'vi' ? banner.title : (banner.titleEn || banner.title),
+            excerpt: language === 'vi' ? banner.description : (banner.descriptionEn || banner.description),
+            image: banner.imageUrl,
+            link: banner.linkUrl
+          })))
+        }
+      } catch (error) {
+        console.error('Error fetching banners:', error)
+        // Fallback to empty on error
+        setHeroBanner(null)
+        setFeaturedNews([])
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    fetchBanners()
+  }, [language])
 
   return (
     <section className="relative bg-gradient-mekong overflow-hidden">
@@ -122,15 +124,35 @@ const HeroSection = () => {
           >
             {/* Hero Image */}
             <div className="relative z-10">
-              <img
-                src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=800&q=80"
-                alt="Happy World Mekong Education"
-                className="w-full h-auto rounded-2xl shadow-2xl"
-              />
+              {loading ? (
+                <div className="w-full h-[400px] bg-gray-200 rounded-2xl shadow-2xl flex items-center justify-center animate-pulse">
+                  <div className="text-gray-400">
+                    <i className="fas fa-spinner fa-spin text-4xl"></i>
+                  </div>
+                </div>
+              ) : heroBanner ? (
+                <img
+                  src={heroBanner.imageUrl}
+                  alt={language === 'vi' ? heroBanner.title : (heroBanner.titleEn || heroBanner.title)}
+                  className="w-full h-auto rounded-2xl shadow-2xl"
+                />
+              ) : (
+                <div className="w-full h-[400px] bg-gradient-to-br from-mekong-blue to-sunrise-orange rounded-2xl shadow-2xl flex items-center justify-center">
+                  <div className="text-white text-center p-8">
+                    <i className="fas fa-image text-6xl mb-4 opacity-50"></i>
+                    <p className="text-lg">{language === 'vi' ? 'Chưa có banner' : 'No banner yet'}</p>
+                  </div>
+                </div>
+              )}
             </div>
 
             {/* Swiper Cards - News Carousel */}
             <div className="mt-8 relative">
+              {loading ? (
+                <div className="w-full max-w-[280px] mx-auto h-[380px] bg-white rounded-2xl shadow-xl flex items-center justify-center">
+                  <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-mekong-blue"></div>
+                </div>
+              ) : featuredNews.length > 0 ? (
               <Swiper
                 modules={[Autoplay, Pagination, EffectCards]}
                 effect="cards"
@@ -143,7 +165,7 @@ const HeroSection = () => {
                   delay: 4000,
                   disableOnInteraction: false,
                 }}
-                loop={true}
+                loop={featuredNews.length > 1}
                 className="w-full max-w-[280px] mx-auto"
               >
                 {featuredNews.map((news) => (
@@ -177,7 +199,14 @@ const HeroSection = () => {
                   </SwiperSlide>
                 ))}
               </Swiper>
-              <div className="swiper-pagination-custom mt-4 flex justify-center"></div>
+              ) : (
+                <div className="w-full max-w-[280px] mx-auto h-[380px] bg-white rounded-2xl shadow-xl flex items-center justify-center">
+                  <p className="text-gray-500">{language === 'vi' ? 'Không có tin tức nổi bật' : 'No featured news'}</p>
+                </div>
+              )}
+              {featuredNews.length > 0 && (
+                <div className="swiper-pagination-custom mt-4 flex justify-center"></div>
+              )}
             </div>
           </motion.div>
           </div>

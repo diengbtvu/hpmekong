@@ -1,8 +1,9 @@
-import { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useLanguage } from '../i18n/config.jsx'
 import { motion } from 'framer-motion'
 import CourseCard from '../components/common/CourseCard'
 import { CENTERS } from '../utils/constants'
+import api from '../services/api'
 
 const Courses = () => {
   const { t, language } = useLanguage()
@@ -11,9 +12,35 @@ const Courses = () => {
   const [selectedLevel, setSelectedLevel] = useState('all')
   const [selectedType, setSelectedType] = useState('all')
   const [sortBy, setSortBy] = useState('newest')
+  const [courses, setCourses] = useState([])
+  const [loading, setLoading] = useState(true)
 
-  // Mock data - sẽ thay bằng API call
-  const mockCourses = [
+  useEffect(() => {
+    const fetchCourses = async () => {
+      try {
+        const response = await api.get('/courses', {
+          params: {
+            page: 0,
+            size: 100
+          }
+        })
+        
+        if (response.data.success) {
+          setCourses(response.data.data.content || [])
+        }
+      } catch (error) {
+        console.error('Error fetching courses:', error)
+        setCourses([])
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    fetchCourses()
+  }, [language])
+
+  // Mock data - ONLY for reference, NOT used in production
+  const mockCoursesReference = [
     {
       id: 1,
       slug: 'ky-nang-giao-tiep-chuyen-nghiep',
@@ -86,8 +113,6 @@ const Courses = () => {
     },
     // Add more mock courses as needed
   ]
-
-  const [courses] = useState(mockCourses)
 
   const filteredCourses = courses.filter(course => {
     if (selectedCenter !== 'all' && course.centerId !== parseInt(selectedCenter)) return false
@@ -231,7 +256,12 @@ const Courses = () => {
               </div>
 
               {/* Courses Grid */}
-              {filteredCourses.length > 0 ? (
+              {loading ? (
+                <div className="text-center py-12">
+                  <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-mekong-blue"></div>
+                  <p className="text-gray-600 mt-4">{language === 'vi' ? 'Đang tải...' : 'Loading...'}</p>
+                </div>
+              ) : filteredCourses.length > 0 ? (
                 <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
                   {filteredCourses.map((course, index) => (
                     <CourseCard key={course.id} course={course} index={index} />

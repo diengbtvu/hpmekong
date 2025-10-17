@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import React, { useState } from 'react'
 import { useLanguage } from '../i18n/config.jsx'
 import { motion } from 'framer-motion'
 import { CONTACT_INFO } from '../utils/constants'

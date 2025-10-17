@@ -7,6 +7,12 @@ const contactService = {
     return response.data
   },
 
+  // Get all contacts (Admin)
+  getContacts: async (params = {}) => {
+    const response = await api.get('/admin/contacts', { params })
+    return response.data
+  },
+
   // Subscribe to newsletter
   subscribe: async (email) => {
     const response = await api.post('/newsletter/subscribe', { email })

@@ -10,18 +10,21 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
-@RequestMapping("/api/v1/payments")
+@RequestMapping("/api/v1")
 @RequiredArgsConstructor
 @Slf4j
 public class PaymentController {
 
     private final PaymentService paymentService;
 
-    @PostMapping("/create")
+    @PostMapping("/payments/create")
     public ResponseEntity<ApiResponse<PaymentResponse>> createPayment(
             @Valid @RequestBody PaymentCreateRequest request,
             Authentication authentication) {
@@ -36,7 +39,7 @@ public class PaymentController {
                 .body(ApiResponse.success(payment, "Tạo link thanh toán thành công"));
     }
 
-    @GetMapping("/{paymentCode}")
+    @GetMapping("/payments/{paymentCode}")
     public ResponseEntity<ApiResponse<PaymentResponse>> getPayment(@PathVariable String paymentCode) {
         log.info("GET /api/v1/payments/{}", paymentCode);
         
@@ -45,7 +48,19 @@ public class PaymentController {
         return ResponseEntity.ok(ApiResponse.success(payment));
     }
 
-    @PostMapping("/webhook/payos")
+    @GetMapping("/admin/payments")
+    @PreAuthorize("hasAnyRole('ADMIN', 'SUPER_ADMIN')")
+    public ResponseEntity<ApiResponse<List<PaymentResponse>>> getAllPayments(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "20") int size) {
+        log.info("GET /api/v1/admin/payments - Admin get all payments");
+        
+        List<PaymentResponse> payments = paymentService.getAllPayments();
+        
+        return ResponseEntity.ok(ApiResponse.success(payments));
+    }
+
+    @PostMapping("/payments/webhook/payos")
     public ResponseEntity<String> handlePayOSWebhook(@RequestBody String webhookData) {
         log.info("POST /api/v1/payments/webhook/payos");
         

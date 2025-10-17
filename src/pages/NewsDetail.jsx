@@ -1,3 +1,4 @@
+import React from 'react'
 import { useParams, Link } from 'react-router-dom'
 import { useLanguage } from '../i18n/config.jsx'
 import { motion } from 'framer-motion'

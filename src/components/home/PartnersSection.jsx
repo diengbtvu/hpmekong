@@ -1,66 +1,35 @@
+import React, { useState, useEffect } from 'react'
 import { useLanguage } from '../../i18n/config.jsx'
 import { motion } from 'framer-motion'
+import { partnerService } from '../../services/contentService'
 
 const PartnersSection = () => {
   const { t, language } = useLanguage()
+  const [partners, setPartners] = useState([])
+  const [loading, setLoading] = useState(true)
 
-  // Lấy logo đối tác từ web gốc
-  const partners = [
-    {
-      id: 1,
-      name: 'Đại học Cần Thơ',
-      logo: 'https://novaedu.vn/uploads/partners/1698231600_logo-dai-hoc-mo-ha-noi-inkythuatso-01-23-08-58-23.jpg',
-      url: 'https://www.ctu.edu.vn/'
-    },
-    {
-      id: 2,
-      name: 'Đại học An Giang',
-      logo: 'https://novaedu.vn/uploads/partners/1698208606_partner7.jpg',
-      url: 'https://www.agu.edu.vn/'
-    },
-    {
-      id: 3,
-      name: 'Bộ Giáo dục và Đào tạo',
-      logo: 'https://novaedu.vn/uploads/partners/1698231450_bo-giao-duc-va-dao-tao-tiep-tuc-xay-dung-va-hoan-thien-co-so-du-lieu-nganh-giao-duc.jpg',
-      url: 'https://moet.gov.vn/'
-    },
-    {
-      id: 4,
-      name: 'Tập đoàn Hòa Bình',
-      logo: 'https://novaedu.vn/uploads/partners/1698208735_partner6.png',
-      url: 'https://hbcg.vn/'
-    },
-    {
-      id: 5,
-      name: 'Đại học Kinh doanh và Công nghệ Hà Nội',
-      logo: 'https://novaedu.vn/uploads/partners/1698208783_partner3.jpg',
-      url: 'https://hubt.edu.vn/'
-    },
-    {
-      id: 6,
-      name: 'Đại học Kinh tế Quốc dân',
-      logo: 'https://novaedu.vn/uploads/partners/1698208898_partner10.png',
-      url: 'https://www.neu.edu.vn/'
-    },
-    {
-      id: 7,
-      name: 'Học viện Ngoại giao',
-      logo: 'https://novaedu.vn/uploads/partners/1698208947_partner9.png',
-      url: 'https://www.dav.edu.vn/'
-    },
-    {
-      id: 8,
-      name: 'Học viện Ngân hàng',
-      logo: 'https://novaedu.vn/uploads/partners/1698209011_Logo%20HVNH.png',
-      url: 'https://www.hvnh.edu.vn/'
-    },
-    {
-      id: 9,
-      name: 'ĐH Sư phạm Kỹ thuật TP.HCM',
-      logo: 'https://novaedu.vn/uploads/partners/1698231050_1200px-hcmute.svg.png',
-      url: 'https://hcmute.edu.vn/'
-    },
-  ]
+  useEffect(() => {
+    const fetchPartners = async () => {
+      try {
+        const response = await partnerService.getAllPartners()
+        if (response.success && response.data) {
+          setPartners(response.data.map(partner => ({
+            id: partner.id,
+            name: language === 'vi' ? partner.name : (partner.nameEn || partner.name),
+            logo: partner.logoUrl,
+            url: partner.websiteUrl
+          })))
+        }
+      } catch (error) {
+        console.error('Error fetching partners:', error)
+        setPartners([])
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    fetchPartners()
+  }, [language])
 
   return (
     <section className="section-padding" style={{ 
@@ -76,6 +45,11 @@ const PartnersSection = () => {
           </h3>
         </div>
 
+        {loading ? (
+          <div className="flex justify-center items-center py-12">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-mekong-blue"></div>
+          </div>
+        ) : partners.length > 0 ? (
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
           {partners.map((partner, index) => (
             <motion.a
@@ -99,6 +73,11 @@ const PartnersSection = () => {
             </motion.a>
           ))}
         </div>
+        ) : (
+          <div className="text-center py-12">
+            <p className="text-gray-500">{language === 'vi' ? 'Không có đối tác' : 'No partners available'}</p>
+          </div>
+        )}
       </div>
     </section>
   )

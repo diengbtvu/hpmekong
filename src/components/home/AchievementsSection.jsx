@@ -1,37 +1,33 @@
+import React, { useEffect, useState } from 'react'
 import { useLanguage } from '../../i18n/config.jsx'
-import { useEffect } from 'react'
+import { achievementService } from '../../services/contentService'
 
 const AchievementsSection = () => {
   const { t, language } = useLanguage()
-
-  // Lấy ảnh từ web gốc NovaEdu
-  const achievements = [
-    'https://novaedu.vn/uploads/photos/images/2020/06/thanh-tu-dat-duoc/07f22d6596836bdd3292-3.jpg',
-    'https://novaedu.vn/uploads/photos/images/2020/06/thanh-tu-dat-duoc/7bafef0954efa9b1f0fe-copy-3.jpg',
-    'https://novaedu.vn/uploads/photos/images/2020/07/thanh-tu-dat-duoc/bangkhen1-1.jpg',
-    'https://novaedu.vn/uploads/photos/images/2021/01/thanh-tu-dat-duoc/bang.png',
-    'https://novaedu.vn/uploads/images/1703045868_1.png',
-    'https://novaedu.vn/uploads/images/1717389513_z5502538615808_335c486a050eb38284afac8fdb5ab601.jpg',
-    'https://novaedu.vn/uploads/photos/images/2020/06/thanh-tu-dat-duoc/8e2bbea20544f81aa155-copy-3-3.jpg',
-    'https://novaedu.vn/uploads/photos/images/2020/06/thanh-tu-dat-duoc/15f9bb5200b4fdeaa4a5-copy-3.jpg',
-  ]
+  const [achievements, setAchievements] = useState([])
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    // Initialize Slick slider via jQuery (load from CDN nếu cần)
-    if (window.$ && window.$.fn.slick) {
-      window.$('.achievements-autoplay').slick({
-        slidesToShow: 4,
-        slidesToScroll: 1,
-        autoplay: true,
-        autoplaySpeed: 2000,
-        responsive: [
-          { breakpoint: 1024, settings: { slidesToShow: 3 } },
-          { breakpoint: 768, settings: { slidesToShow: 2 } },
-          { breakpoint: 480, settings: { slidesToShow: 1 } }
-        ]
-      })
+    const fetchAchievements = async () => {
+      try {
+        const response = await achievementService.getAllAchievements()
+        if (response.success && response.data) {
+          setAchievements(response.data.map(achievement => ({
+            id: achievement.id,
+            image: achievement.imageUrl,
+            title: language === 'vi' ? achievement.title : (achievement.titleEn || achievement.title)
+          })))
+        }
+      } catch (error) {
+        console.error('Error fetching achievements:', error)
+        setAchievements([])
+      } finally {
+        setLoading(false)
+      }
     }
-  }, [])
+
+    fetchAchievements()
+  }, [language])
 
   return (
     <section className="section-padding bg-white">
@@ -45,15 +41,20 @@ const AchievementsSection = () => {
           </h2>
         </div>
 
-        {/* Slick Slider - giống NovaEdu gốc */}
-        <div className="achievements-autoplay">
-          {achievements.map((img, index) => (
-            <div key={index} className="px-3">
+        {/* Achievements Grid */}
+        {loading ? (
+          <div className="flex justify-center items-center py-12">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-mekong-blue"></div>
+          </div>
+        ) : achievements.length > 0 ? (
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+          {achievements.map((achievement) => (
+            <div key={achievement.id} className="px-3">
               <div className="bg-white rounded-xl overflow-hidden cursor-pointer hover:shadow-xl transition-shadow">
                 <div className="aspect-square bg-gray-200 p-4 flex items-center justify-center">
                   <img
-                    src={img}
-                    alt={`Achievement ${index + 1}`}
+                    src={achievement.image}
+                    alt={achievement.title}
                     className="w-full h-full object-contain"
                   />
                 </div>
@@ -61,6 +62,11 @@ const AchievementsSection = () => {
             </div>
           ))}
         </div>
+        ) : (
+          <div className="text-center py-12">
+            <p className="text-gray-500">{language === 'vi' ? 'Không có thành tựu' : 'No achievements available'}</p>
+          </div>
+        )}
       </div>
     </section>
   )

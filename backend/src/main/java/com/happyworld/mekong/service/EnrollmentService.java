@@ -182,6 +182,12 @@ public class EnrollmentService {
         return code;
     }
 
+    @Transactional(readOnly = true)
+    public Page<EnrollmentResponse> getAllEnrollments(Pageable pageable) {
+        log.info("Getting all enrollments with pagination");
+        return enrollmentRepository.findAll(pageable).map(this::mapToEnrollmentResponse);
+    }
+
     private EnrollmentResponse mapToEnrollmentResponse(Enrollment enrollment) {
         Course course = enrollment.getCourse();
 

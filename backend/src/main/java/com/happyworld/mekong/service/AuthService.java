@@ -139,6 +139,37 @@ public class AuthService {
         }
     }
 
+    @Transactional
+    public AuthResponse refreshToken(String refreshToken) {
+        log.info("Refreshing access token");
+        
+        if (refreshToken == null || refreshToken.trim().isEmpty()) {
+            throw new BadRequestException("Refresh token is required");
+        }
+        
+        // Validate refresh token
+        if (!jwtTokenProvider.validateToken(refreshToken)) {
+            throw new UnauthorizedException("Invalid or expired refresh token");
+        }
+        
+        // Get user from refresh token
+        String email = jwtTokenProvider.getUserEmailFromToken(refreshToken);
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new ResourceNotFoundException("User not found"));
+        
+        // Check if user is active
+        if (!user.getIsActive() || user.getIsLocked()) {
+            throw new UnauthorizedException("Account is not active");
+        }
+        
+        // Generate new tokens
+        String newToken = jwtTokenProvider.generateToken(user);
+        String newRefreshToken = jwtTokenProvider.generateRefreshToken(user);
+        
+        log.info("Tokens refreshed successfully for user: {}", user.getEmail());
+        return buildAuthResponse(user, newToken, newRefreshToken);
+    }
+
     private AuthResponse buildAuthResponse(User user, String token, String refreshToken) {
         return AuthResponse.builder()
                 .user(buildUserResponse(user))

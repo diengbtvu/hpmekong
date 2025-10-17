@@ -1,17 +1,44 @@
-import { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { useLanguage } from '../i18n/config.jsx'
 import { motion } from 'framer-motion'
 import InstructorCard from '../components/common/InstructorCard'
 import { CENTERS } from '../utils/constants'
+import api from '../services/api'
 
 const Instructors = () => {
   const { t, language } = useLanguage()
   const [selectedInstructor, setSelectedInstructor] = useState(null)
   const [filterCenter, setFilterCenter] = useState('all')
+  const [instructors, setInstructors] = useState([])
+  const [loading, setLoading] = useState(true)
 
-  // Mock data giảng viên
-  const mockInstructors = [
+  useEffect(() => {
+    const fetchInstructors = async () => {
+      try {
+        const response = await api.get('/instructors', {
+          params: {
+            page: 0,
+            size: 100
+          }
+        })
+        
+        if (response.data.success) {
+          setInstructors(response.data.data.content || [])
+        }
+      } catch (error) {
+        console.error('Error fetching instructors:', error)
+        setInstructors([])
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    fetchInstructors()
+  }, [language])
+
+  // Mock data - ONLY for reference, NOT used
+  const mockInstructorsReference = [
     {
       id: 1,
       name: language === 'vi' ? 'Nguyễn Văn An' : 'Nguyen Van An',
@@ -63,8 +90,8 @@ const Instructors = () => {
   ]
 
   const filteredInstructors = filterCenter === 'all'
-    ? mockInstructors
-    : mockInstructors.filter(inst => inst.centerId === parseInt(filterCenter))
+    ? instructors
+    : instructors.filter(inst => inst.centerId === parseInt(filterCenter))
 
   return (
     <div className="instructors-page">
