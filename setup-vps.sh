@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Setup script for VPS - Run this ONCE on VPS  gg
+# Setup script for VPS - Run this ONCE on VPS  ggg
 # This script sets up GitHub deploy key for private repository
 
 set -e
