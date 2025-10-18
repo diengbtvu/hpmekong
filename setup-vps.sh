@@ -12,9 +12,11 @@ echo "=========================================="
 # Colors
 GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
+RED='\033[0;31m'
 NC='\033[0m'
 
 echo -e "${GREEN}Step 1: Generate SSH key for GitHub deploy${NC}"
+echo -e "${YELLOW}Important: Press ENTER when asked for passphrase (leave empty)${NC}"
 ssh-keygen -t ed25519 -C "deploy@hpmekong" -f ~/.ssh/github_deploy -N ""
 
 echo ""
