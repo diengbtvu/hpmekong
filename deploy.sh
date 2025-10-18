@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Deploy script for Happy World Mekong
-# This script should be run on the VPS
+# This script should be run on the VPS - test
 
 set -e
 
