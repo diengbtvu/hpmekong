@@ -34,7 +34,7 @@ echo -e "${GREEN}Step 2: Stopping running containers...${NC}"
 docker-compose -f docker-compose.prod.yml down
 
 echo -e "${GREEN}Step 3: Building Docker images...${NC}"
-docker-compose -f docker-compose.prod.yml build --no-cache
+docker-compose -f docker-compose.prod.yml build
 
 echo -e "${GREEN}Step 4: Starting containers...${NC}"
 docker-compose -f docker-compose.prod.yml up -d
