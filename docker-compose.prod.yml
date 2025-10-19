@@ -11,19 +11,6 @@ services:
       - "host.docker.internal:host-gateway"
     environment:
       SPRING_PROFILES_ACTIVE: prod
-      SPRING_DATASOURCE_URL: jdbc:mysql://host.docker.internal:3306/${MYSQL_DATABASE}?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
-      SPRING_DATASOURCE_USERNAME: ${MYSQL_USER}
-      SPRING_DATASOURCE_PASSWORD: ${MYSQL_PASSWORD}
-      SPRING_REDIS_HOST: host.docker.internal
-      SPRING_REDIS_PASSWORD: ${REDIS_PASSWORD}
-      JWT_SECRET: ${JWT_SECRET}
-      JWT_EXPIRATION: ${JWT_EXPIRATION:-86400000}
-      JWT_REFRESH_EXPIRATION: ${JWT_REFRESH_EXPIRATION:-604800000}
-      APP_BASE_URL: ${APP_BASE_URL}
-      APP_FRONTEND_URL: ${APP_FRONTEND_URL}
-      PAYOS_CLIENT_ID: ${PAYOS_CLIENT_ID}
-      PAYOS_API_KEY: ${PAYOS_API_KEY}
-      PAYOS_CHECKSUM_KEY: ${PAYOS_CHECKSUM_KEY}
     volumes:
       - ./uploads:/app/uploads
       - backend_logs:/app/logs
@@ -41,7 +28,7 @@ services:
     depends_on:
       - backend
     ports:
-      - "80:80"
+      - "8081:80"
     networks:
       - hpmekong-network
 

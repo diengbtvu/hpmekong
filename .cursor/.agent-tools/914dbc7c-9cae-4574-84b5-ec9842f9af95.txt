@@ -1,0 +1,430 @@
+time="2025-10-19T11:20:46+07:00" level=warning msg="/root/hpmekong/docker-compose.prod.yml: the attribute `version` is obsolete, it will be ignored, please remove it to avoid potential confusion"
+#1 [internal] load local bake definitions
+#1 reading from stdin 916B done
+#1 DONE 0.0s
+
+#2 [backend internal] load build definition from Dockerfile
+#2 transferring dockerfile: 930B done
+#2 DONE 0.0s
+
+#3 [frontend internal] load build definition from Dockerfile.frontend
+#3 transferring dockerfile: 538B done
+#3 DONE 0.0s
+
+#4 [frontend internal] load metadata for docker.io/library/node:18-alpine
+#4 ...
+
+#5 [frontend internal] load metadata for docker.io/library/nginx:alpine
+#5 DONE 1.4s
+
+#4 [frontend internal] load metadata for docker.io/library/node:18-alpine
+#4 DONE 1.4s
+
+#6 [frontend internal] load .dockerignore
+#6 transferring context: 212B done
+#6 DONE 0.0s
+
+#7 [frontend build 1/6] FROM docker.io/library/node:18-alpine@sha256:8d6421d663b4c28fd3ebc498332f249011d118945588d0a35cb9bc4b8ca09d9e
+#7 DONE 0.0s
+
+#8 [frontend stage-1 1/3] FROM docker.io/library/nginx:alpine@sha256:61e01287e546aac28a3f56839c136b31f590273f3b41187a36f46f6a03bbfe22
+#8 DONE 0.0s
+
+#9 [frontend internal] load build context
+#9 transferring context: 1.23MB 0.1s done
+#9 DONE 0.1s
+
+#10 [frontend build 3/6] COPY package*.json ./
+#10 CACHED
+
+#11 [frontend build 2/6] WORKDIR /app
+#11 CACHED
+
+#12 [frontend build 4/6] RUN npm install --legacy-peer-deps
+#12 CACHED
+
+#13 [backend internal] load metadata for docker.io/library/maven:3.9-eclipse-temurin-17-alpine
+#13 DONE 1.7s
+
+#14 [frontend build 5/6] COPY . .
+#14 DONE 0.1s
+
+#15 [frontend build 6/6] RUN npm run build
+#15 ...
+
+#16 [backend internal] load metadata for docker.io/library/eclipse-temurin:17-jre-alpine
+#16 DONE 1.9s
+
+#17 [backend internal] load .dockerignore
+#17 transferring context: 187B done
+#17 DONE 0.0s
+
+#18 [backend stage-1 1/5] FROM docker.io/library/eclipse-temurin:17-jre-alpine@sha256:e7ed585b34913e0a780e0282330183a0ea14ad6b929362d02aea1156b43262bf
+#18 DONE 0.0s
+
+#19 [backend build 1/6] FROM docker.io/library/maven:3.9-eclipse-temurin-17-alpine@sha256:5d774e0953f89cf5c07bbb22924aede9b0a351c24faccd6a759de4c3f209cac7
+#19 DONE 0.0s
+
+#20 [backend internal] load build context
+#20 transferring context: 15.16kB 0.0s done
+#20 DONE 0.0s
+
+#21 [backend build 2/6] WORKDIR /app
+#21 CACHED
+
+#22 [backend build 3/6] COPY pom.xml .
+#22 CACHED
+
+#23 [backend build 4/6] RUN mvn dependency:go-offline -B
+#23 CACHED
+
+#24 [backend build 5/6] COPY src ./src
+#24 DONE 0.1s
+
+#15 [frontend build 6/6] RUN npm run build
+#15 0.962 
+#15 0.962 > happy-world-mekong-frontend@1.0.0 build
+#15 0.962 > vite build
+#15 0.962 
+#15 1.517 vite v5.4.20 building for production...
+#15 2.666 transforming...
+#15 5.827 node_modules/@tanstack/react-query/build/modern/useQueries.js (1:0): Module level directives cause errors when bundled, "use client" in "node_modules/@tanstack/react-query/build/modern/useQueries.js" was ignored.
+#15 5.832 node_modules/@tanstack/react-query/build/modern/useQuery.js (1:0): Module level directives cause errors when bundled, "use client" in "node_modules/@tanstack/react-query/build/modern/useQuery.js" was ignored.
+#15 5.837 node_modules/@tanstack/react-query/build/modern/QueryClientProvider.js (1:0): Module level directives cause errors when bundled, "use client" in "node_modules/@tanstack/react-query/build/modern/QueryClientProvider.js" was ignored.
+#15 5.840 node_modules/@tanstack/react-query/build/modern/HydrationBoundary.js (1:0): Module level directives cause errors when bundled, "use client" in "node_modules/@tanstack/react-query/build/modern/HydrationBoundary.js" was ignored.
+#15 5.843 node_modules/@tanstack/react-query/build/modern/useIsFetching.js (1:0): Module level directives cause errors when bundled, "use client" in "node_modules/@tanstack/react-query/build/modern/useIsFetching.js" was ignored.
+#15 5.845 node_modules/@tanstack/react-query/build/modern/QueryErrorResetBoundary.js (1:0): Module level directives cause errors when bundled, "use client" in "node_modules/@tanstack/react-query/build/modern/QueryErrorResetBoundary.js" was ignored.
+#15 5.848 node_modules/@tanstack/react-query/build/modern/useMutation.js (1:0): Module level directives cause errors when bundled, "use client" in "node_modules/@tanstack/react-query/build/modern/useMutation.js" was ignored.
+#15 5.850 node_modules/@tanstack/react-query/build/modern/useMutationState.js (1:0): Module level directives cause errors when bundled, "use client" in "node_modules/@tanstack/react-query/build/modern/useMutationState.js" was ignored.
+#15 5.853 node_modules/@tanstack/react-query/build/modern/useInfiniteQuery.js (1:0): Module level directives cause errors when bundled, "use client" in "node_modules/@tanstack/react-query/build/modern/useInfiniteQuery.js" was ignored.
+#15 5.856 node_modules/@tanstack/react-query/build/modern/IsRestoringProvider.js (1:0): Module level directives cause errors when bundled, "use client" in "node_modules/@tanstack/react-query/build/modern/IsRestoringProvider.js" was ignored.
+#15 6.021 node_modules/@tanstack/react-query/build/modern/useSuspenseQuery.js (1:0): Module level directives cause errors when bundled, "use client" in "node_modules/@tanstack/react-query/build/modern/useSuspenseQuery.js" was ignored.
+#15 6.023 node_modules/@tanstack/react-query/build/modern/useSuspenseQueries.js (1:0): Module level directives cause errors when bundled, "use client" in "node_modules/@tanstack/react-query/build/modern/useSuspenseQueries.js" was ignored.
+#15 6.025 node_modules/@tanstack/react-query/build/modern/useSuspenseInfiniteQuery.js (1:0): Module level directives cause errors when bundled, "use client" in "node_modules/@tanstack/react-query/build/modern/useSuspenseInfiniteQuery.js" was ignored.
+#15 6.278 node_modules/@tanstack/react-query/build/modern/errorBoundaryUtils.js (1:0): Module level directives cause errors when bundled, "use client" in "node_modules/@tanstack/react-query/build/modern/errorBoundaryUtils.js" was ignored.
+#15 6.510 node_modules/@tanstack/react-query/build/modern/useBaseQuery.js (1:0): Module level directives cause errors when bundled, "use client" in "node_modules/@tanstack/react-query/build/modern/useBaseQuery.js" was ignored.
+#15 ...
+
+#25 [backend build 6/6] RUN mvn clean package -DskipTests -B
+#25 3.030 [INFO] Scanning for projects...
+#25 3.741 [INFO] 
+#25 3.742 [INFO] -------------------< com.happyworld:mekong-backend >--------------------
+#25 3.742 [INFO] Building Happy World Mekong Backend 1.0.0
+#25 3.742 [INFO]   from pom.xml
+#25 3.742 [INFO] --------------------------------[ jar ]---------------------------------
+#25 4.953 [INFO] Downloading from central: https://repo.maven.apache.org/maven2/org/jboss/logging/jboss-logging/3.5.3.Final/jboss-logging-3.5.3.Final.pom
+#25 5.644 [INFO] Downloaded from central: https://repo.maven.apache.org/maven2/org/jboss/logging/jboss-logging/3.5.3.Final/jboss-logging-3.5.3.Final.pom (19 kB at 27 kB/s)
+#25 5.684 [INFO] Downloading from central: https://repo.maven.apache.org/maven2/org/jboss/logging/logging-parent/1.0.1.Final/logging-parent-1.0.1.Final.pom
+#25 5.738 [INFO] Downloaded from central: https://repo.maven.apache.org/maven2/org/jboss/logging/logging-parent/1.0.1.Final/logging-parent-1.0.1.Final.pom (6.0 kB at 103 kB/s)
+#25 5.776 [INFO] Downloading from central: https://repo.maven.apache.org/maven2/com/fasterxml/classmate/1.6.0/classmate-1.6.0.pom
+#25 5.832 [INFO] Downloaded from central: https://repo.maven.apache.org/maven2/com/fasterxml/classmate/1.6.0/classmate-1.6.0.pom (6.6 kB at 116 kB/s)
+#25 5.838 [INFO] Downloading from central: https://repo.maven.apache.org/maven2/com/fasterxml/oss-parent/55/oss-parent-55.pom
+#25 5.907 [INFO] Downloaded from central: https://repo.maven.apache.org/maven2/com/fasterxml/oss-parent/55/oss-parent-55.pom (24 kB at 337 kB/s)
+#25 5.922 [INFO] Downloading from central: https://repo.maven.apache.org/maven2/net/bytebuddy/byte-buddy/1.14.10/byte-buddy-1.14.10.pom
+#25 5.995 [INFO] Downloaded from central: https://repo.maven.apache.org/maven2/net/bytebuddy/byte-buddy/1.14.10/byte-buddy-1.14.10.pom (16 kB at 214 kB/s)
+#25 6.006 [INFO] Downloading from central: https://repo.maven.apache.org/maven2/net/bytebuddy/byte-buddy-parent/1.14.10/byte-buddy-parent-1.14.10.pom
+#25 6.067 [INFO] Downloaded from central: https://repo.maven.apache.org/maven2/net/bytebuddy/byte-buddy-parent/1.14.10/byte-buddy-parent-1.14.10.pom (62 kB at 934 kB/s)
+#25 6.098 [INFO] Downloading from central: https://repo.maven.apache.org/maven2/org/glassfish/jaxb/jaxb-runtime/4.0.4/jaxb-runtime-4.0.4.pom
+#25 6.172 [INFO] Downloaded from central: https://repo.maven.apache.org/maven2/org/glassfish/jaxb/jaxb-runtime/4.0.4/jaxb-runtime-4.0.4.pom (11 kB at 146 kB/s)
+#25 6.178 [INFO] Downloading from central: https://repo.maven.apache.org/maven2/com/sun/xml/bind/mvn/jaxb-runtime-parent/4.0.4/jaxb-runtime-parent-4.0.4.pom
+#25 6.242 [INFO] Downloaded from central: https://repo.maven.apache.org/maven2/com/sun/xml/bind/mvn/jaxb-runtime-parent/4.0.4/jaxb-runtime-parent-4.0.4.pom (1.2 kB at 19 kB/s)
+#25 6.254 [INFO] Downloading from central: https://repo.maven.apache.org/maven2/com/sun/xml/bind/mvn/jaxb-parent/4.0.4/jaxb-parent-4.0.4.pom
+#25 6.310 [INFO] Downloaded from central: https://repo.maven.apache.org/maven2/com/sun/xml/bind/mvn/jaxb-parent/4.0.4/jaxb-parent-4.0.4.pom (35 kB at 625 kB/s)
+#25 6.315 [INFO] Downloading from central: https://repo.maven.apache.org/maven2/com/sun/xml/bind/jaxb-bom-ext/4.0.4/jaxb-bom-ext-4.0.4.pom
+#25 6.376 [INFO] Downloaded from central: https://repo.maven.apache.org/maven2/com/sun/xml/bind/jaxb-bom-ext/4.0.4/jaxb-bom-ext-4.0.4.pom (3.5 kB at 57 kB/s)
+#25 6.386 [INFO] Downloading from central: https://repo.maven.apache.org/maven2/org/glassfish/jaxb/jaxb-core/4.0.4/jaxb-core-4.0.4.pom
+#25 6.440 [INFO] Downloaded from central: https://repo.maven.apache.org/maven2/org/glassfish/jaxb/jaxb-core/4.0.4/jaxb-core-4.0.4.pom (3.7 kB at 69 kB/s)
+#25 6.453 [INFO] Downloading from central: https://repo.maven.apache.org/maven2/org/glassfish/jaxb/txw2/4.0.4/txw2-4.0.4.pom
+#25 6.516 [INFO] Downloaded from central: https://repo.maven.apache.org/maven2/org/glassfish/jaxb/txw2/4.0.4/txw2-4.0.4.pom (1.8 kB at 29 kB/s)
+#25 6.520 [INFO] Downloading from central: https://repo.maven.apache.org/maven2/com/sun/xml/bind/mvn/jaxb-txw-parent/4.0.4/jaxb-txw-parent-4.0.4.pom
+#25 6.592 [INFO] Downloaded from central: https://repo.maven.apache.org/maven2/com/sun/xml/bind/mvn/jaxb-txw-parent/4.0.4/jaxb-txw-parent-4.0.4.pom (1.2 kB at 17 kB/s)
+#25 6.599 [INFO] Downloading from central: https://repo.maven.apache.org/maven2/com/sun/istack/istack-commons-runtime/4.1.2/istack-commons-runtime-4.1.2.pom
+#25 6.658 [INFO] Downloaded from central: https://repo.maven.apache.org/maven2/com/sun/istack/istack-commons-runtime/4.1.2/istack-commons-runtime-4.1.2.pom (1.6 kB at 27 kB/s)
+#25 6.663 [INFO] Downloading from central: https://repo.maven.apache.org/maven2/com/sun/istack/istack-commons/4.1.2/istack-commons-4.1.2.pom
+#25 6.733 [INFO] Downloaded from central: https://repo.maven.apache.org/maven2/com/sun/istack/istack-commons/4.1.2/istack-commons-4.1.2.pom (26 kB at 381 kB/s)
+#25 6.948 [INFO] Downloading from central: https://repo.maven.apache.org/maven2/io/netty/netty-common/4.1.104.Final/netty-common-4.1.104.Final.pom
+#25 7.014 [INFO] Downloaded from central: https://repo.maven.apache.org/maven2/io/netty/netty-common/4.1.104.Final/netty-common-4.1.104.Final.pom (12 kB at 179 kB/s)
+#25 7.023 [INFO] Downloading from central: https://repo.maven.apache.org/maven2/io/netty/netty-parent/4.1.104.Final/netty-parent-4.1.104.Final.pom
+#25 7.089 [INFO] Downloaded from central: https://repo.maven.apache.org/maven2/io/netty/netty-parent/4.1.104.Final/netty-parent-4.1.104.Final.pom (85 kB at 1.3 MB/s)
+#25 7.102 [INFO] Downloading from central: https://repo.maven.apache.org/maven2/io/netty/netty-handler/4.1.104.Final/netty-handler-4.1.104.Final.pom
+#25 7.185 [INFO] Downloaded from central: https://repo.maven.apache.org/maven2/io/netty/netty-handler/4.1.104.Final/netty-handler-4.1.104.Final.pom (4.6 kB at 56 kB/s)
+#25 7.198 [INFO] Downloading from central: https://repo.maven.apache.org/maven2/io/netty/netty-resolver/4.1.104.Final/netty-resolver-4.1.104.Final.pom
+#25 7.293 [INFO] Downloaded from central: https://repo.maven.apache.org/maven2/io/netty/netty-resolver/4.1.104.Final/netty-resolver-4.1.104.Final.pom (1.6 kB at 17 kB/s)
+#25 7.352 [INFO] Downloading from central: https://repo.maven.apache.org/maven2/io/netty/netty-buffer/4.1.104.Final/netty-buffer-4.1.104.Final.pom
+#25 7.419 [INFO] Downloaded from central: https://repo.maven.apache.org/maven2/io/netty/netty-buffer/4.1.104.Final/netty-buffer-4.1.104.Final.pom (1.6 kB at 24 kB/s)
+#25 7.438 [INFO] Downloading from central: https://repo.maven.apache.org/maven2/io/netty/netty-transport/4.1.104.Final/netty-transport-4.1.104.Final.pom
+#25 7.492 [INFO] Downloaded from central: https://repo.maven.apache.org/maven2/io/netty/netty-transport/4.1.104.Final/netty-transport-4.1.104.Final.pom (2.2 kB at 41 kB/s)
+#25 7.504 [INFO] Downloading from central: https://repo.maven.apache.org/maven2/io/netty/netty-transport-native-unix-common/4.1.104.Final/netty-transport-native-unix-common-4.1.104.Final.pom
+#25 7.581 [INFO] Downloaded from central: https://repo.maven.apache.org/maven2/io/netty/netty-transport-native-unix-common/4.1.104.Final/netty-transport-native-unix-common-4.1.104.Final.pom (33 kB at 424 kB/s)
+#25 7.628 [INFO] Downloading from central: https://repo.maven.apache.org/maven2/io/netty/netty-codec/4.1.104.Final/netty-codec-4.1.104.Final.pom
+#25 7.690 [INFO] Downloaded from central: https://repo.maven.apache.org/maven2/io/netty/netty-codec/4.1.104.Final/netty-codec-4.1.104.Final.pom (5.5 kB at 88 kB/s)
+#25 7.722 [INFO] Downloading from central: https://repo.maven.apache.org/maven2/io/projectreactor/reactor-core/3.6.1/reactor-core-3.6.1.pom
+#25 7.773 [INFO] Downloaded from central: https://repo.maven.apache.org/maven2/io/projectreactor/reactor-core/3.6.1/reactor-core-3.6.1.pom (2.1 kB at 40 kB/s)
+#25 7.942 [INFO] Downloading from central: https://repo.maven.apache.org/maven2/commons-codec/commons-codec/1.16.0/commons-codec-1.16.0.pom
+#25 8.007 [INFO] Downloaded from central: https://repo.maven.apache.org/maven2/commons-codec/commons-codec/1.16.0/commons-codec-1.16.0.pom (16 kB at 246 kB/s)
+#25 8.041 [INFO] Downloading from central: https://repo.maven.apache.org/maven2/org/apache/httpcomponents/httpcore/4.4.16/httpcore-4.4.16.pom
+#25 8.098 [INFO] Downloaded from central: https://repo.maven.apache.org/maven2/org/apache/httpcomponents/httpcore/4.4.16/httpcore-4.4.16.pom (5.0 kB at 87 kB/s)
+#25 8.102 [INFO] Downloading from central: https://repo.maven.apache.org/maven2/org/apache/httpcomponents/httpcomponents-core/4.4.16/httpcomponents-core-4.4.16.pom
+#25 8.161 [INFO] Downloaded from central: https://repo.maven.apache.org/maven2/org/apache/httpcomponents/httpcomponents-core/4.4.16/httpcomponents-core-4.4.16.pom (12 kB at 206 kB/s)
+#25 8.182 [INFO] Downloading from central: https://repo.maven.apache.org/maven2/com/fasterxml/jackson/dataformat/jackson-dataformat-cbor/2.15.3/jackson-dataformat-cbor-2.15.3.pom
+#25 8.242 [INFO] Downloaded from central: https://repo.maven.apache.org/maven2/com/fasterxml/jackson/dataformat/jackson-dataformat-cbor/2.15.3/jackson-dataformat-cbor-2.15.3.pom (3.1 kB at 51 kB/s)
+#25 8.256 [INFO] Downloading from central: https://repo.maven.apache.org/maven2/com/fasterxml/jackson/dataformat/jackson-dataformats-binary/2.15.3/jackson-dataformats-binary-2.15.3.pom
+#25 8.315 [INFO] Downloaded from central: https://repo.maven.apache.org/maven2/com/fasterxml/jackson/dataformat/jackson-dataformats-binary/2.15.3/jackson-dataformats-binary-2.15.3.pom (3.8 kB at 65 kB/s)
+#25 8.469 [INFO] Downloading from central: https://repo.maven.apache.org/maven2/net/bytebuddy/byte-buddy-agent/1.14.10/byte-buddy-agent-1.14.10.pom
+#25 8.529 [INFO] Downloaded from central: https://repo.maven.apache.org/maven2/net/bytebuddy/byte-buddy-agent/1.14.10/byte-buddy-agent-1.14.10.pom (10 kB at 177 kB/s)
+#25 8.709 [INFO] Downloading from central: https://repo.maven.apache.org/maven2/org/jboss/logging/jboss-logging/3.5.3.Final/jboss-logging-3.5.3.Final.jar
+#25 8.764 [INFO] Downloaded from central: https://repo.maven.apache.org/maven2/org/jboss/logging/jboss-logging/3.5.3.Final/jboss-logging-3.5.3.Final.jar (59 kB at 1.1 MB/s)
+#25 8.767 [INFO] Downloading from central: https://repo.maven.apache.org/maven2/com/fasterxml/classmate/1.6.0/classmate-1.6.0.jar
+#25 8.774 [INFO] Downloading from central: https://repo.maven.apache.org/maven2/net/bytebuddy/byte-buddy/1.14.10/byte-buddy-1.14.10.jar
+#25 8.777 [INFO] Downloading from central: https://repo.maven.apache.org/maven2/org/glassfish/jaxb/jaxb-runtime/4.0.4/jaxb-runtime-4.0.4.jar
+#25 8.778 [INFO] Downloading from central: https://repo.maven.apache.org/maven2/org/glassfish/jaxb/jaxb-core/4.0.4/jaxb-core-4.0.4.jar
+#25 8.781 [INFO] Downloading from central: https://repo.maven.apache.org/maven2/org/glassfish/jaxb/txw2/4.0.4/txw2-4.0.4.jar
+#25 8.878 [INFO] Downloaded from central: https://repo.maven.apache.org/maven2/com/fasterxml/classmate/1.6.0/classmate-1.6.0.jar (69 kB at 605 kB/s)
+#25 8.879 [INFO] Downloading from central: https://repo.maven.apache.org/maven2/com/sun/istack/istack-commons-runtime/4.1.2/istack-commons-runtime-4.1.2.jar
+#25 9.213 [INFO] Downloaded from central: https://repo.maven.apache.org/maven2/com/sun/istack/istack-commons-runtime/4.1.2/istack-commons-runtime-4.1.2.jar (26 kB at 60 kB/s)
+#25 9.213 [INFO] Downloading from central: https://repo.maven.apache.org/maven2/io/netty/netty-common/4.1.104.Final/netty-common-4.1.104.Final.jar
+#25 9.532 [INFO] Downloaded from central: https://repo.maven.apache.org/maven2/org/glassfish/jaxb/jaxb-core/4.0.4/jaxb-core-4.0.4.jar (139 kB at 183 kB/s)
+#25 9.534 [INFO] Downloading from central: https://repo.maven.apache.org/maven2/io/netty/netty-handler/4.1.104.Final/netty-handler-4.1.104.Final.jar
+#25 10.48 [INFO] Downloaded from central: https://repo.maven.apache.org/maven2/org/glassfish/jaxb/jaxb-runtime/4.0.4/jaxb-runtime-4.0.4.jar (920 kB at 538 kB/s)
+#25 10.48 [INFO] Downloading from central: https://repo.maven.apache.org/maven2/io/netty/netty-resolver/4.1.104.Final/netty-resolver-4.1.104.Final.jar
+#25 10.99 [INFO] Downloaded from central: https://repo.maven.apache.org/maven2/org/glassfish/jaxb/txw2/4.0.4/txw2-4.0.4.jar (73 kB at 33 kB/s)
+#25 10.99 [INFO] Downloading from central: https://repo.maven.apache.org/maven2/io/netty/netty-buffer/4.1.104.Final/netty-buffer-4.1.104.Final.jar
+#25 11.02 [INFO] Downloaded from central: https://repo.maven.apache.org/maven2/io/netty/netty-handler/4.1.104.Final/netty-handler-4.1.104.Final.jar (561 kB at 251 kB/s)
+#25 11.02 [INFO] Downloading from central: https://repo.maven.apache.org/maven2/io/netty/netty-transport-native-unix-common/4.1.104.Final/netty-transport-native-unix-common-4.1.104.Final.jar
+#25 11.19 [INFO] Downloaded from central: https://repo.maven.apache.org/maven2/io/netty/netty-transport-native-unix-common/4.1.104.Final/netty-transport-native-unix-common-4.1.104.Final.jar (44 kB at 18 kB/s)
+#25 11.19 [INFO] Downloading from central: https://repo.maven.apache.org/maven2/io/netty/netty-codec/4.1.104.Final/netty-codec-4.1.104.Final.jar
+#25 ...
+
+#15 [frontend build 6/6] RUN npm run build
+#15 11.40 ✓ 522 modules transformed.
+#15 12.33 rendering chunks...
+#15 12.36 computing gzip size...
+#15 12.40 dist/index.html                   2.31 kB │ gzip:   0.94 kB
+#15 12.40 dist/assets/index-BTuhtGcc.css   53.79 kB │ gzip:  11.00 kB
+#15 12.40 dist/assets/index-2fkY1ArM.js   676.24 kB │ gzip: 195.09 kB
+#15 12.40 
+#15 12.40 (!) Some chunks are larger than 500 kB after minification. Consider:
+#15 12.40 - Using dynamic import() to code-split the application
+#15 12.40 - Use build.rollupOptions.output.manualChunks to improve chunking: https://rollupjs.org/configuration-options/#output-manualchunks
+#15 12.40 - Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+#15 12.40 ✓ built in 9.82s
+#15 DONE 12.5s
+
+#25 [backend build 6/6] RUN mvn clean package -DskipTests -B
+#25 11.59 [INFO] Downloaded from central: https://repo.maven.apache.org/maven2/io/netty/netty-resolver/4.1.104.Final/netty-resolver-4.1.104.Final.jar (38 kB at 13 kB/s)
+#25 11.59 [INFO] Downloading from central: https://repo.maven.apache.org/maven2/io/netty/netty-transport/4.1.104.Final/netty-transport-4.1.104.Final.jar
+#25 12.16 [INFO] Downloaded from central: https://repo.maven.apache.org/maven2/io/netty/netty-common/4.1.104.Final/netty-common-4.1.104.Final.jar (661 kB at 195 kB/s)
+#25 12.17 [INFO] Downloading from central: https://repo.maven.apache.org/maven2/io/projectreactor/reactor-core/3.6.1/reactor-core-3.6.1.jar
+#25 12.38 [INFO] Downloaded from central: https://repo.maven.apache.org/maven2/io/netty/netty-codec/4.1.104.Final/netty-codec-4.1.104.Final.jar (345 kB at 96 kB/s)
+#25 12.38 [INFO] Downloading from central: https://repo.maven.apache.org/maven2/com/fasterxml/jackson/dataformat/jackson-dataformat-cbor/2.15.3/jackson-dataformat-cbor-2.15.3.jar
+#25 12.76 [INFO] Downloaded from central: https://repo.maven.apache.org/maven2/com/fasterxml/jackson/dataformat/jackson-dataformat-cbor/2.15.3/jackson-dataformat-cbor-2.15.3.jar (70 kB at 17 kB/s)
+#25 12.76 [INFO] Downloading from central: https://repo.maven.apache.org/maven2/org/slf4j/slf4j-api/2.0.9/slf4j-api-2.0.9.jar
+#25 12.84 [INFO] Downloaded from central: https://repo.maven.apache.org/maven2/io/netty/netty-buffer/4.1.104.Final/netty-buffer-4.1.104.Final.jar (308 kB at 76 kB/s)
+#25 12.84 [INFO] Downloading from central: https://repo.maven.apache.org/maven2/commons-codec/commons-codec/1.16.0/commons-codec-1.16.0.jar
+#25 13.05 [INFO] Downloaded from central: https://repo.maven.apache.org/maven2/io/netty/netty-transport/4.1.104.Final/netty-transport-4.1.104.Final.jar (497 kB at 116 kB/s)
+#25 13.05 [INFO] Downloading from central: https://repo.maven.apache.org/maven2/org/apache/httpcomponents/httpcore/4.4.16/httpcore-4.4.16.jar
+#25 13.06 [INFO] Downloaded from central: https://repo.maven.apache.org/maven2/org/slf4j/slf4j-api/2.0.9/slf4j-api-2.0.9.jar (65 kB at 15 kB/s)
+#25 13.06 [INFO] Downloading from central: https://repo.maven.apache.org/maven2/net/bytebuddy/byte-buddy-agent/1.14.10/byte-buddy-agent-1.14.10.jar
+#25 ...
+
+#8 [frontend stage-1 1/3] FROM docker.io/library/nginx:alpine@sha256:61e01287e546aac28a3f56839c136b31f590273f3b41187a36f46f6a03bbfe22
+#8 CACHED
+
+#26 [frontend stage-1 2/3] COPY --from=build /app/dist /usr/share/nginx/html
+#26 DONE 0.0s
+
+#27 [frontend stage-1 3/3] COPY nginx.conf /etc/nginx/conf.d/default.conf
+#27 DONE 0.0s
+
+#28 [frontend] exporting to image
+#28 exporting layers 0.0s done
+#28 writing image sha256:4ea3b5535e558db31b03ce89dc1c6f1ba87fea1657082af5e4f6dd227c82146c done
+#28 naming to docker.io/library/hpmekong-frontend done
+#28 DONE 0.0s
+
+#29 [frontend] resolving provenance for metadata file
+#29 DONE 0.0s
+
+#25 [backend build 6/6] RUN mvn clean package -DskipTests -B
+#25 14.32 [INFO] Downloaded from central: https://repo.maven.apache.org/maven2/net/bytebuddy/byte-buddy-agent/1.14.10/byte-buddy-agent-1.14.10.jar (257 kB at 46 kB/s)
+#25 14.35 [INFO] Downloaded from central: https://repo.maven.apache.org/maven2/org/apache/httpcomponents/httpcore/4.4.16/httpcore-4.4.16.jar (328 kB at 59 kB/s)
+#25 14.71 [INFO] Downloaded from central: https://repo.maven.apache.org/maven2/commons-codec/commons-codec/1.16.0/commons-codec-1.16.0.jar (361 kB at 61 kB/s)
+#25 15.67 [INFO] Downloaded from central: https://repo.maven.apache.org/maven2/io/projectreactor/reactor-core/3.6.1/reactor-core-3.6.1.jar (1.9 MB at 271 kB/s)
+#25 18.64 [INFO] Downloaded from central: https://repo.maven.apache.org/maven2/net/bytebuddy/byte-buddy/1.14.10/byte-buddy-1.14.10.jar (4.2 MB at 427 kB/s)
+#25 18.67 [INFO] 
+#25 18.67 [INFO] --- clean:3.3.2:clean (default-clean) @ mekong-backend ---
+#25 18.77 [INFO] 
+#25 18.77 [INFO] --- resources:3.3.1:resources (default-resources) @ mekong-backend ---
+#25 18.94 [INFO] Copying 2 resources from src/main/resources to target/classes
+#25 18.97 [INFO] Copying 10 resources from src/main/resources to target/classes
+#25 18.97 [INFO] 
+#25 18.98 [INFO] --- compiler:3.11.0:compile (default-compile) @ mekong-backend ---
+#25 19.17 [INFO] Downloading from central: https://repo.maven.apache.org/maven2/org/mapstruct/mapstruct-processor/1.5.5.Final/mapstruct-processor-1.5.5.Final.pom
+#25 19.24 [INFO] Downloaded from central: https://repo.maven.apache.org/maven2/org/mapstruct/mapstruct-processor/1.5.5.Final/mapstruct-processor-1.5.5.Final.pom (3.3 kB at 49 kB/s)
+#25 19.24 [INFO] Downloading from central: https://repo.maven.apache.org/maven2/org/projectlombok/lombok-mapstruct-binding/0.2.0/lombok-mapstruct-binding-0.2.0.pom
+#25 19.30 [INFO] Downloaded from central: https://repo.maven.apache.org/maven2/org/projectlombok/lombok-mapstruct-binding/0.2.0/lombok-mapstruct-binding-0.2.0.pom (1.4 kB at 24 kB/s)
+#25 19.31 [INFO] Downloading from central: https://repo.maven.apache.org/maven2/org/mapstruct/mapstruct-processor/1.5.5.Final/mapstruct-processor-1.5.5.Final.jar
+#25 21.10 [INFO] Downloaded from central: https://repo.maven.apache.org/maven2/org/mapstruct/mapstruct-processor/1.5.5.Final/mapstruct-processor-1.5.5.Final.jar (1.9 MB at 1.1 MB/s)
+#25 21.10 [INFO] Downloading from central: https://repo.maven.apache.org/maven2/org/projectlombok/lombok-mapstruct-binding/0.2.0/lombok-mapstruct-binding-0.2.0.jar
+#25 21.16 [INFO] Downloaded from central: https://repo.maven.apache.org/maven2/org/projectlombok/lombok-mapstruct-binding/0.2.0/lombok-mapstruct-binding-0.2.0.jar (2.4 kB at 41 kB/s)
+#25 21.21 [INFO] Changes detected - recompiling the module! :source
+#25 21.22 [INFO] Compiling 131 source files with javac [debug release 17] to target/classes
+#25 34.06 [WARNING] /app/src/main/java/com/happyworld/mekong/entity/Banner.java:[54,21] @Builder will ignore the initializing expression entirely. If you want the initializing expression to serve as default, add @Builder.Default. If it is not supposed to be settable during building, make the field final.
+#25 34.06 [WARNING] /app/src/main/java/com/happyworld/mekong/entity/Banner.java:[58,24] @Builder will ignore the initializing expression entirely. If you want the initializing expression to serve as default, add @Builder.Default. If it is not supposed to be settable during building, make the field final.
+#25 34.06 [WARNING] /app/src/main/java/com/happyworld/mekong/entity/Banner.java:[61,21] @Builder will ignore the initializing expression entirely. If you want the initializing expression to serve as default, add @Builder.Default. If it is not supposed to be settable during building, make the field final.
+#25 34.06 [WARNING] /app/src/main/java/com/happyworld/mekong/entity/Banner.java:[64,21] @Builder will ignore the initializing expression entirely. If you want the initializing expression to serve as default, add @Builder.Default. If it is not supposed to be settable during building, make the field final.
+#25 34.06 [WARNING] /app/src/main/java/com/happyworld/mekong/entity/Banner.java:[73,21] @Builder will ignore the initializing expression entirely. If you want the initializing expression to serve as default, add @Builder.Default. If it is not supposed to be settable during building, make the field final.
+#25 34.06 [WARNING] /app/src/main/java/com/happyworld/mekong/entity/Banner.java:[76,21] @Builder will ignore the initializing expression entirely. If you want the initializing expression to serve as default, add @Builder.Default. If it is not supposed to be settable during building, make the field final.
+#25 34.06 [WARNING] /app/src/main/java/com/happyworld/mekong/entity/Company.java:[56,21] @Builder will ignore the initializing expression entirely. If you want the initializing expression to serve as default, add @Builder.Default. If it is not supposed to be settable during building, make the field final.
+#25 34.06 [WARNING] /app/src/main/java/com/happyworld/mekong/entity/Company.java:[62,21] @Builder will ignore the initializing expression entirely. If you want the initializing expression to serve as default, add @Builder.Default. If it is not supposed to be settable during building, make the field final.
+#25 34.06 [WARNING] /app/src/main/java/com/happyworld/mekong/entity/Company.java:[65,21] @Builder will ignore the initializing expression entirely. If you want the initializing expression to serve as default, add @Builder.Default. If it is not supposed to be settable during building, make the field final.
+#25 34.06 [WARNING] /app/src/main/java/com/happyworld/mekong/entity/Company.java:[68,21] @Builder will ignore the initializing expression entirely. If you want the initializing expression to serve as default, add @Builder.Default. If it is not supposed to be settable during building, make the field final.
+#25 34.06 [WARNING] /app/src/main/java/com/happyworld/mekong/entity/Achievement.java:[40,29] @Builder will ignore the initializing expression entirely. If you want the initializing expression to serve as default, add @Builder.Default. If it is not supposed to be settable during building, make the field final.
+#25 34.06 [WARNING] /app/src/main/java/com/happyworld/mekong/entity/Achievement.java:[43,21] @Builder will ignore the initializing expression entirely. If you want the initializing expression to serve as default, add @Builder.Default. If it is not supposed to be settable during building, make the field final.
+#25 34.06 [WARNING] /app/src/main/java/com/happyworld/mekong/entity/Achievement.java:[46,21] @Builder will ignore the initializing expression entirely. If you want the initializing expression to serve as default, add @Builder.Default. If it is not supposed to be settable during building, make the field final.
+#25 34.06 [WARNING] /app/src/main/java/com/happyworld/mekong/entity/Achievement.java:[49,21] @Builder will ignore the initializing expression entirely. If you want the initializing expression to serve as default, add @Builder.Default. If it is not supposed to be settable during building, make the field final.
+#25 34.06 [WARNING] /app/src/main/java/com/happyworld/mekong/dto/response/AuthResponse.java:[15,20] @Builder will ignore the initializing expression entirely. If you want the initializing expression to serve as default, add @Builder.Default. If it is not supposed to be settable during building, make the field final.
+#25 34.06 [WARNING] /app/src/main/java/com/happyworld/mekong/dto/request/BannerRequest.java:[40,21] @Builder will ignore the initializing expression entirely. If you want the initializing expression to serve as default, add @Builder.Default. If it is not supposed to be settable during building, make the field final.
+#25 34.06 [WARNING] /app/src/main/java/com/happyworld/mekong/dto/request/BannerRequest.java:[45,21] @Builder will ignore the initializing expression entirely. If you want the initializing expression to serve as default, add @Builder.Default. If it is not supposed to be settable during building, make the field final.
+#25 34.06 [WARNING] /app/src/main/java/com/happyworld/mekong/dto/request/BannerRequest.java:[47,21] @Builder will ignore the initializing expression entirely. If you want the initializing expression to serve as default, add @Builder.Default. If it is not supposed to be settable during building, make the field final.
+#25 34.06 [WARNING] /app/src/main/java/com/happyworld/mekong/dto/request/SiteSettingRequest.java:[28,21] @Builder will ignore the initializing expression entirely. If you want the initializing expression to serve as default, add @Builder.Default. If it is not supposed to be settable during building, make the field final.
+#25 34.06 [WARNING] /app/src/main/java/com/happyworld/mekong/dto/request/SiteSettingRequest.java:[30,21] @Builder will ignore the initializing expression entirely. If you want the initializing expression to serve as default, add @Builder.Default. If it is not supposed to be settable during building, make the field final.
+#25 34.06 [WARNING] /app/src/main/java/com/happyworld/mekong/dto/request/SiteSettingRequest.java:[32,21] @Builder will ignore the initializing expression entirely. If you want the initializing expression to serve as default, add @Builder.Default. If it is not supposed to be settable during building, make the field final.
+#25 34.06 [WARNING] /app/src/main/java/com/happyworld/mekong/entity/Contact.java:[39,27] @Builder will ignore the initializing expression entirely. If you want the initializing expression to serve as default, add @Builder.Default. If it is not supposed to be settable during building, make the field final.
+#25 34.06 [WARNING] /app/src/main/java/com/happyworld/mekong/entity/Enrollment.java:[30,30] @Builder will ignore the initializing expression entirely. If you want the initializing expression to serve as default, add @Builder.Default. If it is not supposed to be settable during building, make the field final.
+#25 34.06 [WARNING] /app/src/main/java/com/happyworld/mekong/entity/Enrollment.java:[33,24] @Builder will ignore the initializing expression entirely. If you want the initializing expression to serve as default, add @Builder.Default. If it is not supposed to be settable during building, make the field final.
+#25 34.06 [WARNING] /app/src/main/java/com/happyworld/mekong/entity/Enrollment.java:[36,21] @Builder will ignore the initializing expression entirely. If you want the initializing expression to serve as default, add @Builder.Default. If it is not supposed to be settable during building, make the field final.
+#25 34.06 [WARNING] /app/src/main/java/com/happyworld/mekong/entity/Enrollment.java:[39,21] @Builder will ignore the initializing expression entirely. If you want the initializing expression to serve as default, add @Builder.Default. If it is not supposed to be settable during building, make the field final.
+#25 34.06 [WARNING] /app/src/main/java/com/happyworld/mekong/entity/Enrollment.java:[42,21] @Builder will ignore the initializing expression entirely. If you want the initializing expression to serve as default, add @Builder.Default. If it is not supposed to be settable during building, make the field final.
+#25 34.06 [WARNING] /app/src/main/java/com/happyworld/mekong/entity/Enrollment.java:[60,24] @Builder will ignore the initializing expression entirely. If you want the initializing expression to serve as default, add @Builder.Default. If it is not supposed to be settable during building, make the field final.
+#25 34.06 [WARNING] /app/src/main/java/com/happyworld/mekong/entity/Enrollment.java:[63,21] @Builder will ignore the initializing expression entirely. If you want the initializing expression to serve as default, add @Builder.Default. If it is not supposed to be settable during building, make the field final.
+#25 34.06 [WARNING] /app/src/main/java/com/happyworld/mekong/entity/User.java:[34,21] @Builder will ignore the initializing expression entirely. If you want the initializing expression to serve as default, add @Builder.Default. If it is not supposed to be settable during building, make the field final.
+#25 34.06 [WARNING] /app/src/main/java/com/happyworld/mekong/entity/User.java:[37,21] @Builder will ignore the initializing expression entirely. If you want the initializing expression to serve as default, add @Builder.Default. If it is not supposed to be settable during building, make the field final.
+#25 34.06 [WARNING] /app/src/main/java/com/happyworld/mekong/entity/User.java:[40,21] @Builder will ignore the initializing expression entirely. If you want the initializing expression to serve as default, add @Builder.Default. If it is not supposed to be settable during building, make the field final.
+#25 34.06 [WARNING] /app/src/main/java/com/happyworld/mekong/entity/User.java:[44,21] @Builder will ignore the initializing expression entirely. If you want the initializing expression to serve as default, add @Builder.Default. If it is not supposed to be settable during building, make the field final.
+#25 34.06 [WARNING] /app/src/main/java/com/happyworld/mekong/entity/User.java:[57,21] @Builder will ignore the initializing expression entirely. If you want the initializing expression to serve as default, add @Builder.Default. If it is not supposed to be settable during building, make the field final.
+#25 34.06 [WARNING] /app/src/main/java/com/happyworld/mekong/entity/Post.java:[47,24] @Builder will ignore the initializing expression entirely. If you want the initializing expression to serve as default, add @Builder.Default. If it is not supposed to be settable during building, make the field final.
+#25 34.06 [WARNING] /app/src/main/java/com/happyworld/mekong/entity/Post.java:[50,21] @Builder will ignore the initializing expression entirely. If you want the initializing expression to serve as default, add @Builder.Default. If it is not supposed to be settable during building, make the field final.
+#25 34.06 [WARNING] /app/src/main/java/com/happyworld/mekong/entity/Post.java:[53,21] @Builder will ignore the initializing expression entirely. If you want the initializing expression to serve as default, add @Builder.Default. If it is not supposed to be settable during building, make the field final.
+#25 34.06 [WARNING] /app/src/main/java/com/happyworld/mekong/entity/Post.java:[56,21] @Builder will ignore the initializing expression entirely. If you want the initializing expression to serve as default, add @Builder.Default. If it is not supposed to be settable during building, make the field final.
+#25 34.06 [WARNING] /app/src/main/java/com/happyworld/mekong/entity/Post.java:[59,21] @Builder will ignore the initializing expression entirely. If you want the initializing expression to serve as default, add @Builder.Default. If it is not supposed to be settable during building, make the field final.
+#25 34.06 [WARNING] /app/src/main/java/com/happyworld/mekong/entity/Post.java:[62,21] @Builder will ignore the initializing expression entirely. If you want the initializing expression to serve as default, add @Builder.Default. If it is not supposed to be settable during building, make the field final.
+#25 34.06 [WARNING] /app/src/main/java/com/happyworld/mekong/entity/Post.java:[65,21] @Builder will ignore the initializing expression entirely. If you want the initializing expression to serve as default, add @Builder.Default. If it is not supposed to be settable during building, make the field final.
+#25 34.06 [WARNING] /app/src/main/java/com/happyworld/mekong/dto/request/CenterRequest.java:[36,21] @Builder will ignore the initializing expression entirely. If you want the initializing expression to serve as default, add @Builder.Default. If it is not supposed to be settable during building, make the field final.
+#25 34.06 [WARNING] /app/src/main/java/com/happyworld/mekong/dto/request/CenterRequest.java:[38,21] @Builder will ignore the initializing expression entirely. If you want the initializing expression to serve as default, add @Builder.Default. If it is not supposed to be settable during building, make the field final.
+#25 34.06 [WARNING] /app/src/main/java/com/happyworld/mekong/dto/request/PartnerRequest.java:[31,21] @Builder will ignore the initializing expression entirely. If you want the initializing expression to serve as default, add @Builder.Default. If it is not supposed to be settable during building, make the field final.
+#25 34.06 [WARNING] /app/src/main/java/com/happyworld/mekong/dto/request/PartnerRequest.java:[33,21] @Builder will ignore the initializing expression entirely. If you want the initializing expression to serve as default, add @Builder.Default. If it is not supposed to be settable during building, make the field final.
+#25 34.06 [WARNING] /app/src/main/java/com/happyworld/mekong/dto/request/PartnerRequest.java:[35,21] @Builder will ignore the initializing expression entirely. If you want the initializing expression to serve as default, add @Builder.Default. If it is not supposed to be settable during building, make the field final.
+#25 34.06 [WARNING] /app/src/main/java/com/happyworld/mekong/entity/Center.java:[48,21] @Builder will ignore the initializing expression entirely. If you want the initializing expression to serve as default, add @Builder.Default. If it is not supposed to be settable during building, make the field final.
+#25 34.06 [WARNING] /app/src/main/java/com/happyworld/mekong/entity/Center.java:[51,21] @Builder will ignore the initializing expression entirely. If you want the initializing expression to serve as default, add @Builder.Default. If it is not supposed to be settable during building, make the field final.
+#25 34.06 [WARNING] /app/src/main/java/com/happyworld/mekong/entity/Media.java:[70,21] @Builder will ignore the initializing expression entirely. If you want the initializing expression to serve as default, add @Builder.Default. If it is not supposed to be settable during building, make the field final.
+#25 34.06 [WARNING] /app/src/main/java/com/happyworld/mekong/dto/request/AchievementRequest.java:[33,21] @Builder will ignore the initializing expression entirely. If you want the initializing expression to serve as default, add @Builder.Default. If it is not supposed to be settable during building, make the field final.
+#25 34.06 [WARNING] /app/src/main/java/com/happyworld/mekong/dto/request/AchievementRequest.java:[35,21] @Builder will ignore the initializing expression entirely. If you want the initializing expression to serve as default, add @Builder.Default. If it is not supposed to be settable during building, make the field final.
+#25 34.06 [WARNING] /app/src/main/java/com/happyworld/mekong/dto/request/AchievementRequest.java:[37,21] @Builder will ignore the initializing expression entirely. If you want the initializing expression to serve as default, add @Builder.Default. If it is not supposed to be settable during building, make the field final.
+#25 34.06 [WARNING] /app/src/main/java/com/happyworld/mekong/dto/request/PostRequest.java:[30,21] @Builder will ignore the initializing expression entirely. If you want the initializing expression to serve as default, add @Builder.Default. If it is not supposed to be settable during building, make the field final.
+#25 34.06 [WARNING] /app/src/main/java/com/happyworld/mekong/dto/request/PostRequest.java:[32,21] @Builder will ignore the initializing expression entirely. If you want the initializing expression to serve as default, add @Builder.Default. If it is not supposed to be settable during building, make the field final.
+#25 34.06 [WARNING] /app/src/main/java/com/happyworld/mekong/dto/request/PostRequest.java:[40,21] @Builder will ignore the initializing expression entirely. If you want the initializing expression to serve as default, add @Builder.Default. If it is not supposed to be settable during building, make the field final.
+#25 34.06 [WARNING] /app/src/main/java/com/happyworld/mekong/dto/request/InstructorRequest.java:[54,21] @Builder will ignore the initializing expression entirely. If you want the initializing expression to serve as default, add @Builder.Default. If it is not supposed to be settable during building, make the field final.
+#25 34.06 [WARNING] /app/src/main/java/com/happyworld/mekong/dto/request/InstructorRequest.java:[56,21] @Builder will ignore the initializing expression entirely. If you want the initializing expression to serve as default, add @Builder.Default. If it is not supposed to be settable during building, make the field final.
+#25 34.06 [WARNING] /app/src/main/java/com/happyworld/mekong/dto/request/InstructorRequest.java:[58,21] @Builder will ignore the initializing expression entirely. If you want the initializing expression to serve as default, add @Builder.Default. If it is not supposed to be settable during building, make the field final.
+#25 34.06 [WARNING] /app/src/main/java/com/happyworld/mekong/entity/Instructor.java:[45,21] @Builder will ignore the initializing expression entirely. If you want the initializing expression to serve as default, add @Builder.Default. If it is not supposed to be settable during building, make the field final.
+#25 34.06 [WARNING] /app/src/main/java/com/happyworld/mekong/entity/Instructor.java:[48,21] @Builder will ignore the initializing expression entirely. If you want the initializing expression to serve as default, add @Builder.Default. If it is not supposed to be settable during building, make the field final.
+#25 34.06 [WARNING] /app/src/main/java/com/happyworld/mekong/entity/Instructor.java:[51,24] @Builder will ignore the initializing expression entirely. If you want the initializing expression to serve as default, add @Builder.Default. If it is not supposed to be settable during building, make the field final.
+#25 34.06 [WARNING] /app/src/main/java/com/happyworld/mekong/entity/Instructor.java:[54,21] @Builder will ignore the initializing expression entirely. If you want the initializing expression to serve as default, add @Builder.Default. If it is not supposed to be settable during building, make the field final.
+#25 34.06 [WARNING] /app/src/main/java/com/happyworld/mekong/entity/Instructor.java:[57,21] @Builder will ignore the initializing expression entirely. If you want the initializing expression to serve as default, add @Builder.Default. If it is not supposed to be settable during building, make the field final.
+#25 34.06 [WARNING] /app/src/main/java/com/happyworld/mekong/entity/Instructor.java:[60,21] @Builder will ignore the initializing expression entirely. If you want the initializing expression to serve as default, add @Builder.Default. If it is not supposed to be settable during building, make the field final.
+#25 34.06 [WARNING] /app/src/main/java/com/happyworld/mekong/entity/Category.java:[35,21] @Builder will ignore the initializing expression entirely. If you want the initializing expression to serve as default, add @Builder.Default. If it is not supposed to be settable during building, make the field final.
+#25 34.06 [WARNING] /app/src/main/java/com/happyworld/mekong/entity/Category.java:[38,21] @Builder will ignore the initializing expression entirely. If you want the initializing expression to serve as default, add @Builder.Default. If it is not supposed to be settable during building, make the field final.
+#25 34.06 [WARNING] /app/src/main/java/com/happyworld/mekong/dto/request/CourseRequest.java:[42,21] @Builder will ignore the initializing expression entirely. If you want the initializing expression to serve as default, add @Builder.Default. If it is not supposed to be settable during building, make the field final.
+#25 34.06 [WARNING] /app/src/main/java/com/happyworld/mekong/dto/request/CourseRequest.java:[46,20] @Builder will ignore the initializing expression entirely. If you want the initializing expression to serve as default, add @Builder.Default. If it is not supposed to be settable during building, make the field final.
+#25 34.06 [WARNING] /app/src/main/java/com/happyworld/mekong/dto/request/CourseRequest.java:[54,21] @Builder will ignore the initializing expression entirely. If you want the initializing expression to serve as default, add @Builder.Default. If it is not supposed to be settable during building, make the field final.
+#25 34.06 [WARNING] /app/src/main/java/com/happyworld/mekong/dto/request/CourseRequest.java:[62,21] @Builder will ignore the initializing expression entirely. If you want the initializing expression to serve as default, add @Builder.Default. If it is not supposed to be settable during building, make the field final.
+#25 34.06 [WARNING] /app/src/main/java/com/happyworld/mekong/dto/request/CourseRequest.java:[64,21] @Builder will ignore the initializing expression entirely. If you want the initializing expression to serve as default, add @Builder.Default. If it is not supposed to be settable during building, make the field final.
+#25 34.06 [WARNING] /app/src/main/java/com/happyworld/mekong/entity/Partner.java:[38,25] @Builder will ignore the initializing expression entirely. If you want the initializing expression to serve as default, add @Builder.Default. If it is not supposed to be settable during building, make the field final.
+#25 34.06 [WARNING] /app/src/main/java/com/happyworld/mekong/entity/Partner.java:[41,21] @Builder will ignore the initializing expression entirely. If you want the initializing expression to serve as default, add @Builder.Default. If it is not supposed to be settable during building, make the field final.
+#25 34.06 [WARNING] /app/src/main/java/com/happyworld/mekong/entity/Partner.java:[44,21] @Builder will ignore the initializing expression entirely. If you want the initializing expression to serve as default, add @Builder.Default. If it is not supposed to be settable during building, make the field final.
+#25 34.06 [WARNING] /app/src/main/java/com/happyworld/mekong/entity/Partner.java:[47,21] @Builder will ignore the initializing expression entirely. If you want the initializing expression to serve as default, add @Builder.Default. If it is not supposed to be settable during building, make the field final.
+#25 34.06 [WARNING] /app/src/main/java/com/happyworld/mekong/entity/FeaturedVideo.java:[43,27] @Builder will ignore the initializing expression entirely. If you want the initializing expression to serve as default, add @Builder.Default. If it is not supposed to be settable during building, make the field final.
+#25 34.06 [WARNING] /app/src/main/java/com/happyworld/mekong/entity/FeaturedVideo.java:[50,23] @Builder will ignore the initializing expression entirely. If you want the initializing expression to serve as default, add @Builder.Default. If it is not supposed to be settable during building, make the field final.
+#25 34.06 [WARNING] /app/src/main/java/com/happyworld/mekong/entity/FeaturedVideo.java:[53,21] @Builder will ignore the initializing expression entirely. If you want the initializing expression to serve as default, add @Builder.Default. If it is not supposed to be settable during building, make the field final.
+#25 34.06 [WARNING] /app/src/main/java/com/happyworld/mekong/entity/FeaturedVideo.java:[56,21] @Builder will ignore the initializing expression entirely. If you want the initializing expression to serve as default, add @Builder.Default. If it is not supposed to be settable during building, make the field final.
+#25 34.06 [WARNING] /app/src/main/java/com/happyworld/mekong/entity/FeaturedVideo.java:[59,21] @Builder will ignore the initializing expression entirely. If you want the initializing expression to serve as default, add @Builder.Default. If it is not supposed to be settable during building, make the field final.
+#25 34.06 [WARNING] /app/src/main/java/com/happyworld/mekong/entity/FeaturedVideo.java:[62,21] @Builder will ignore the initializing expression entirely. If you want the initializing expression to serve as default, add @Builder.Default. If it is not supposed to be settable during building, make the field final.
+#25 34.06 [WARNING] /app/src/main/java/com/happyworld/mekong/entity/Job.java:[60,21] @Builder will ignore the initializing expression entirely. If you want the initializing expression to serve as default, add @Builder.Default. If it is not supposed to be settable during building, make the field final.
+#25 34.06 [WARNING] /app/src/main/java/com/happyworld/mekong/entity/Job.java:[69,20] @Builder will ignore the initializing expression entirely. If you want the initializing expression to serve as default, add @Builder.Default. If it is not supposed to be settable during building, make the field final.
+#25 34.06 [WARNING] /app/src/main/java/com/happyworld/mekong/entity/Job.java:[73,26] @Builder will ignore the initializing expression entirely. If you want the initializing expression to serve as default, add @Builder.Default. If it is not supposed to be settable during building, make the field final.
+#25 34.06 [WARNING] /app/src/main/java/com/happyworld/mekong/entity/Job.java:[76,21] @Builder will ignore the initializing expression entirely. If you want the initializing expression to serve as default, add @Builder.Default. If it is not supposed to be settable during building, make the field final.
+#25 34.06 [WARNING] /app/src/main/java/com/happyworld/mekong/entity/Job.java:[79,21] @Builder will ignore the initializing expression entirely. If you want the initializing expression to serve as default, add @Builder.Default. If it is not supposed to be settable during building, make the field final.
+#25 34.06 [WARNING] /app/src/main/java/com/happyworld/mekong/entity/Job.java:[83,31] @Builder will ignore the initializing expression entirely. If you want the initializing expression to serve as default, add @Builder.Default. If it is not supposed to be settable during building, make the field final.
+#25 34.06 [WARNING] /app/src/main/java/com/happyworld/mekong/entity/Job.java:[96,23] @Builder will ignore the initializing expression entirely. If you want the initializing expression to serve as default, add @Builder.Default. If it is not supposed to be settable during building, make the field final.
+#25 34.06 [WARNING] /app/src/main/java/com/happyworld/mekong/entity/Job.java:[99,21] @Builder will ignore the initializing expression entirely. If you want the initializing expression to serve as default, add @Builder.Default. If it is not supposed to be settable during building, make the field final.
+#25 34.06 [WARNING] /app/src/main/java/com/happyworld/mekong/entity/Job.java:[102,21] @Builder will ignore the initializing expression entirely. If you want the initializing expression to serve as default, add @Builder.Default. If it is not supposed to be settable during building, make the field final.
+#25 34.06 [WARNING] /app/src/main/java/com/happyworld/mekong/entity/Job.java:[105,21] @Builder will ignore the initializing expression entirely. If you want the initializing expression to serve as default, add @Builder.Default. If it is not supposed to be settable during building, make the field final.
+#25 34.06 [WARNING] /app/src/main/java/com/happyworld/mekong/entity/Job.java:[108,21] @Builder will ignore the initializing expression entirely. If you want the initializing expression to serve as default, add @Builder.Default. If it is not supposed to be settable during building, make the field final.
+#25 34.06 [WARNING] /app/src/main/java/com/happyworld/mekong/entity/PostCategory.java:[35,21] @Builder will ignore the initializing expression entirely. If you want the initializing expression to serve as default, add @Builder.Default. If it is not supposed to be settable during building, make the field final.
+#25 34.06 [WARNING] /app/src/main/java/com/happyworld/mekong/entity/PostCategory.java:[38,21] @Builder will ignore the initializing expression entirely. If you want the initializing expression to serve as default, add @Builder.Default. If it is not supposed to be settable during building, make the field final.
+#25 34.06 [WARNING] /app/src/main/java/com/happyworld/mekong/dto/request/FeaturedVideoRequest.java:[41,21] @Builder will ignore the initializing expression entirely. If you want the initializing expression to serve as default, add @Builder.Default. If it is not supposed to be settable during building, make the field final.
+#25 34.06 [WARNING] /app/src/main/java/com/happyworld/mekong/dto/request/FeaturedVideoRequest.java:[43,21] @Builder will ignore the initializing expression entirely. If you want the initializing expression to serve as default, add @Builder.Default. If it is not supposed to be settable during building, make the field final.
+#25 34.06 [WARNING] /app/src/main/java/com/happyworld/mekong/dto/request/FeaturedVideoRequest.java:[45,21] @Builder will ignore the initializing expression entirely. If you want the initializing expression to serve as default, add @Builder.Default. If it is not supposed to be settable during building, make the field final.
+#25 34.06 [WARNING] /app/src/main/java/com/happyworld/mekong/entity/Notification.java:[45,21] @Builder will ignore the initializing expression entirely. If you want the initializing expression to serve as default, add @Builder.Default. If it is not supposed to be settable during building, make the field final.
+#25 34.06 [WARNING] /app/src/main/java/com/happyworld/mekong/entity/SiteSetting.java:[26,23] @Builder will ignore the initializing expression entirely. If you want the initializing expression to serve as default, add @Builder.Default. If it is not supposed to be settable during building, make the field final.
+#25 34.06 [WARNING] /app/src/main/java/com/happyworld/mekong/entity/SiteSetting.java:[37,21] @Builder will ignore the initializing expression entirely. If you want the initializing expression to serve as default, add @Builder.Default. If it is not supposed to be settable during building, make the field final.
+#25 34.06 [INFO] /app/src/main/java/com/happyworld/mekong/security/JwtTokenProvider.java: Some input files use or override a deprecated API.
+#25 34.06 [INFO] /app/src/main/java/com/happyworld/mekong/security/JwtTokenProvider.java: Recompile with -Xlint:deprecation for details.
+#25 34.06 [INFO] 
+#25 34.06 [INFO] --- resources:3.3.1:testResources (default-testResources) @ mekong-backend ---
+#25 34.07 [INFO] skip non existing resourceDirectory /app/src/test/resources
+#25 34.07 [INFO] 
+#25 34.07 [INFO] --- compiler:3.11.0:testCompile (default-testCompile) @ mekong-backend ---
+#25 34.08 [INFO] No sources to compile
+#25 34.08 [INFO] 
+#25 34.08 [INFO] --- surefire:3.1.2:test (default-test) @ mekong-backend ---
+#25 34.31 [INFO] Tests are skipped.
+#25 34.31 [INFO] 
+#25 34.31 [INFO] --- jar:3.3.0:jar (default-jar) @ mekong-backend ---
+#25 34.60 [INFO] Building jar: /app/target/mekong-backend-1.0.0.jar
+#25 34.72 [INFO] 
+#25 34.72 [INFO] --- spring-boot:3.2.1:repackage (repackage) @ mekong-backend ---
+#25 35.71 [INFO] Replacing main artifact /app/target/mekong-backend-1.0.0.jar with repackaged archive, adding nested dependencies in BOOT-INF/.
+#25 35.71 [INFO] The original artifact has been renamed to /app/target/mekong-backend-1.0.0.jar.original
+#25 35.72 [INFO] ------------------------------------------------------------------------
+#25 35.72 [INFO] BUILD SUCCESS
+#25 35.72 [INFO] ------------------------------------------------------------------------
+#25 35.72 [INFO] Total time:  32.757 s
+#25 35.72 [INFO] Finished at: 2025-10-19T04:21:24Z
+#25 35.72 [INFO] ------------------------------------------------------------------------
+#25 DONE 35.8s
+
+#30 [backend stage-1 2/5] WORKDIR /app
+#30 CACHED
+
+#31 [backend stage-1 3/5] RUN apk add --no-cache curl
+#31 CACHED
+
+#32 [backend stage-1 4/5] RUN mkdir -p /app/uploads && chmod 777 /app/uploads
+#32 CACHED
+
+#33 [backend stage-1 5/5] COPY --from=build /app/target/*.jar app.jar
+#33 DONE 0.2s
+
+#34 [backend] exporting to image
+#34 exporting layers
+#34 exporting layers 0.4s done
+#34 writing image sha256:6826faa7dc1bd0af26dd3863619db398b964da4428c8316ea31f2de3c4a59190 done
+#34 naming to docker.io/library/hpmekong-backend done
+#34 DONE 0.5s
+
+#35 [backend] resolving provenance for metadata file
+#35 DONE 0.0s
+ hpmekong-frontend  Built
+ hpmekong-backend  Built
+time="2025-10-19T11:21:26+07:00" level=warning msg="/root/hpmekong/docker-compose.prod.yml: the attribute `version` is obsolete, it will be ignored, please remove it to avoid potential confusion"
+time="2025-10-19T11:21:26+07:00" level=warning msg="Found orphan containers ([hpmekong-redis hpmekong-mysql]) for this project. If you removed or renamed this service in your compose file, you can run this command with the --remove-orphans flag to clean it up."
+ Container hpmekong-backend  Recreate
+ Container hpmekong-backend  Recreated
+ Container hpmekong-frontend  Recreate
+ Container hpmekong-frontend  Recreated
+ Container hpmekong-backend  Starting
+ Container hpmekong-backend  Started
+ Container hpmekong-frontend  Starting
+ Container hpmekong-frontend  Started
