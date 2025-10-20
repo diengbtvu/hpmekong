@@ -29,7 +29,7 @@ const FeaturedNewsSection = () => {
             excerpt: language === 'vi' ? post.excerpt : (post.excerptEn || post.excerpt),
             image: post.thumbnail || 'https://placehold.co/400x300',
             date: new Date(post.publishedAt).toLocaleDateString('en-CA'),
-            author: post.author || 'Admin'
+            author: post.author?.name || 'Admin'
           }))
           setFeaturedNews(posts)
         }

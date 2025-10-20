@@ -69,7 +69,7 @@ const NewsCard = ({ post, index = 0 }) => {
           {post.author && (
             <span className="flex items-center gap-1">
               <i className="far fa-user"></i>
-              {post.author}
+              {typeof post.author === 'object' ? post.author.name : post.author}
             </span>
           )}
           {post.views && (
