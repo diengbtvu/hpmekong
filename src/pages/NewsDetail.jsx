@@ -1,109 +1,87 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import { useLanguage } from '../i18n/config.jsx'
 import { motion } from 'framer-motion'
 import Breadcrumb from '../components/common/Breadcrumb'
 import NewsCard from '../components/common/NewsCard'
+import api from '../services/api'
 
 const NewsDetail = () => {
   const { slug } = useParams()
   const { t, language } = useLanguage()
+  const [post, setPost] = useState(null)
+  const [relatedPosts, setRelatedPosts] = useState([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState(null)
 
-  // Mock data - lấy từ web gốc
-  const mockPost = {
-    id: 1,
-    slug: slug,
-    title: language === 'vi'
-      ? '🤝 HAPPY WORLD MEKONG KÝ KẾT HỢP TÁC CHIẾN LƯỢC VỚI ĐẠI HỌC CẦN THƠ'
-      : '🤝 HAPPY WORLD MEKONG SIGNS STRATEGIC PARTNERSHIP WITH CAN THO UNIVERSITY',
-    category: 'activities',
-    categoryName: language === 'vi' ? 'Tin hoạt động' : 'Activities',
-    publishedAt: '2025-10-15T09:00:00',
-    author: {
-      name: 'Admin',
-      avatar: null
-    },
-    views: 1234,
-    readingTime: 5,
-    featuredImage: 'https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=1200&q=80',
-    content: language === 'vi' ? `
-      <p><strong>Ngày 15/10/2025</strong>, tại Trung tâm Hội nghị Đại học Cần Thơ, Công ty Cổ phần Công nghệ Giáo dục Happy World Mekong và Đại học Cần Thơ đã chính thức ký kết Biên bản ghi nhớ hợp tác (MOU), mở ra một giai đoạn hợp tác chiến lược, bền vững và toàn diện.</p>
+  useEffect(() => {
+    fetchPost()
+    fetchRelatedPosts()
+  }, [slug])
 
-      <h2>Mục tiêu hợp tác</h2>
-      <p>Thỏa thuận hợp tác tập trung vào các lĩnh vực:</p>
-      <ul>
-        <li>Đào tạo kỹ năng mềm cho sinh viên</li>
-        <li>Định hướng nghề nghiệp và kết nối việc làm</li>
-        <li>Hỗ trợ khởi nghiệp cho sinh viên</li>
-        <li>Nghiên cứu và phát triển chương trình đào tạo</li>
-      </ul>
-
-      <h2>Cam kết của hai bên</h2>
-      <p>Happy World Mekong cam kết:</p>
-      <ul>
-        <li>Cung cấp các khóa học chất lượng cao miễn phí/ưu đãi cho sinh viên</li>
-        <li>Hỗ trợ định hướng nghề nghiệp và tư vấn việc làm</li>
-        <li>Tạo cơ hội thực tập và làm việc tại các doanh nghiệp đối tác</li>
-      </ul>
-
-      <p>Đại học Cần Thơ cam kết:</p>
-      <ul>
-        <li>Tạo điều kiện để Happy World Mekong triển khai các khóa học</li>
-        <li>Hỗ trợ nghiên cứu và phát triển chương trình</li>
-        <li>Kết nối với sinh viên và cộng đồng doanh nghiệp</li>
-      </ul>
-    ` : `
-      <p><strong>On October 15, 2025</strong>, at Can Tho University Conference Center, Happy World Mekong Education Technology Co., Ltd and Can Tho University officially signed a Memorandum of Understanding (MOU), opening a strategic, sustainable and comprehensive cooperation phase.</p>
-
-      <h2>Cooperation Objectives</h2>
-      <p>The cooperation agreement focuses on the following areas:</p>
-      <ul>
-        <li>Soft skills training for students</li>
-        <li>Career guidance and job matching</li>
-        <li>Startup support for students</li>
-        <li>Research and training program development</li>
-      </ul>
-
-      <h2>Commitments</h2>
-      <p>Happy World Mekong commits to:</p>
-      <ul>
-        <li>Provide high-quality courses free/discounted for students</li>
-        <li>Support career guidance and job counseling</li>
-        <li>Create internship and job opportunities with partner businesses</li>
-      </ul>
-
-      <p>Can Tho University commits to:</p>
-      <ul>
-        <li>Facilitate Happy World Mekong to implement courses</li>
-        <li>Support research and program development</li>
-        <li>Connect with students and business community</li>
-      </ul>
-    `
+  const fetchPost = async () => {
+    try {
+      setLoading(true)
+      const response = await api.get(`/posts/${slug}`)
+      if (response.data.success) {
+        setPost(response.data.data)
+      }
+    } catch (error) {
+      console.error('Error fetching post:', error)
+      setError(error.response?.data?.error?.message || 'Post not found')
+    } finally {
+      setLoading(false)
+    }
   }
 
-  const relatedPosts = [
-    {
-      id: 2,
-      slug: 'khai-giang-khoa-ky-nang',
-      title: language === 'vi' ? 'Khai giảng khóa Kỹ năng khởi nghiệp' : 'Opening Entrepreneurship Skills Course',
-      image: 'https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=800&q=80',
-      publishedAt: '2025-10-10'
-    },
-    {
-      id: 3,
-      slug: 'workshop-marketing',
-      title: language === 'vi' ? 'Workshop Marketing cho sinh viên' : 'Marketing Workshop for Students',
-      image: 'https://images.unsplash.com/photo-1556761175-5973dc0f32e7?w=800&q=80',
-      publishedAt: '2025-10-08'
-    },
-  ]
+  const fetchRelatedPosts = async () => {
+    try {
+      const response = await api.get('/posts', { params: { page: 0, size: 3 } })
+      if (response.data.success) {
+        const posts = (response.data.data.content || []).slice(0, 3)
+        setRelatedPosts(posts)
+      }
+    } catch (error) {
+      console.error('Error fetching related posts:', error)
+    }
+  }
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <i className="fas fa-spinner fa-spin text-4xl text-mekong-blue mb-4"></i>
+          <p className="text-gray-600">{t('common.loading')}</p>
+        </div>
+      </div>
+    )
+  }
+
+  if (error || !post) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <i className="fas fa-exclamation-circle text-4xl text-red-500 mb-4"></i>
+          <p className="text-gray-600 mb-4">{error || 'Post not found'}</p>
+          <Link to="/news" className="text-mekong-blue hover:underline">
+            {t('common.backToNews')}
+          </Link>
+        </div>
+      </div>
+    )
+  }
 
   const breadcrumbItems = [
     { label: language === 'vi' ? 'Trang chủ' : 'Home', path: '/' },
     { label: language === 'vi' ? 'Tin tức' : 'News', path: '/news' },
-    { label: mockPost.categoryName, path: `/news?category=${mockPost.category}` },
-    { label: mockPost.title.substring(0, 50) + '...' }
+    { label: post.title.substring(0, 50) + '...' }
   ]
+
+  const estimateReadingTime = (content) => {
+    const wordsPerMinute = 200
+    const words = content?.replace(/<[^>]*>/g, '').split(/\s+/).length || 0
+    return Math.ceil(words / wordsPerMinute) || 1
+  }
 
   return (
     <div className="news-detail-page">
@@ -122,50 +100,56 @@ const NewsDetail = () => {
             <div className="lg:col-span-2">
               <article className="bg-white rounded-2xl shadow-lg overflow-hidden">
                 {/* Featured Image */}
-                <div className="aspect-video bg-gray-200">
-                  <img
-                    src={mockPost.featuredImage}
-                    alt={mockPost.title}
-                    className="w-full h-full object-cover"
-                  />
-                </div>
+                {post.featuredImageUrl && (
+                  <div className="aspect-video bg-gray-200">
+                    <img
+                      src={post.featuredImageUrl}
+                      alt={post.title}
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                )}
 
                 {/* Content */}
                 <div className="p-8">
-                  {/* Category */}
-                  <span className="inline-block px-3 py-1 bg-blue-100 text-blue-700 rounded-full text-sm font-semibold mb-4">
-                    {mockPost.categoryName}
-                  </span>
-
                   {/* Title */}
                   <h1 className="text-3xl md:text-4xl font-heading font-bold text-gray-900 mb-4">
-                    {mockPost.title}
+                    {post.title}
                   </h1>
 
                   {/* Meta */}
-                  <div className="flex items-center gap-6 text-sm text-gray-600 mb-6 pb-6 border-b">
+                  <div className="flex items-center gap-6 text-sm text-gray-600 mb-6 pb-6 border-b flex-wrap">
                     <span className="flex items-center gap-2">
                       <i className="far fa-calendar"></i>
-                      {new Date(mockPost.publishedAt).toLocaleDateString(language === 'vi' ? 'vi-VN' : 'en-US')}
+                      {new Date(post.publishedAt || post.createdAt).toLocaleDateString(language === 'vi' ? 'vi-VN' : 'en-US')}
                     </span>
-                    <span className="flex items-center gap-2">
-                      <i className="far fa-user"></i>
-                      {mockPost.author.name}
-                    </span>
+                    {post.author && (
+                      <span className="flex items-center gap-2">
+                        <i className="far fa-user"></i>
+                        {post.author.name}
+                      </span>
+                    )}
                     <span className="flex items-center gap-2">
                       <i className="far fa-eye"></i>
-                      {mockPost.views} {language === 'vi' ? 'lượt xem' : 'views'}
+                      {post.viewCount || 0} {language === 'vi' ? 'lượt xem' : 'views'}
                     </span>
                     <span className="flex items-center gap-2">
                       <i className="far fa-clock"></i>
-                      {mockPost.readingTime} {language === 'vi' ? 'phút đọc' : 'min read'}
+                      {estimateReadingTime(post.content)} {language === 'vi' ? 'phút đọc' : 'min read'}
                     </span>
                   </div>
+
+                  {/* Excerpt */}
+                  {post.excerpt && (
+                    <div className="text-lg text-gray-700 italic mb-6 pb-6 border-b">
+                      {post.excerpt}
+                    </div>
+                  )}
 
                   {/* Article Content */}
                   <div 
                     className="prose prose-lg max-w-none"
-                    dangerouslySetInnerHTML={{ __html: mockPost.content }}
+                    dangerouslySetInnerHTML={{ __html: post.content }}
                   />
 
                   {/* Share Buttons */}
@@ -198,29 +182,39 @@ const NewsDetail = () => {
                   {t('news.relatedPosts')}
                 </h3>
                 <div className="space-y-4">
-                  {relatedPosts.map(post => (
-                    <Link
-                      key={post.id}
-                      to={`/news/${post.slug}`}
-                      className="flex gap-3 group"
-                    >
-                      <div className="w-24 h-24 flex-shrink-0 rounded-lg overflow-hidden bg-gray-200">
-                        <img
-                          src={post.image}
-                          alt={post.title}
-                          className="w-full h-full object-cover group-hover:scale-110 transition-transform"
-                        />
-                      </div>
-                      <div>
-                        <h4 className="font-semibold text-sm line-clamp-2 group-hover:text-mekong-blue transition-colors mb-1">
-                          {post.title}
-                        </h4>
-                        <p className="text-xs text-gray-500">
-                          {new Date(post.publishedAt).toLocaleDateString(language === 'vi' ? 'vi-VN' : 'en-US')}
-                        </p>
-                      </div>
-                    </Link>
-                  ))}
+                  {relatedPosts.length > 0 ? (
+                    relatedPosts.filter(p => p.slug !== slug).map(relatedPost => (
+                      <Link
+                        key={relatedPost.id}
+                        to={`/news/${relatedPost.slug}`}
+                        className="flex gap-3 group"
+                      >
+                        <div className="w-24 h-24 flex-shrink-0 rounded-lg overflow-hidden bg-gray-200">
+                          {relatedPost.featuredImageUrl ? (
+                            <img
+                              src={relatedPost.featuredImageUrl}
+                              alt={relatedPost.title}
+                              className="w-full h-full object-cover group-hover:scale-110 transition-transform"
+                            />
+                          ) : (
+                            <div className="w-full h-full flex items-center justify-center">
+                              <i className="fas fa-newspaper text-gray-400"></i>
+                            </div>
+                          )}
+                        </div>
+                        <div>
+                          <h4 className="font-semibold text-sm line-clamp-2 group-hover:text-mekong-blue transition-colors mb-1">
+                            {relatedPost.title}
+                          </h4>
+                          <p className="text-xs text-gray-500">
+                            {new Date(relatedPost.publishedAt || relatedPost.createdAt).toLocaleDateString(language === 'vi' ? 'vi-VN' : 'en-US')}
+                          </p>
+                        </div>
+                      </Link>
+                    ))
+                  ) : (
+                    <p className="text-sm text-gray-500">{t('news.noRelatedPosts')}</p>
+                  )}
                 </div>
               </div>
             </div>

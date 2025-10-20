@@ -35,9 +35,9 @@ const NewsCard = ({ post, index = 0 }) => {
       {/* Featured Image */}
       <Link to={`/news/${post.slug}`} className="block relative overflow-hidden">
         <div className="aspect-video bg-gray-200">
-          {post.image ? (
+          {(post.image || post.featuredImageUrl) ? (
             <img
-              src={post.image}
+              src={post.image || post.featuredImageUrl}
               alt={post.title}
               className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
             />
