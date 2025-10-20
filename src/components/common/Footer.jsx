@@ -48,9 +48,11 @@ const Footer = () => {
           {/* Column 1: Company Info */}
           <div className="lg:pr-8">
             <div className="flex items-center gap-3 mb-4">
-              <div className="w-12 h-12 rounded-lg bg-gradient-blue flex items-center justify-center">
-                <span className="text-white font-bold text-2xl">HWM</span>
-              </div>
+              <img 
+                src="/logo.png" 
+                alt="Happy World Mekong Logo" 
+                className="h-12 w-auto object-contain"
+              />
               <div>
                 <div className="font-heading font-bold text-lg leading-tight">
                   <span className="text-mekong-blue">HAPPY</span><br />

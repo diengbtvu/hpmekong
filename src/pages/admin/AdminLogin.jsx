@@ -127,8 +127,12 @@ const AdminLogin = () => {
       >
         {/* Logo Card */}
         <div className="bg-white rounded-t-2xl p-8 text-center">
-          <div className="w-20 h-20 mx-auto bg-gradient-to-r from-mekong-blue to-sunrise-orange rounded-2xl flex items-center justify-center mb-4">
-            <span className="text-white font-bold text-3xl">HWM</span>
+          <div className="flex justify-center mb-4">
+            <img 
+              src="/logo.png" 
+              alt="Happy World Mekong Logo" 
+              className="h-20 w-auto object-contain"
+            />
           </div>
           <h1 className="text-2xl font-bold text-gray-900 mb-2">
             {t('adminLogin')}

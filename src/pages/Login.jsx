@@ -56,8 +56,15 @@ const Login = () => {
         animate={{ opacity: 1, y: 0 }}
         className="max-w-md w-full"
       >
-        {/* Title */}
+        {/* Logo & Title */}
         <div className="text-center mb-8">
+          <div className="flex justify-center mb-4">
+            <img 
+              src="/logo.png" 
+              alt="Happy World Mekong Logo" 
+              className="h-16 w-auto object-contain"
+            />
+          </div>
           <h2 className="text-3xl font-bold text-mekong-blue">
             {language === 'vi' ? 'Đăng nhập' : 'Login'}
           </h2>
