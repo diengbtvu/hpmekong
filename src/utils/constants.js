@@ -175,9 +175,10 @@ export const SOCIAL_LINKS = {
 
 // Contact Info
 export const CONTACT_INFO = {
-  address: 'Đồng bằng sông Cửu Long, Việt Nam',
-  email: 'info@happyworldmekong.com',
-  hotline: '1900-xxxx',
+  address: 'Số 99, Đường Phạm Ngũ Lão, phường Trà Vình, tỉnh Vĩnh Long',
+  email: 'Happyworldesj@gmail.com',
+  hotline: '0123 456 789',
+  website: 'https://happymekong.esj.vn',
   workingHours: 'T2 - T6: 8:00 - 17:30, T7: 8:00 - 12:00',
 }
 

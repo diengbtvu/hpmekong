@@ -19,6 +19,7 @@ const Footer = () => {
             address: contactResponse.data.address || CONTACT_INFO.address,
             email: contactResponse.data.email || CONTACT_INFO.email,
             hotline: contactResponse.data.hotline || CONTACT_INFO.hotline,
+            website: contactResponse.data.website || CONTACT_INFO.website,
             workingHours: contactResponse.data.working_hours || CONTACT_INFO.workingHours,
           })
         }
@@ -62,21 +63,27 @@ const Footer = () => {
               </div>
             </div>
             <h5 className="font-bold text-gray-900 mb-3">{t('footer.companyName')}</h5>
-            <ul className="space-y-2 text-gray-600">
+            <ul className="space-y-2 text-gray-600 text-sm">
               <li className="flex items-start gap-2">
-                <i className="fas fa-map-marker-alt mt-1 text-mekong-blue"></i>
+                <i className="fas fa-map-marker-alt mt-1 text-mekong-blue flex-shrink-0"></i>
                 <span>{contactInfo.address}</span>
               </li>
               <li className="flex items-center gap-2">
-                <i className="fas fa-envelope text-mekong-blue"></i>
-                <a href={`mailto:${contactInfo.email}`} className="hover:text-mekong-blue transition-colors">
-                  {contactInfo.email}
+                <i className="fas fa-globe text-mekong-blue flex-shrink-0"></i>
+                <a href={contactInfo.website} target="_blank" rel="noopener noreferrer" className="hover:text-mekong-blue transition-colors break-all">
+                  {contactInfo.website}
                 </a>
               </li>
               <li className="flex items-center gap-2">
-                <i className="fas fa-phone text-mekong-blue"></i>
+                <i className="fas fa-phone text-mekong-blue flex-shrink-0"></i>
                 <a href={`tel:${contactInfo.hotline}`} className="hover:text-mekong-blue transition-colors">
                   {contactInfo.hotline}
+                </a>
+              </li>
+              <li className="flex items-center gap-2">
+                <i className="fas fa-envelope text-mekong-blue flex-shrink-0"></i>
+                <a href={`mailto:${contactInfo.email}`} className="hover:text-mekong-blue transition-colors break-all">
+                  {contactInfo.email}
                 </a>
               </li>
             </ul>
@@ -133,14 +140,16 @@ const Footer = () => {
 
           {/* Column 3: Google Maps */}
           <div className="lg:pl-4">
+            <h5 className="font-bold text-gray-900 mb-3">{language === 'vi' ? 'Vị trí' : 'Location'}</h5>
             <iframe
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3928.841459932746!2d105.78164431533394!3d10.029933692833894!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31a0629f6de3cfbd%3A0x30b3c5f90e5d1ec8!2zQ-G6p24gVGjGoSwgVmnhu4d0IE5hbQ!5e0!3m2!1svi!2s!4v1234567890"
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3928.5!2d105.9569!3d10.2430!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x310a82ce24af8f11%3A0x8573c2a9a739a32c!2zUGjhuqFtIE5nxakgTMOjbywgVHLDoCBWaW5oLCBUaMOgbmggcGjhu5EgVsSpbmggTG9uZywgVsSpbmggTG9uZw!5e0!3m2!1svi!2s!4v1234567890"
               width="100%"
-              height="350"
+              height="300"
               style={{ border: 0 }}
               allowFullScreen=""
               loading="lazy"
-              className="rounded-lg"
+              className="rounded-lg shadow-md"
+              title="Happy World Mekong Location"
             ></iframe>
           </div>
         </div>

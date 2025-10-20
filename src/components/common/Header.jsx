@@ -48,7 +48,7 @@ const Header = () => {
       {/* Top Banner - Company Info */}
       <div className="bg-white border-b border-gray-200">
         <div className="container-custom">
-          <Link to="/" className="flex items-center gap-4 md:gap-6 py-3 md:py-4">
+          <Link to="/" className="flex items-center justify-center gap-4 md:gap-6 py-3 md:py-4">
             {/* Logo */}
             <img 
               src="/logo.png" 
@@ -57,10 +57,12 @@ const Header = () => {
             />
             
             {/* Company Info */}
-            <div className="flex flex-col gap-1 md:gap-2">
+            <div className="flex flex-col gap-1 md:gap-2 text-center">
               {/* Company Name */}
-              <h1 className="font-heading font-black text-mekong-blue text-xl md:text-3xl lg:text-4xl leading-tight">
-                HAPPY WORLD MEKONG
+              <h1 className="font-heading font-black text-xl md:text-3xl lg:text-4xl leading-tight">
+                <span className="text-mekong-blue">HAPPY </span>
+                <span className="text-sunrise-orange">WORLD </span>
+                <span className="text-rice-green">MEKONG</span>
               </h1>
               
               {/* Slogan */}
@@ -83,22 +85,6 @@ const Header = () => {
       <header className="bg-white sticky top-0 z-50 shadow-sm">
         <div className="container-custom">
           <div className="flex items-center justify-between py-2 gap-2">
-            {/* Compact Logo - Shows on scroll */}
-            <Link to="/" className="flex items-center gap-1 flex-shrink-0">
-              <img 
-                src="/logo.png" 
-                alt="Happy World Mekong Logo" 
-                className="h-10 md:h-12 w-auto"
-              />
-              <div className="hidden sm:block lg:block">
-                <div className="font-heading font-black text-xs leading-none">
-                  <div className="text-mekong-blue">HAPPY</div>
-                  <div className="text-sunrise-orange">WORLD</div>
-                  <div className="text-rice-green">MEKONG</div>
-                </div>
-              </div>
-            </Link>
-
             {/* Desktop Navigation */}
             <nav className="hidden md:flex items-start gap-1 flex-1 justify-center flex-wrap">
               {NAV_MENU.map((item, index) => (
