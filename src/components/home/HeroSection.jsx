@@ -50,9 +50,9 @@ const HeroSection = () => {
 
   return (
     <section className="relative bg-gradient-mekong overflow-hidden">
-      <div className="w-full py-16 md:py-24 px-4">
+      <div className="w-full py-6 md:py-8 px-4">
         <div className="max-w-7xl mx-auto">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
           {/* Left Content - 7 columns */}
           <motion.div
             initial={{ opacity: 0, x: -50 }}
@@ -61,7 +61,7 @@ const HeroSection = () => {
             className="lg:col-span-7"
           >
             {/* Badge */}
-            <div className="inline-block mb-6">
+            <div className="inline-block mb-2">
               <div className="bg-white px-4 py-2 rounded-full shadow-md">
                 <span className="text-mekong-blue font-semibold">
                   {t('home.heroBadge')}
@@ -70,19 +70,19 @@ const HeroSection = () => {
             </div>
 
             {/* Title */}
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-heading font-black mb-6 leading-tight">
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-heading font-black mb-2 leading-tight">
               <span className="text-mekong-blue">HAPPY </span>
               <span className="text-sunrise-orange">WORLD </span>
               <span className="text-rice-green">MEKONG</span>
             </h1>
 
             {/* Slogan */}
-            <p className="text-xl md:text-2xl text-gray-700 font-semibold mb-4">
+            <p className="text-xl md:text-2xl text-gray-700 font-semibold mb-2">
               {t('home.heroSlogan')}
             </p>
 
             {/* Description */}
-            <p className="text-gray-600 text-lg mb-8">
+            <p className="text-gray-600 text-lg mb-4">
               {t('home.heroDescription')}
             </p>
 
@@ -99,7 +99,7 @@ const HeroSection = () => {
             </div>
 
             {/* Quick Stats */}
-            <div className="grid grid-cols-3 gap-4 mt-12">
+            <div className="grid grid-cols-3 gap-4 mt-4">
               <div className="text-center">
                 <div className="text-3xl font-bold text-mekong-blue">100K+</div>
                 <div className="text-sm text-gray-600">{t('stats.students')}</div>

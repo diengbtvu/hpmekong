@@ -48,30 +48,30 @@ const Header = () => {
       {/* Top Banner - Company Info */}
       <div className="bg-white border-b border-gray-200">
         <div className="container-custom">
-          <Link to="/" className="flex items-center justify-center gap-4 md:gap-6 py-3 md:py-4">
+          <Link to="/" className="flex items-center justify-center gap-3 md:gap-5 py-1 md:py-2">
             {/* Logo */}
             <img 
               src="/logo.png" 
               alt="Happy World Mekong Logo" 
-              className="h-16 md:h-20 lg:h-24 w-auto flex-shrink-0"
+              className="h-14 md:h-16 lg:h-20 w-auto flex-shrink-0"
             />
             
             {/* Company Info */}
-            <div className="flex flex-col gap-1 md:gap-2 text-center">
+            <div className="flex flex-col gap-0 md:gap-0.5 text-center">
               {/* Company Name */}
-              <h1 className="font-heading font-black text-xl md:text-3xl lg:text-4xl leading-tight">
+              <h1 className="font-heading font-black text-lg md:text-2xl lg:text-3xl leading-none">
                 <span className="text-mekong-blue">HAPPY </span>
                 <span className="text-sunrise-orange">WORLD </span>
                 <span className="text-rice-green">MEKONG</span>
               </h1>
               
               {/* Slogan */}
-              <p className="font-semibold text-sunrise-orange text-xs md:text-base lg:text-lg italic">
+              <p className="font-semibold text-sunrise-orange text-[10px] md:text-sm lg:text-base italic leading-tight mt-0.5">
                 {language === 'vi' ? 'Tiên phong - Toàn diện - Bền vững' : 'Pioneering - Comprehensive - Sustainable'}
               </p>
               
               {/* Address */}
-              <p className="text-red-600 font-medium text-xs md:text-sm lg:text-base">
+              <p className="text-red-600 font-medium text-[10px] md:text-xs lg:text-sm leading-tight mt-0.5">
                 {language === 'vi' 
                   ? 'Số 99, Đường Phạm Ngũ Lão, phường Trà Vình, tỉnh Vĩnh Long'
                   : '99 Pham Ngu Lao Street, Tra Vinh Ward, Vinh Long Province'}
