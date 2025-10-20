@@ -260,6 +260,23 @@ const AdminLayout = () => {
           ${mobileMenuOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}
         `}
       >
+        {/* Sidebar Logo */}
+        {sidebarOpen && (
+          <div className="p-4 border-b border-gray-200">
+            <Link to="/admin/dashboard" className="flex items-center gap-3 justify-center">
+              <img 
+                src="/logo.png" 
+                alt="Happy World Mekong Logo" 
+                className="h-12 w-auto object-contain"
+              />
+            </Link>
+            <div className="text-center mt-2">
+              <p className="text-sm font-bold text-gray-900">Happy World Mekong</p>
+              <p className="text-xs text-gray-500">{t('adminDashboard')}</p>
+            </div>
+          </div>
+        )}
+        
         <nav className="p-4 space-y-1">
           {menuItems.map((item, index) => (
             <div key={index}>
