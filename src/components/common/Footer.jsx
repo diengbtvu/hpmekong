@@ -145,8 +145,24 @@ const Footer = () => {
 
         {/* Bottom Bar */}
         <div className="border-t border-gray-200 mt-8 pt-6">
-          <div className="text-center text-gray-600 text-sm">
-            <p>{t('footer.copyright')}</p>
+          <div className="flex flex-col items-center gap-4">
+            {/* Logo */}
+            <div className="flex items-center gap-3">
+              <img 
+                src="/logo.png" 
+                alt="Happy World Mekong Logo" 
+                className="h-12 w-auto object-contain"
+              />
+              <div className="font-heading font-bold text-base leading-tight">
+                <span className="text-mekong-blue">HAPPY</span>{' '}
+                <span className="text-sunrise-orange">WORLD</span>{' '}
+                <span className="text-rice-green">MEKONG</span>
+              </div>
+            </div>
+            {/* Copyright */}
+            <div className="text-center text-gray-600 text-sm">
+              <p>{t('footer.copyright')}</p>
+            </div>
           </div>
         </div>
       </div>
