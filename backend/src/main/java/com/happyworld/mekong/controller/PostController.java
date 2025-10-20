@@ -103,11 +103,12 @@ public class PostController {
     @PostMapping("/admin/posts")
     @PreAuthorize("hasAnyRole('ADMIN', 'SUPER_ADMIN')")
     public ResponseEntity<ApiResponse<PostResponse>> createPostAdmin(
-            @Valid @RequestBody PostRequest request) {
+            @Valid @RequestBody PostRequest request,
+            Authentication authentication) {
         
-        log.info("POST /api/v1/admin/posts - Create post");
+        log.info("POST /api/v1/admin/posts - Create post by: {}", authentication.getName());
         
-        PostResponse post = postService.createPostAdmin(request);
+        PostResponse post = postService.createPostAdmin(request, authentication.getName());
         
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(ApiResponse.success(post, "Tạo bài viết thành công"));

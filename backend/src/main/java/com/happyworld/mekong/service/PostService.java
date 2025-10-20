@@ -149,12 +149,12 @@ public class PostService {
     }
 
     @Transactional
-    public PostResponse createPostAdmin(PostRequest request) {
-        log.info("Admin creating post: {}", request.getTitle());
+    public PostResponse createPostAdmin(PostRequest request, String userEmail) {
+        log.info("Admin creating post: {} by user: {}", request.getTitle(), userEmail);
         
-        // Get author (default to admin user ID 1 if not specified)
-        User author = userRepository.findById(request.getAuthorId() != null ? request.getAuthorId() : 1L)
-                .orElseThrow(() -> new ResourceNotFoundException("Author not found"));
+        // Get author from authenticated user
+        User author = userRepository.findByEmail(userEmail)
+                .orElseThrow(() -> new ResourceNotFoundException("User not found with email: " + userEmail));
 
         Post post = Post.builder()
                 .title(request.getTitle())
