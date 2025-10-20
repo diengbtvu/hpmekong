@@ -31,18 +31,7 @@ app:
   base-url: http://localhost:8080
   frontend-url: http://localhost:5173
   cors:
-    allowed-origins:
-      - http://localhost:5173
-      - http://localhost:3000
-    allowed-methods:
-      - GET
-      - POST
-      - PUT
-      - PATCH
-      - DELETE
-      - OPTIONS
-    allowed-headers:
-      - "*"
+    allowed-origins: http://localhost:5173,http://localhost:3000
     allow-credentials: true
 
 # File upload configuration

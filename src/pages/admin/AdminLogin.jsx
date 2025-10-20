@@ -3,6 +3,8 @@ import { useNavigate } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import authService from '../../services/authService'
 import { useLanguage } from '../../i18n/config'
+import { formatErrorForToast } from '../../utils/errorHandler'
+import toast from '../../utils/toast'
 
 const AdminLogin = () => {
   const navigate = useNavigate()
@@ -101,7 +103,16 @@ const AdminLogin = () => {
       }
     } catch (err) {
       console.error('Login error:', err)
-      setError(err.response?.data?.error?.message || err.message || t('loginFailed'))
+      
+      // Format and display error with details
+      const errorMessage = formatErrorForToast(err)
+      if (Array.isArray(errorMessage)) {
+        setError(errorMessage[0])
+        toast.error(errorMessage, 5000)
+      } else {
+        setError(errorMessage)
+        toast.error(errorMessage, 5000)
+      }
     } finally {
       setLoading(false)
     }

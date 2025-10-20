@@ -4,6 +4,7 @@ import { useLanguage } from '../i18n/config.jsx'
 import { motion } from 'framer-motion'
 import authService from '../services/authService'
 import toast from '../utils/toast'
+import { formatErrorForToast } from '../utils/errorHandler'
 
 const Register = () => {
   const { language } = useLanguage()
@@ -58,7 +59,10 @@ const Register = () => {
       }
     } catch (error) {
       console.error('Registration error:', error)
-      toast.error(language === 'vi' ? 'Email đã được sử dụng hoặc có lỗi xảy ra' : 'Email already exists or error occurred')
+      
+      // Format error with validation details
+      const errorMessage = formatErrorForToast(error)
+      toast.error(errorMessage, 5000) // Show for 5 seconds for validation errors
     } finally {
       setLoading(false)
     }

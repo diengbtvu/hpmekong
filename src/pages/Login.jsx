@@ -4,6 +4,7 @@ import { useLanguage } from '../i18n/config.jsx'
 import { motion } from 'framer-motion'
 import authService from '../services/authService'
 import toast from '../utils/toast'
+import { formatErrorForToast } from '../utils/errorHandler'
 
 const Login = () => {
   const { language } = useLanguage()
@@ -39,7 +40,10 @@ const Login = () => {
       }
     } catch (error) {
       console.error('Login error:', error)
-      toast.error(language === 'vi' ? 'Email hoặc mật khẩu không đúng' : 'Invalid email or password')
+      
+      // Format error with validation details
+      const errorMessage = formatErrorForToast(error)
+      toast.error(errorMessage, 5000)
     } finally {
       setLoading(false)
     }

@@ -29,11 +29,28 @@ class Toast {
       info: 'bg-blue-500'
     }
 
-    toast.className = `${colors[type]} text-white px-6 py-4 rounded-lg shadow-lg flex items-center gap-3 min-w-[300px] animate-slide-in`
+    // Handle message as string or array
+    let messageHtml = ''
+    if (Array.isArray(message)) {
+      messageHtml = `
+        <div class="flex-1">
+          <div class="font-semibold mb-1">${message[0]}</div>
+          ${message.length > 1 ? `
+            <ul class="text-sm space-y-1 mt-2">
+              ${message.slice(1).map(msg => `<li>• ${msg}</li>`).join('')}
+            </ul>
+          ` : ''}
+        </div>
+      `
+    } else {
+      messageHtml = `<span class="flex-1">${message}</span>`
+    }
+
+    toast.className = `${colors[type]} text-white px-6 py-4 rounded-lg shadow-lg flex items-start gap-3 min-w-[300px] max-w-[500px] animate-slide-in`
     toast.innerHTML = `
-      <i class="fas ${icons[type]}"></i>
-      <span>${message}</span>
-      <button onclick="this.parentElement.remove()" class="ml-auto hover:opacity-75">
+      <i class="fas ${icons[type]} mt-0.5"></i>
+      ${messageHtml}
+      <button onclick="this.parentElement.remove()" class="hover:opacity-75">
         <i class="fas fa-times"></i>
       </button>
     `
