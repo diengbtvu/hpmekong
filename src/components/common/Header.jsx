@@ -45,19 +45,53 @@ const Header = () => {
 
   return (
     <>
+      {/* Top Banner - Company Info */}
+      <div className="bg-white border-b border-gray-200">
+        <div className="container-custom">
+          <Link to="/" className="flex items-center gap-4 md:gap-6 py-3 md:py-4">
+            {/* Logo */}
+            <img 
+              src="/logo.png" 
+              alt="Happy World Mekong Logo" 
+              className="h-16 md:h-20 lg:h-24 w-auto flex-shrink-0"
+            />
+            
+            {/* Company Info */}
+            <div className="flex flex-col gap-1 md:gap-2">
+              {/* Company Name */}
+              <h1 className="font-heading font-black text-mekong-blue text-xl md:text-3xl lg:text-4xl leading-tight">
+                HAPPY WORLD MEKONG
+              </h1>
+              
+              {/* Slogan */}
+              <p className="font-semibold text-sunrise-orange text-xs md:text-base lg:text-lg italic">
+                {language === 'vi' ? 'Tiên phong - Toàn diện - Bền vững' : 'Pioneering - Comprehensive - Sustainable'}
+              </p>
+              
+              {/* Address */}
+              <p className="text-red-600 font-medium text-xs md:text-sm lg:text-base">
+                {language === 'vi' 
+                  ? 'Số 99, Đường Phạm Ngũ Lão, phường Trà Vình, tỉnh Vĩnh Long'
+                  : '99 Pham Ngu Lao Street, Tra Vinh Ward, Vinh Long Province'}
+              </p>
+            </div>
+          </Link>
+        </div>
+      </div>
+
       {/* Main Navigation */}
       <header className="bg-white sticky top-0 z-50 shadow-sm">
         <div className="container-custom">
           <div className="flex items-center justify-between py-2 gap-2">
-            {/* Logo Happy World Mekong */}
-            <Link to="/" className="flex items-center gap-0.5 flex-shrink-0">
+            {/* Compact Logo - Shows on scroll */}
+            <Link to="/" className="flex items-center gap-1 flex-shrink-0">
               <img 
                 src="/logo.png" 
                 alt="Happy World Mekong Logo" 
-                className="h-12 md:h-14 w-auto"
+                className="h-10 md:h-12 w-auto"
               />
-              <div className="hidden sm:block">
-                <div className="font-heading font-black text-sm leading-none">
+              <div className="hidden sm:block lg:block">
+                <div className="font-heading font-black text-xs leading-none">
                   <div className="text-mekong-blue">HAPPY</div>
                   <div className="text-sunrise-orange">WORLD</div>
                   <div className="text-rice-green">MEKONG</div>
