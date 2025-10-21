@@ -1,99 +1,95 @@
-import React, { useState } from 'react'
-import { useParams, Link } from 'react-router-dom'
+import React, { useState, useEffect } from 'react'
+import { useParams, Link, useNavigate } from 'react-router-dom'
 import { useLanguage } from '../i18n/config.jsx'
 import { motion } from 'framer-motion'
 import Breadcrumb from '../components/common/Breadcrumb'
+import courseService from '../services/courseService'
+import toast from '../utils/toast'
 
 const CourseDetail = () => {
   const { slug } = useParams()
+  const navigate = useNavigate()
   const { t, language } = useLanguage()
   const [activeTab, setActiveTab] = useState('overview')
+  const [course, setCourse] = useState(null)
+  const [loading, setLoading] = useState(true)
 
-  // Mock course data
-  const course = {
-    id: 1,
-    slug: slug,
-    title: language === 'vi' ? 'Kỹ năng Giao tiếp Chuyên nghiệp' : 'Professional Communication Skills',
-    tagline: language === 'vi' ? 'Làm chủ nghệ thuật giao tiếp hiệu quả' : 'Master the art of effective communication',
-    price: 2000000,
-    discountPrice: 1500000,
-    image: 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=1200&q=80',
-    videoPreview: 'https://www.youtube.com/embed/sCJunphEExA',
-    rating: 4.9,
-    reviewsCount: 234,
-    studentsCount: 1245,
-    level: 'beginner',
-    duration: 8,
-    lessonsCount: 24,
-    language: 'Vietnamese',
-    hasCertificate: true,
-    lastUpdated: '2025-10-15',
-    instructor: {
-      id: 1,
-      name: 'Nguyễn Văn An',
-      title: 'Tiến sĩ, Giảng viên cao cấp',
-      avatar: 'https://images.unsplash.com/photo-1560250097-0b93528c311a?w=400&q=80',
-      bio: language === 'vi'
-        ? 'Tiến sĩ Nguyễn Văn An có hơn 15 năm kinh nghiệm giảng dạy và tư vấn doanh nghiệp.'
-        : 'Dr. Nguyen Van An has over 15 years of teaching and business consulting experience.',
-      expertise: language === 'vi' ? 'Kỹ năng giao tiếp, Lãnh đạo' : 'Communication Skills, Leadership'
-    },
-    whatYouWillLearn: language === 'vi' ? [
-      'Nắm vững các nguyên tắc giao tiếp hiệu quả',
-      'Xây dựng mối quan hệ tốt với đồng nghiệp và cấp trên',
-      'Thuyết trình tự tin trước đám đông',
-      'Giải quyết xung đột một cách khéo léo',
-      'Lắng nghe chủ động và thấu hiểu',
-    ] : [
-      'Master effective communication principles',
-      'Build good relationships with colleagues and superiors',
-      'Present confidently in public',
-      'Resolve conflicts skillfully',
-      'Active listening and empathy',
-    ],
-    requirements: language === 'vi' ? [
-      'Không yêu cầu kiến thức trước',
-      'Laptop/máy tính để học online',
-      'Tinh thần học hỏi và thực hành',
-    ] : [
-      'No prior knowledge required',
-      'Laptop/computer for online learning',
-      'Willingness to learn and practice',
-    ],
-    curriculum: [
-      {
-        module: language === 'vi' ? 'Module 1: Nền tảng giao tiếp' : 'Module 1: Communication Fundamentals',
-        duration: '2h 30p',
-        lessons: [
-          { title: language === 'vi' ? 'Giới thiệu khóa học' : 'Course Introduction', duration: '15p', isPreview: true },
-          { title: language === 'vi' ? 'Tại sao giao tiếp quan trọng?' : 'Why is communication important?', duration: '20p', isPreview: false },
-          { title: language === 'vi' ? '7 nguyên tắc giao tiếp hiệu quả' : '7 principles of effective communication', duration: '30p' },
-          { title: language === 'vi' ? 'Quiz Module 1' : 'Module 1 Quiz', duration: '15p' },
-        ]
-      },
-      {
-        module: language === 'vi' ? 'Module 2: Giao tiếp ngôn ngữ cơ thể' : 'Module 2: Body Language Communication',
-        duration: '3h',
-        lessons: [
-          { title: language === 'vi' ? 'Ngôn ngữ cơ thể là gì?' : 'What is body language?', duration: '25p' },
-          { title: language === 'vi' ? 'Đọc hiểu ngôn ngữ cơ thể' : 'Reading body language', duration: '35p' },
-          { title: language === 'vi' ? 'Sử dụng ngôn ngữ cơ thể hiệu quả' : 'Using body language effectively', duration: '40p' },
-        ]
-      },
-    ]
+  useEffect(() => {
+    const fetchCourse = async () => {
+      try {
+        setLoading(true)
+        const response = await courseService.getCourseBySlug(slug)
+        if (response.success) {
+          setCourse(response.data)
+        } else {
+          toast.error(language === 'vi' ? 'Không tìm thấy khóa học' : 'Course not found')
+          navigate('/courses')
+        }
+      } catch (error) {
+        console.error('Error fetching course:', error)
+        toast.error(language === 'vi' ? 'Không thể tải thông tin khóa học' : 'Unable to load course information')
+        navigate('/courses')
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    fetchCourse()
+  }, [slug, language, navigate])
+
+  const handleEnroll = () => {
+    const user = localStorage.getItem('user')
+    if (!user) {
+      toast.info(language === 'vi' ? 'Vui lòng đăng nhập để đăng ký khóa học' : 'Please login to enroll')
+      navigate('/login', { state: { from: `/courses/${slug}` } })
+      return
+    }
+
+    // TODO: Implement enrollment logic or redirect to payment
+    toast.info(language === 'vi' ? 'Tính năng đang phát triển. Vui lòng liên hệ hotline để đăng ký' : 'Feature under development. Please contact hotline to enroll')
   }
+
+  const handleAddToCart = () => {
+    // TODO: Implement cart functionality
+    toast.info(language === 'vi' ? 'Tính năng giỏ hàng đang phát triển' : 'Cart feature under development')
+  }
+
+  const handleConsultation = () => {
+    navigate('/contact', { state: { courseTitle: course?.title } })
+  }
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-mekong-blue"></div>
+          <p className="text-gray-600 mt-4">{language === 'vi' ? 'Đang tải...' : 'Loading...'}</p>
+        </div>
+      </div>
+    )
+  }
+
+  if (!course) {
+    return null
+  }
+
+  // Use course data from API directly
+  const displayCourse = course
 
   const breadcrumbItems = [
     { label: language === 'vi' ? 'Trang chủ' : 'Home', path: '/' },
     { label: language === 'vi' ? 'Khóa học' : 'Courses', path: '/courses' },
-    { label: course.title }
+    { label: displayCourse.title }
   ]
 
   const formatPrice = (price) => {
     return new Intl.NumberFormat('vi-VN').format(price) + 'đ'
   }
 
-  const discountPercent = Math.round(((course.price - course.discountPrice) / course.price) * 100)
+  const discountPercent = displayCourse.discountPercentage || 
+    (displayCourse.originalPrice && displayCourse.price
+      ? Math.round(((displayCourse.originalPrice - displayCourse.price) / displayCourse.originalPrice) * 100)
+      : 0)
 
   const tabs = [
     { id: 'overview', icon: 'fa-list', label: language === 'vi' ? 'Tổng quan' : 'Overview' },
@@ -120,44 +116,59 @@ const CourseDetail = () => {
               {/* Video/Image Preview */}
               <div className="bg-white rounded-2xl shadow-lg overflow-hidden mb-8">
                 <div className="aspect-video bg-gray-900">
-                  <iframe
-                    src={course.videoPreview}
-                    title={course.title}
-                    className="w-full h-full"
-                    allowFullScreen
-                  ></iframe>
+                  {displayCourse.previewVideoUrl ? (
+                    <iframe
+                      src={displayCourse.previewVideoUrl}
+                      title={displayCourse.title}
+                      className="w-full h-full"
+                      allowFullScreen
+                    ></iframe>
+                  ) : (
+                    <img 
+                      src={displayCourse.thumbnailUrl || displayCourse.image} 
+                      alt={displayCourse.title}
+                      className="w-full h-full object-cover"
+                    />
+                  )}
                 </div>
               </div>
 
               {/* Title & Meta */}
               <div className="mb-8">
                 <h1 className="text-3xl md:text-4xl font-heading font-bold text-gray-900 mb-3">
-                  {course.title}
+                  {displayCourse.title}
                 </h1>
-                <p className="text-lg text-gray-700 mb-4">{course.tagline}</p>
+                <p className="text-lg text-gray-700 mb-4">{displayCourse.subtitle || displayCourse.tagline}</p>
 
                 <div className="flex flex-wrap items-center gap-4 text-sm">
                   <div className="flex items-center gap-2">
                     <span className="text-yellow-500 text-xl">⭐</span>
-                    <span className="font-bold text-lg">{course.rating}</span>
-                    <span className="text-gray-600">({course.reviewsCount} {language === 'vi' ? 'đánh giá' : 'reviews'})</span>
+                    <span className="font-bold text-lg">{displayCourse.averageRating || displayCourse.rating}</span>
+                    <span className="text-gray-600">({displayCourse.totalReviews || displayCourse.reviewsCount} {language === 'vi' ? 'đánh giá' : 'reviews'})</span>
                   </div>
                   <div className="text-gray-600">
-                    <i className="fas fa-users"></i> {course.studentsCount.toLocaleString()} {language === 'vi' ? 'học viên' : 'students'}
+                    <i className="fas fa-users"></i> {(displayCourse.totalStudents || displayCourse.studentsCount || 0).toLocaleString()} {language === 'vi' ? 'học viên' : 'students'}
                   </div>
                   <div className="text-gray-600">
-                    <i className="far fa-clock"></i> {language === 'vi' ? 'Cập nhật' : 'Updated'}: {new Date(course.lastUpdated).toLocaleDateString(language === 'vi' ? 'vi-VN' : 'en-US')}
+                    <i className="far fa-clock"></i> {language === 'vi' ? 'Cập nhật' : 'Updated'}: {new Date(displayCourse.updatedAt || displayCourse.lastUpdated).toLocaleDateString(language === 'vi' ? 'vi-VN' : 'en-US')}
                   </div>
                 </div>
 
                 {/* Badges */}
                 <div className="flex gap-2 mt-4">
-                  <span className="px-3 py-1 bg-blue-100 text-blue-700 rounded-full text-sm font-semibold">
-                    {language === 'vi' ? 'Bán chạy nhất' : 'Bestseller'}
-                  </span>
-                  {course.hasCertificate && (
+                  {displayCourse.isBestseller && (
+                    <span className="px-3 py-1 bg-blue-100 text-blue-700 rounded-full text-sm font-semibold">
+                      {language === 'vi' ? 'Bán chạy nhất' : 'Bestseller'}
+                    </span>
+                  )}
+                  {displayCourse.hasCertificate && (
                     <span className="px-3 py-1 bg-green-100 text-green-700 rounded-full text-sm font-semibold">
                       <i className="fas fa-certificate"></i> {language === 'vi' ? 'Có chứng chỉ' : 'Certificate'}
+                    </span>
+                  )}
+                  {displayCourse.isFree && (
+                    <span className="px-3 py-1 bg-rice-green/20 text-rice-green rounded-full text-sm font-semibold">
+                      {language === 'vi' ? 'Miễn phí' : 'Free'}
                     </span>
                   )}
                 </div>
@@ -190,78 +201,73 @@ const CourseDetail = () => {
                     <div className="space-y-6">
                       <div>
                         <h3 className="text-xl font-bold mb-4">{language === 'vi' ? 'Bạn sẽ học được gì?' : 'What You Will Learn'}</h3>
-                        <ul className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                          {course.whatYouWillLearn.map((item, idx) => (
-                            <li key={idx} className="flex items-start gap-3">
-                              <i className="fas fa-check-circle text-rice-green mt-1"></i>
-                              <span className="text-gray-700">{item}</span>
-                            </li>
-                          ))}
-                        </ul>
+                        {displayCourse.whatYouWillLearn && displayCourse.whatYouWillLearn.length > 0 ? (
+                          <ul className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                            {displayCourse.whatYouWillLearn.map((item, idx) => (
+                              <li key={idx} className="flex items-start gap-3">
+                                <i className="fas fa-check-circle text-rice-green mt-1"></i>
+                                <span className="text-gray-700">{item}</span>
+                              </li>
+                            ))}
+                          </ul>
+                        ) : (
+                          <div className="text-gray-500 text-center py-8">
+                            {language === 'vi' ? 'Nội dung đang được cập nhật' : 'Content is being updated'}
+                          </div>
+                        )}
                       </div>
 
-                      <div>
-                        <h3 className="text-xl font-bold mb-4">{language === 'vi' ? 'Yêu cầu' : 'Requirements'}</h3>
-                        <ul className="space-y-2">
-                          {course.requirements.map((item, idx) => (
-                            <li key={idx} className="flex items-start gap-3 text-gray-700">
-                              <i className="fas fa-check text-mekong-blue mt-1"></i>
-                              <span>{item}</span>
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
+                      {displayCourse.requirements && displayCourse.requirements.length > 0 && (
+                        <div>
+                          <h3 className="text-xl font-bold mb-4">{language === 'vi' ? 'Yêu cầu' : 'Requirements'}</h3>
+                          <ul className="space-y-2">
+                            {displayCourse.requirements.map((item, idx) => (
+                              <li key={idx} className="flex items-start gap-3 text-gray-700">
+                                <i className="fas fa-check text-mekong-blue mt-1"></i>
+                                <span>{item}</span>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      )}
                     </div>
                   )}
 
                   {/* Curriculum Tab */}
                   {activeTab === 'curriculum' && (
-                    <div className="space-y-4">
-                      {course.curriculum.map((module, idx) => (
-                        <div key={idx} className="border border-gray-200 rounded-lg overflow-hidden">
-                          <button className="w-full px-6 py-4 bg-gray-50 hover:bg-gray-100 transition-colors flex items-center justify-between font-semibold text-left">
-                            <span>
-                              {module.module}
-                            </span>
-                            <span className="text-gray-600 text-sm">{module.duration}</span>
-                          </button>
-                          <div className="p-4 space-y-2">
-                            {module.lessons.map((lesson, lessonIdx) => (
-                              <div key={lessonIdx} className="flex items-center justify-between py-2 hover:bg-gray-50 px-3 rounded transition-colors">
-                                <div className="flex items-center gap-3">
-                                  <i className={`far ${lesson.isPreview ? 'fa-play-circle text-mekong-blue' : 'fa-lock text-gray-400'}`}></i>
-                                  <span className="text-gray-700">{lesson.title}</span>
-                                  {lesson.isPreview && (
-                                    <span className="text-xs text-mekong-blue font-semibold">{language === 'vi' ? 'Xem trước' : 'Preview'}</span>
-                                  )}
-                                </div>
-                                <span className="text-sm text-gray-500">{lesson.duration}</span>
-                              </div>
-                            ))}
-                          </div>
-                        </div>
-                      ))}
+                    <div className="text-center text-gray-500 py-8">
+                      <i className="fas fa-book-open text-4xl mb-4 text-gray-300"></i>
+                      <p>{language === 'vi' ? 'Nội dung khóa học đang được cập nhật' : 'Course curriculum is being updated'}</p>
+                      <p className="text-sm mt-2">{language === 'vi' ? 'Vui lòng liên hệ để biết thêm chi tiết' : 'Please contact for more details'}</p>
                     </div>
                   )}
 
                   {/* Instructor Tab */}
-                  {activeTab === 'instructor' && (
+                  {activeTab === 'instructor' && displayCourse.instructor && (
                     <div className="flex gap-6">
                       <div className="w-32 h-32 rounded-2xl overflow-hidden flex-shrink-0">
                         <img
-                          src={course.instructor.avatar}
-                          alt={course.instructor.name}
+                          src={displayCourse.instructor.avatarUrl || displayCourse.instructor.avatar}
+                          alt={displayCourse.instructor.name}
                           className="w-full h-full object-cover"
                         />
                       </div>
                       <div>
-                        <h3 className="text-2xl font-bold mb-1">{course.instructor.name}</h3>
-                        <p className="text-mekong-blue font-semibold mb-4">{course.instructor.title}</p>
-                        <p className="text-gray-700 mb-4">{course.instructor.bio}</p>
-                        <p className="text-sm text-gray-600">
-                          <strong>{language === 'vi' ? 'Chuyên môn:' : 'Expertise:'}</strong> {course.instructor.expertise}
-                        </p>
+                        <h3 className="text-2xl font-bold mb-1">{displayCourse.instructor.name}</h3>
+                        <p className="text-mekong-blue font-semibold mb-4">{displayCourse.instructor.title}</p>
+                        <p className="text-gray-700 mb-4">{displayCourse.instructor.shortBio || displayCourse.instructor.bio}</p>
+                        {displayCourse.instructor.expertise && (
+                          <p className="text-sm text-gray-600">
+                            <strong>{language === 'vi' ? 'Chuyên môn:' : 'Expertise:'}</strong> {displayCourse.instructor.expertise}
+                          </p>
+                        )}
                       </div>
+                    </div>
+                  )}
+
+                  {activeTab === 'instructor' && !displayCourse.instructor && (
+                    <div className="text-center text-gray-500 py-8">
+                      {language === 'vi' ? 'Thông tin giảng viên đang được cập nhật' : 'Instructor information is being updated'}
                     </div>
                   )}
 
@@ -270,29 +276,22 @@ const CourseDetail = () => {
                     <div className="space-y-6">
                       <div className="flex items-center gap-8">
                         <div className="text-center">
-                          <div className="text-5xl font-black text-mekong-blue">{course.rating}</div>
-                          <div className="text-yellow-500 text-2xl my-2">⭐⭐⭐⭐⭐</div>
-                          <div className="text-gray-600">{course.reviewsCount} {language === 'vi' ? 'đánh giá' : 'reviews'}</div>
-                        </div>
-                        <div className="flex-1 space-y-2">
-                          {[5, 4, 3, 2, 1].map(star => (
-                            <div key={star} className="flex items-center gap-3">
-                              <span className="text-sm w-8">{star}⭐</span>
-                              <div className="flex-1 h-2 bg-gray-200 rounded-full overflow-hidden">
-                                <div
-                                  className="h-full bg-yellow-500"
-                                  style={{ width: `${star === 5 ? 80 : star === 4 ? 15 : 5}%` }}
-                                ></div>
-                              </div>
-                              <span className="text-sm text-gray-600 w-12">{star === 5 ? '80%' : star === 4 ? '15%' : '5%'}</span>
-                            </div>
-                          ))}
+                          <div className="text-5xl font-black text-mekong-blue">{displayCourse.averageRating?.toFixed(1) || '0.0'}</div>
+                          <div className="text-yellow-500 text-2xl my-2">
+                            {[1,2,3,4,5].map(i => (
+                              <span key={i}>{i <= Math.floor(displayCourse.averageRating || 0) ? '⭐' : '☆'}</span>
+                            ))}
+                          </div>
+                          <div className="text-gray-600">{displayCourse.totalReviews || 0} {language === 'vi' ? 'đánh giá' : 'reviews'}</div>
                         </div>
                       </div>
 
                       <div className="border-t pt-6">
                         <p className="text-center text-gray-600">
-                          {language === 'vi' ? 'Đánh giá chi tiết sẽ được hiển thị sau khi có dữ liệu thực' : 'Detailed reviews will be displayed once actual data is available'}
+                          {displayCourse.totalReviews > 0 
+                            ? (language === 'vi' ? 'Đánh giá chi tiết sẽ được hiển thị sớm' : 'Detailed reviews will be displayed soon')
+                            : (language === 'vi' ? 'Chưa có đánh giá nào. Hãy là người đầu tiên đánh giá!' : 'No reviews yet. Be the first to review!')
+                          }
                         </p>
                       </div>
                     </div>
@@ -306,22 +305,34 @@ const CourseDetail = () => {
               <div className="bg-white rounded-2xl shadow-lg overflow-hidden sticky top-24">
                 {/* Price */}
                 <div className="p-6 border-b">
-                  <div className="flex items-baseline gap-3 mb-2">
-                    <span className="text-4xl font-black text-mekong-blue">
-                      {formatPrice(course.discountPrice)}
-                    </span>
-                    <span className="text-lg text-gray-400 line-through">
-                      {formatPrice(course.price)}
-                    </span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <span className="px-2 py-1 bg-red-100 text-red-600 text-sm font-bold rounded">
-                      -{discountPercent}%
-                    </span>
-                    <span className="text-sm text-gray-600">
-                      {language === 'vi' ? 'Ưu đãi có hạn' : 'Limited offer'}
-                    </span>
-                  </div>
+                  {displayCourse.isFree ? (
+                    <div className="text-4xl font-black text-rice-green mb-2">
+                      {language === 'vi' ? 'MIỄN PHÍ' : 'FREE'}
+                    </div>
+                  ) : (
+                    <>
+                      <div className="mb-3">
+                        <div className="text-3xl md:text-4xl font-black text-mekong-blue break-words">
+                          {formatPrice(displayCourse.price)}
+                        </div>
+                        {displayCourse.originalPrice && displayCourse.originalPrice > displayCourse.price && (
+                          <div className="text-base md:text-lg text-gray-400 line-through mt-1">
+                            {formatPrice(displayCourse.originalPrice)}
+                          </div>
+                        )}
+                      </div>
+                      {discountPercent > 0 && (
+                        <div className="flex items-center gap-2 flex-wrap">
+                          <span className="px-2 py-1 bg-red-100 text-red-600 text-sm font-bold rounded">
+                            -{discountPercent}%
+                          </span>
+                          <span className="text-sm text-gray-600">
+                            {language === 'vi' ? 'Ưu đãi có hạn' : 'Limited offer'}
+                          </span>
+                        </div>
+                      )}
+                    </>
+                  )}
                 </div>
 
                 {/* Course Includes */}
@@ -329,13 +340,13 @@ const CourseDetail = () => {
                   <h4 className="font-bold mb-4">{language === 'vi' ? 'Khóa học bao gồm:' : 'This course includes:'}</h4>
                   <ul className="space-y-3 text-sm">
                     {[
-                      { icon: 'fa-clock', text: `${course.duration} ${language === 'vi' ? 'tuần học' : 'weeks'}` },
-                      { icon: 'fa-file-alt', text: `${course.lessonsCount} ${language === 'vi' ? 'bài giảng' : 'lessons'}` },
-                      { icon: 'fa-certificate', text: language === 'vi' ? 'Chứng chỉ hoàn thành' : 'Certificate of completion' },
+                      displayCourse.durationHours && { icon: 'fa-clock', text: `${displayCourse.durationHours} ${language === 'vi' ? 'giờ học' : 'hours'}` },
+                      displayCourse.totalLessons && { icon: 'fa-file-alt', text: `${displayCourse.totalLessons} ${language === 'vi' ? 'bài giảng' : 'lessons'}` },
+                      displayCourse.hasCertificate && { icon: 'fa-certificate', text: language === 'vi' ? 'Chứng chỉ hoàn thành' : 'Certificate of completion' },
                       { icon: 'fa-infinity', text: language === 'vi' ? 'Truy cập trọn đời' : 'Lifetime access' },
                       { icon: 'fa-redo', text: language === 'vi' ? 'Học lại miễn phí' : 'Free retake' },
                       { icon: 'fa-mobile-alt', text: language === 'vi' ? 'Học trên mọi thiết bị' : 'Learn on any device' },
-                    ].map((item, idx) => (
+                    ].filter(Boolean).map((item, idx) => (
                       <li key={idx} className="flex items-center gap-3 text-gray-700">
                         <i className={`fas ${item.icon} text-mekong-blue`}></i>
                         <span>{item.text}</span>
@@ -346,15 +357,26 @@ const CourseDetail = () => {
 
                 {/* CTA Buttons */}
                 <div className="p-6 space-y-3">
-                  <button className="btn btn-primary w-full justify-center">
+                  <button 
+                    onClick={handleEnroll}
+                    className="btn btn-primary w-full justify-center"
+                  >
                     <i className="fas fa-shopping-cart"></i>
                     {language === 'vi' ? 'Đăng ký ngay' : 'Enroll Now'}
                   </button>
-                  <button className="btn btn-secondary w-full justify-center">
-                    <i className="fas fa-cart-plus"></i>
-                    {language === 'vi' ? 'Thêm vào giỏ' : 'Add to Cart'}
-                  </button>
-                  <button className="btn btn-outline w-full justify-center">
+                  {!displayCourse.isFree && (
+                    <button 
+                      onClick={handleAddToCart}
+                      className="btn btn-secondary w-full justify-center"
+                    >
+                      <i className="fas fa-cart-plus"></i>
+                      {language === 'vi' ? 'Thêm vào giỏ' : 'Add to Cart'}
+                    </button>
+                  )}
+                  <button 
+                    onClick={handleConsultation}
+                    className="btn btn-outline w-full justify-center"
+                  >
                     <i className="fas fa-phone"></i>
                     {language === 'vi' ? 'Tư vấn miễn phí' : 'Free Consultation'}
                   </button>

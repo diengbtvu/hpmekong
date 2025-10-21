@@ -5,6 +5,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.List;
 
 @Data
 @Builder
@@ -21,6 +22,13 @@ public class CourseRequest {
     private String subtitle;
 
     private String description;
+    
+    // Content fields (will be stored as JSON)
+    private List<String> whatYouWillLearn;
+    
+    private List<String> requirements;
+    
+    private List<String> targetAudience;
 
     private String thumbnailUrl;
 

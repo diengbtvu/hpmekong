@@ -2,9 +2,9 @@ import React, { useState, useEffect } from 'react'
 import { Link, NavLink, useNavigate } from 'react-router-dom'
 import { useLanguage } from '../../i18n/config.jsx'
 import LanguageSwitcher from './LanguageSwitcher'
-import { NAV_MENU } from '../../utils/constants'
 import authService from '../../services/authService'
 import toast from '../../utils/toast'
+import api from '../../services/api'
 
 const Header = () => {
   const { t, language } = useLanguage()
@@ -13,6 +13,76 @@ const Header = () => {
   const [isSearchOpen, setIsSearchOpen] = useState(false)
   const [activeDropdown, setActiveDropdown] = useState(null)
   const [user, setUser] = useState(null)
+  const [navMenu, setNavMenu] = useState([])
+  const [centers, setCenters] = useState([])
+
+  // Fetch centers from API
+  useEffect(() => {
+    const fetchCenters = async () => {
+      try {
+        const response = await api.get('/centers')
+        if (response.data.success) {
+          setCenters(response.data.data || [])
+        }
+      } catch (error) {
+        console.error('Error fetching centers:', error)
+        // Fallback to empty array if API fails
+        setCenters([])
+      }
+    }
+    fetchCenters()
+  }, [])
+
+  // Build navigation menu when centers are loaded
+  useEffect(() => {
+    const menu = [
+      {
+        nameKey: 'common.home',
+        path: '/',
+        icon: 'fa-house',
+      },
+      {
+        nameKey: 'common.about',
+        path: '/about',
+        icon: 'fa-circle-info',
+      },
+      {
+        nameKey: 'common.ecosystem',
+        path: '/ecosystem',
+        icon: 'fa-sitemap',
+        children: centers.map(c => ({
+          name: c.name,
+          path: c.website || '#',
+          external: !!c.website,
+        })),
+      },
+      {
+        nameKey: 'common.courses',
+        path: '/courses',
+        icon: 'fa-book-open',
+      },
+      {
+        nameKey: 'common.instructors',
+        path: '/instructors',
+        icon: 'fa-chalkboard-user',
+      },
+      {
+        nameKey: 'common.news',
+        path: '/news',
+        icon: 'fa-newspaper',
+        children: [
+          { nameKey: 'news.activities', path: '/news?category=activities' },
+          { nameKey: 'news.recruitment', path: '/news?category=recruitment' },
+        ],
+      },
+      {
+        nameKey: 'common.contact',
+        path: '/contact',
+        icon: 'fa-envelope',
+      },
+    ]
+    setNavMenu(menu)
+  }, [centers])
 
   // Check user login status
   useEffect(() => {
@@ -87,7 +157,7 @@ const Header = () => {
           <div className="flex items-center justify-between py-2 gap-2">
             {/* Desktop Navigation */}
             <nav className="hidden md:flex items-start gap-1 flex-1 justify-center flex-wrap">
-              {NAV_MENU.map((item, index) => (
+              {navMenu.map((item, index) => (
                 <div key={index} className="relative group">
                   {item.children ? (
                     <>
@@ -241,7 +311,7 @@ const Header = () => {
         {isMobileMenuOpen && (
           <div className="md:hidden border-t border-gray-200 bg-white animate-fade-in">
             <nav className="container-custom py-4">
-              {NAV_MENU.map((item, index) => (
+              {navMenu.map((item, index) => (
                 <div key={index} className="border-b border-gray-100 last:border-0">
                   {item.children ? (
                     <>

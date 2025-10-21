@@ -37,6 +37,7 @@ import ContactManagement from './pages/admin/ContactManagement'
 import CategoryManagement from './pages/admin/CategoryManagement'
 import CenterManagement from './pages/admin/CenterManagement'
 import MediaLibrary from './pages/admin/MediaLibrary'
+import LeaderManagement from './pages/admin/LeaderManagement'
 import ProtectedRoute from './components/admin/ProtectedRoute'
 
 // Create React Query client
@@ -90,6 +91,7 @@ function App() {
               <Route path="content/banners" element={<BannerManagement />} />
               <Route path="content/partners" element={<PartnerManagement />} />
               <Route path="content/achievements" element={<AchievementManagement />} />
+              <Route path="content/leaders" element={<LeaderManagement />} />
               <Route path="content/videos" element={<VideoManagement />} />
               <Route path="content/settings" element={<SettingsManagement />} />
               <Route path="content/footer" element={<FooterManagement />} />

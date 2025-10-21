@@ -39,6 +39,7 @@ const AdminLayout = () => {
       footer: 'Footer',
       about: 'Về chúng tôi',
       centers: 'Hệ sinh thái',
+      leaders: 'Ban Lãnh Đạo',
       learningManagement: 'Quản lý học tập',
       courses: 'Khóa học',
       instructors: 'Giảng viên',
@@ -67,6 +68,7 @@ const AdminLayout = () => {
       footer: 'Footer',
       about: 'About Us',
       centers: 'Centers',
+      leaders: 'Leadership Team',
       learningManagement: 'Learning Management',
       courses: 'Courses',
       instructors: 'Instructors',
@@ -107,6 +109,7 @@ const AdminLayout = () => {
         { title: t('footer'), path: '/admin/content/footer', icon: 'fa-window-maximize' },
         { title: t('about'), path: '/admin/content/about', icon: 'fa-info-circle' },
         { title: t('centers'), path: '/admin/content/centers', icon: 'fa-sitemap' },
+        { title: t('leaders'), path: '/admin/content/leaders', icon: 'fa-user-tie' },
       ]
     },
     {

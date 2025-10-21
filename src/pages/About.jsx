@@ -84,7 +84,7 @@ const About = () => {
         // Fetch about content and leaders in parallel
         const [settingsResponse, leadersResponse] = await Promise.all([
           settingsService.getSettingsByGroup('about'),
-          api.get('/instructors', { params: { page: 0, size: 3 } })
+          api.get('/leaders') // Changed from /instructors to /leaders
         ])
         
         // Update about content
@@ -95,9 +95,9 @@ const About = () => {
           }))
         }
         
-        // Update leaders
-        if (leadersResponse.data.success && leadersResponse.data.data.content) {
-          setLeaders(leadersResponse.data.data.content)
+        // Update leaders - updated to match new API response structure
+        if (leadersResponse.data.success && leadersResponse.data.data) {
+          setLeaders(leadersResponse.data.data)
         }
       } catch (error) {
         console.error('Error fetching data:', error)
@@ -341,7 +341,7 @@ const About = () => {
         </div>
       </section>
 
-      {/* Team Section (Placeholder for now) */}
+      {/* Leadership Team Section */}
       <section className="section-padding bg-white">
         <div className="container-custom">
           <motion.div
@@ -374,10 +374,10 @@ const About = () => {
                   className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow"
                 >
                   <div className="aspect-square bg-gray-200 overflow-hidden">
-                    {leader.avatar ? (
+                    {leader.avatarUrl ? (
                       <img 
-                        src={leader.avatar} 
-                        alt={leader.name}
+                        src={leader.avatarUrl} 
+                        alt={leader.fullName}
                         className="w-full h-full object-cover"
                       />
                     ) : (
@@ -388,17 +388,38 @@ const About = () => {
                   </div>
                   <div className="p-6 text-center">
                     <h4 className="font-bold text-lg mb-1">
-                      {leader.name}
+                      {leader.fullName}
                     </h4>
                     <p className="text-mekong-blue font-semibold mb-3">
-                      {leader.title || (language === 'vi' ? 'Giảng viên' : 'Instructor')}
+                      {leader.position}
                     </p>
-                    <p className="text-gray-600 text-sm">
-                      {leader.bio || leader.expertise || 
-                        (language === 'vi' 
-                          ? 'Chuyên gia với nhiều năm kinh nghiệm trong lĩnh vực giáo dục và đào tạo.'
-                          : 'Expert with years of experience in education and training.')}
-                    </p>
+                    {leader.bio && (
+                      <p className="text-gray-600 text-sm line-clamp-3">
+                        {leader.bio}
+                      </p>
+                    )}
+                    {(leader.linkedinUrl || leader.facebookUrl || leader.twitterUrl) && (
+                      <div className="flex justify-center gap-3 mt-4">
+                        {leader.linkedinUrl && (
+                          <a href={leader.linkedinUrl} target="_blank" rel="noopener noreferrer" 
+                             className="text-gray-600 hover:text-blue-600 transition-colors">
+                            <i className="fab fa-linkedin text-xl"></i>
+                          </a>
+                        )}
+                        {leader.facebookUrl && (
+                          <a href={leader.facebookUrl} target="_blank" rel="noopener noreferrer"
+                             className="text-gray-600 hover:text-blue-600 transition-colors">
+                            <i className="fab fa-facebook text-xl"></i>
+                          </a>
+                        )}
+                        {leader.twitterUrl && (
+                          <a href={leader.twitterUrl} target="_blank" rel="noopener noreferrer"
+                             className="text-gray-600 hover:text-blue-400 transition-colors">
+                            <i className="fab fa-twitter text-xl"></i>
+                          </a>
+                        )}
+                      </div>
+                    )}
                   </div>
                 </motion.div>
               ))}

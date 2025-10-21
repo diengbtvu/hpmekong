@@ -114,8 +114,9 @@ public class CourseService {
         Course course = courseRepository.findBySlug(slug)
                 .orElseThrow(() -> new ResourceNotFoundException("Course", "slug", slug));
         
-        // Increment view count
-        course.setTotalViews(course.getTotalViews() + 1);
+        // Increment view count (handle null)
+        Integer currentViews = course.getTotalViews();
+        course.setTotalViews(currentViews != null ? currentViews + 1 : 1);
         courseRepository.save(course);
         
         return mapToCourseResponse(course);
@@ -294,6 +295,7 @@ public class CourseService {
                 .isFree(request.getIsFree())
                 .level(request.getLevel() != null ? Course.CourseLevel.valueOf(request.getLevel()) : Course.CourseLevel.ALL_LEVELS)
                 .language(request.getLanguage())
+                .deliveryMode(request.getDeliveryMode() != null ? Course.DeliveryMode.valueOf(request.getDeliveryMode()) : Course.DeliveryMode.ONLINE)
                 .durationHours(request.getDurationHours())
                 .totalLessons(request.getTotalLessons())
                 .hasCertificate(request.getHasCertificate())
@@ -301,6 +303,21 @@ public class CourseService {
                 .startDate(request.getStartDate())
                 .endDate(request.getEndDate())
                 .build();
+
+        // Set JSON fields
+        try {
+            if (request.getWhatYouWillLearn() != null && !request.getWhatYouWillLearn().isEmpty()) {
+                course.setWhatYouWillLearn(objectMapper.writeValueAsString(request.getWhatYouWillLearn()));
+            }
+            if (request.getRequirements() != null && !request.getRequirements().isEmpty()) {
+                course.setRequirements(objectMapper.writeValueAsString(request.getRequirements()));
+            }
+            if (request.getTargetAudience() != null && !request.getTargetAudience().isEmpty()) {
+                course.setTargetAudience(objectMapper.writeValueAsString(request.getTargetAudience()));
+            }
+        } catch (JsonProcessingException e) {
+            throw new BadRequestException("Invalid JSON data");
+        }
 
         course = courseRepository.save(course);
         return mapToCourseResponse(course);
@@ -346,12 +363,28 @@ public class CourseService {
         course.setIsFree(request.getIsFree());
         course.setLevel(request.getLevel() != null ? Course.CourseLevel.valueOf(request.getLevel()) : course.getLevel());
         course.setLanguage(request.getLanguage());
+        course.setDeliveryMode(request.getDeliveryMode() != null ? Course.DeliveryMode.valueOf(request.getDeliveryMode()) : course.getDeliveryMode());
         course.setDurationHours(request.getDurationHours());
         course.setTotalLessons(request.getTotalLessons());
         course.setHasCertificate(request.getHasCertificate());
         course.setStatus(request.getStatus() != null ? Course.CourseStatus.valueOf(request.getStatus()) : course.getStatus());
         course.setStartDate(request.getStartDate());
         course.setEndDate(request.getEndDate());
+
+        // Update JSON fields
+        try {
+            if (request.getWhatYouWillLearn() != null && !request.getWhatYouWillLearn().isEmpty()) {
+                course.setWhatYouWillLearn(objectMapper.writeValueAsString(request.getWhatYouWillLearn()));
+            }
+            if (request.getRequirements() != null && !request.getRequirements().isEmpty()) {
+                course.setRequirements(objectMapper.writeValueAsString(request.getRequirements()));
+            }
+            if (request.getTargetAudience() != null && !request.getTargetAudience().isEmpty()) {
+                course.setTargetAudience(objectMapper.writeValueAsString(request.getTargetAudience()));
+            }
+        } catch (JsonProcessingException e) {
+            throw new BadRequestException("Invalid JSON data");
+        }
 
         course = courseRepository.save(course);
         return mapToCourseResponse(course);

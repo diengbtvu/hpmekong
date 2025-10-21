@@ -60,6 +60,7 @@ public class SecurityConfig {
                         .requestMatchers("/api/v1/posts/**").permitAll()
                         .requestMatchers("/api/v1/jobs/**").permitAll()
                         .requestMatchers("/api/v1/instructors/**").permitAll()
+                        .requestMatchers("/api/v1/leaders/**").permitAll()  // Allow public access to leaders
                         .requestMatchers("/api/v1/centers/**").permitAll()
                         .requestMatchers("/api/v1/categories/**").permitAll()
                         .requestMatchers("/api/v1/contact").permitAll()
