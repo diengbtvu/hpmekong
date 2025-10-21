@@ -65,7 +65,7 @@ public class PostService {
         return mapToPostResponse(savedPost);
     }
 
-    @Transactional(readOnly = true)
+    @Transactional
     public PostResponse getPostBySlug(String slug) {
         Post post = postRepository.findBySlug(slug)
                 .orElseThrow(() -> new ResourceNotFoundException("Post", "slug", slug));
