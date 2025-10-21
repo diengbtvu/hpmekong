@@ -107,7 +107,7 @@ public class CourseService {
         return mapToCourseResponse(savedCourse);
     }
 
-    @Transactional(readOnly = true)
+    @Transactional
     public CourseResponse getCourseBySlug(String slug) {
         Course course = courseRepository.findBySlug(slug)
                 .orElseThrow(() -> new ResourceNotFoundException("Course", "slug", slug));

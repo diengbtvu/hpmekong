@@ -24,7 +24,7 @@ public class JobService {
         return jobs.map(this::mapToJobResponse);
     }
 
-    @Transactional(readOnly = true)
+    @Transactional
     public JobResponse getJobBySlug(String slug) {
         Job job = jobRepository.findBySlug(slug)
                 .orElseThrow(() -> new ResourceNotFoundException("Job", "slug", slug));
