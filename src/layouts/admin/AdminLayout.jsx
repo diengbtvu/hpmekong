@@ -36,6 +36,8 @@ const AdminLayout = () => {
       achievements: 'Thành tựu',
       videos: 'Video',
       settings: 'Cài đặt',
+      footer: 'Footer',
+      about: 'Về chúng tôi',
       centers: 'Hệ sinh thái',
       learningManagement: 'Quản lý học tập',
       courses: 'Khóa học',
@@ -62,6 +64,8 @@ const AdminLayout = () => {
       achievements: 'Achievements',
       videos: 'Videos',
       settings: 'Settings',
+      footer: 'Footer',
+      about: 'About Us',
       centers: 'Centers',
       learningManagement: 'Learning Management',
       courses: 'Courses',
@@ -100,6 +104,8 @@ const AdminLayout = () => {
         { title: t('achievements'), path: '/admin/content/achievements', icon: 'fa-trophy' },
         { title: t('videos'), path: '/admin/content/videos', icon: 'fa-video' },
         { title: t('settings'), path: '/admin/content/settings', icon: 'fa-cog' },
+        { title: t('footer'), path: '/admin/content/footer', icon: 'fa-window-maximize' },
+        { title: t('about'), path: '/admin/content/about', icon: 'fa-info-circle' },
         { title: t('centers'), path: '/admin/content/centers', icon: 'fa-sitemap' },
       ]
     },
@@ -260,23 +266,6 @@ const AdminLayout = () => {
           ${mobileMenuOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}
         `}
       >
-        {/* Sidebar Logo */}
-        {sidebarOpen && (
-          <div className="p-4 border-b border-gray-200">
-            <Link to="/admin/dashboard" className="flex items-center gap-3 justify-center">
-              <img 
-                src="/logo.png" 
-                alt="Happy World Mekong Logo" 
-                className="h-12 w-auto object-contain"
-              />
-            </Link>
-            <div className="text-center mt-2">
-              <p className="text-sm font-bold text-gray-900">Happy World Mekong</p>
-              <p className="text-xs text-gray-500">{t('adminDashboard')}</p>
-            </div>
-          </div>
-        )}
-        
         <nav className="p-4 space-y-1">
           {menuItems.map((item, index) => (
             <div key={index}>

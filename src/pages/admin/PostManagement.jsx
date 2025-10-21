@@ -4,9 +4,11 @@ import Modal from '../../components/admin/Modal'
 import FormInput from '../../components/admin/FormInput'
 import FormSelect from '../../components/admin/FormSelect'
 import ImageUpload from '../../components/admin/ImageUpload'
+import RichTextEditor from '../../components/admin/RichTextEditor'
 import api from '../../services/api'
 import toast from '../../utils/toast'
 import { useLanguage } from '../../i18n/config'
+import { generateSlug } from '../../utils/slugify'
 
 const PostManagement = () => {
   const { language } = useLanguage()
@@ -263,7 +265,7 @@ const PostManagement = () => {
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
         title={editingPost ? t('editPost') : t('createPost')}
-        size="lg"
+        size="2xl"
         footer={
           <>
             <button
@@ -289,7 +291,14 @@ const PostManagement = () => {
               label={`${t('title')} *`}
               name="title"
               value={formData.title}
-              onChange={(e) => setFormData({...formData, title: e.target.value})}
+              onChange={(e) => {
+                const title = e.target.value
+                setFormData({
+                  ...formData,
+                  title: title,
+                  slug: !editingPost ? generateSlug(title) : formData.slug
+                })
+              }}
               required
             />
             <FormInput
@@ -305,18 +314,17 @@ const PostManagement = () => {
             label={t('excerpt')}
             name="excerpt"
             type="textarea"
-            rows={2}
+            rows={3}
             value={formData.excerpt}
             onChange={(e) => setFormData({...formData, excerpt: e.target.value})}
+            placeholder="Mô tả ngắn gọn về bài viết (hiển thị ở danh sách bài viết)"
           />
 
-          <FormInput
-            label={t('content')}
-            name="content"
-            type="textarea"
-            rows={8}
+          <RichTextEditor
+            label={`${t('content')} *`}
             value={formData.content}
-            onChange={(e) => setFormData({...formData, content: e.target.value})}
+            onChange={(content) => setFormData({...formData, content: content})}
+            height={500}
           />
 
           <ImageUpload

@@ -25,6 +25,8 @@ import PartnerManagement from './pages/admin/PartnerManagement'
 import AchievementManagement from './pages/admin/AchievementManagement'
 import VideoManagement from './pages/admin/VideoManagement'
 import SettingsManagement from './pages/admin/SettingsManagement'
+import FooterManagement from './pages/admin/FooterManagement'
+import AboutManagement from './pages/admin/AboutManagement'
 import UserManagement from './pages/admin/UserManagement'
 import CourseManagement from './pages/admin/CourseManagement'
 import PostManagement from './pages/admin/PostManagement'
@@ -90,6 +92,8 @@ function App() {
               <Route path="content/achievements" element={<AchievementManagement />} />
               <Route path="content/videos" element={<VideoManagement />} />
               <Route path="content/settings" element={<SettingsManagement />} />
+              <Route path="content/footer" element={<FooterManagement />} />
+              <Route path="content/about" element={<AboutManagement />} />
               <Route path="content/centers" element={<CenterManagement />} />
               
               {/* Learning Management Routes */}

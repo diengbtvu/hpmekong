@@ -7,6 +7,7 @@ import ImageUpload from '../../components/admin/ImageUpload'
 import api from '../../services/api'
 import toast from '../../utils/toast'
 import { useLanguage } from '../../i18n/config'
+import { generateSlug } from '../../utils/slugify'
 
 const CourseManagement = () => {
   const { language } = useLanguage()
@@ -365,7 +366,14 @@ const CourseManagement = () => {
               label={`${t('title')} *`}
               name="title"
               value={formData.title}
-              onChange={(e) => setFormData({...formData, title: e.target.value})}
+              onChange={(e) => {
+                const title = e.target.value
+                setFormData({
+                  ...formData,
+                  title: title,
+                  slug: !editingCourse ? generateSlug(title) : formData.slug
+                })
+              }}
               required
             />
             <FormInput

@@ -74,13 +74,20 @@ const AdminDashboard = () => {
     }
   }
 
+  const formatPercent = (value) => {
+    if (!value || value === 0) return '0%'
+    const sign = value > 0 ? '+' : ''
+    return `${sign}${value.toFixed(1)}%`
+  }
+
   const statCards = [
     {
       title: t('totalUsers'),
       value: stats?.totalUsers || 0,
       icon: 'fa-users',
       color: 'bg-blue-500',
-      change: '+12%',
+      change: formatPercent(stats?.userGrowthPercent),
+      changeColor: (stats?.userGrowthPercent || 0) >= 0 ? 'text-green-500' : 'text-red-500',
       link: '/admin/users'
     },
     {
@@ -88,7 +95,8 @@ const AdminDashboard = () => {
       value: stats?.totalCourses || 0,
       icon: 'fa-book',
       color: 'bg-green-500',
-      change: '+8%',
+      change: formatPercent(stats?.courseGrowthPercent),
+      changeColor: (stats?.courseGrowthPercent || 0) >= 0 ? 'text-green-500' : 'text-red-500',
       link: '/admin/learning/courses'
     },
     {
@@ -96,7 +104,8 @@ const AdminDashboard = () => {
       value: stats?.totalEnrollments || 0,
       icon: 'fa-user-graduate',
       color: 'bg-purple-500',
-      change: '+23%',
+      change: formatPercent(stats?.enrollmentGrowthPercent),
+      changeColor: (stats?.enrollmentGrowthPercent || 0) >= 0 ? 'text-green-500' : 'text-red-500',
       link: '/admin/learning/enrollments'
     },
     {
@@ -104,7 +113,8 @@ const AdminDashboard = () => {
       value: `${(stats?.totalRevenue || 0).toLocaleString()}đ`,
       icon: 'fa-dollar-sign',
       color: 'bg-orange-500',
-      change: '+15%',
+      change: formatPercent(stats?.revenueGrowthPercent),
+      changeColor: (stats?.revenueGrowthPercent || 0) >= 0 ? 'text-green-500' : 'text-red-500',
       link: '/admin/business/payments'
     },
   ]
@@ -116,20 +126,25 @@ const AdminDashboard = () => {
     { title: t('manageUsers'), icon: 'fa-users', link: '/admin/users', color: 'bg-green-500' },
   ]
 
-  const getTimeAgo = (minutes) => {
-    if (minutes < 60) {
-      return `${minutes} ${t('minutesAgo')}`
+  const getTimeAgo = (createdAt) => {
+    if (!createdAt) return ''
+    const now = new Date()
+    const created = new Date(createdAt)
+    const diffInMinutes = Math.floor((now - created) / 1000 / 60)
+    
+    if (diffInMinutes < 60) {
+      return `${diffInMinutes} ${t('minutesAgo')}`
     }
-    const hours = Math.floor(minutes / 60)
-    return `${hours} ${t('hoursAgo')}`
+    const hours = Math.floor(diffInMinutes / 60)
+    if (hours < 24) {
+      return `${hours} ${t('hoursAgo')}`
+    }
+    const days = Math.floor(hours / 24)
+    return `${days} ${language === 'vi' ? 'ngày trước' : 'days ago'}`
   }
 
-  const recentActivities = [
-    { user: 'Admin', action: t('newUser'), time: getTimeAgo(2), icon: 'fa-user-plus', color: 'text-green-500' },
-    { user: 'John Doe', action: t('newEnrollment'), time: getTimeAgo(5), icon: 'fa-user-graduate', color: 'text-blue-500' },
-    { user: 'Jane Smith', action: t('newPayment'), time: getTimeAgo(10), icon: 'fa-dollar-sign', color: 'text-orange-500' },
-    { user: 'Admin', action: t('newUser'), time: getTimeAgo(15), icon: 'fa-user-plus', color: 'text-purple-500' },
-  ]
+  // Recent activities from stats - showing real data
+  const recentActivities = stats?.recentActivities || []
 
   return (
     <div className="space-y-6">
@@ -180,7 +195,11 @@ const AdminDashboard = () => {
                   <div className={`w-12 h-12 ${stat.color} rounded-lg flex items-center justify-center`}>
                     <i className={`fas ${stat.icon} text-white text-xl`}></i>
                   </div>
-                  <span className="text-green-500 text-sm font-semibold">{stat.change}</span>
+                  <span className={`${stat.changeColor} text-sm font-semibold flex items-center gap-1`}>
+                    {(stat.changeColor === 'text-green-500') && <i className="fas fa-arrow-up text-xs"></i>}
+                    {(stat.changeColor === 'text-red-500') && <i className="fas fa-arrow-down text-xs"></i>}
+                    {stat.change}
+                  </span>
                 </div>
                 <h3 className="text-gray-600 text-sm mb-1">{stat.title}</h3>
                 <p className="text-2xl font-bold text-gray-900">{stat.value}</p>
@@ -223,50 +242,31 @@ const AdminDashboard = () => {
               </button>
             </div>
             <div className="space-y-4">
-              {recentActivities.map((activity, index) => (
-                <div key={index} className="flex items-start gap-4">
-                  <div className="flex-shrink-0">
-                    <div className="w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center">
-                      <i className={`fas ${activity.icon} ${activity.color}`}></i>
+              {recentActivities.length > 0 ? (
+                recentActivities.map((activity, index) => (
+                  <div key={index} className="flex items-start gap-4">
+                    <div className="flex-shrink-0">
+                      <div className="w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center">
+                        <i className={`fas ${activity.icon} ${activity.color}`}></i>
+                      </div>
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <p className="text-sm text-gray-900">
+                        <span className="font-semibold">{activity.user}</span>
+                        {' '}{activity.action}
+                      </p>
+                      <p className="text-xs text-gray-500 mt-1">{getTimeAgo(activity.createdAt)}</p>
                     </div>
                   </div>
-                  <div className="flex-1 min-w-0">
-                    <p className="text-sm text-gray-900">
-                      <span className="font-semibold">{activity.user}</span>
-                      {' '}{activity.action}
-                    </p>
-                    <p className="text-xs text-gray-500 mt-1">{activity.time}</p>
-                  </div>
+                ))
+              ) : (
+                <div className="text-center py-8">
+                  <i className="fas fa-history text-4xl text-gray-300 mb-2"></i>
+                  <p className="text-sm text-gray-500">
+                    {language === 'vi' ? 'Chưa có hoạt động gần đây' : 'No recent activities'}
+                  </p>
                 </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* System Status */}
-      <div className="bg-white rounded-xl p-6 shadow-sm">
-        <h2 className="text-lg font-bold text-gray-900 mb-4">System Status</h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <div className="flex items-center gap-3">
-            <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
-            <div>
-              <p className="text-sm font-medium text-gray-900">Database</p>
-              <p className="text-xs text-gray-500">Operational</p>
-            </div>
-          </div>
-          <div className="flex items-center gap-3">
-            <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
-            <div>
-              <p className="text-sm font-medium text-gray-900">API Server</p>
-              <p className="text-xs text-gray-500">Operational</p>
-            </div>
-          </div>
-          <div className="flex items-center gap-3">
-            <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
-            <div>
-              <p className="text-sm font-medium text-gray-900">Storage</p>
-              <p className="text-xs text-gray-500">Operational</p>
+              )}
             </div>
           </div>
         </div>

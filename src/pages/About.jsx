@@ -2,101 +2,194 @@ import React, { useState, useEffect } from 'react'
 import { useLanguage } from '../i18n/config.jsx'
 import api from '../services/api'
 import { motion } from 'framer-motion'
+import { settingsService } from '../services/contentService'
 
 const About = () => {
   const { t, language } = useLanguage()
   const [leaders, setLeaders] = useState([])
   const [loadingLeaders, setLoadingLeaders] = useState(true)
+  const [loading, setLoading] = useState(true)
+  const [aboutContent, setAboutContent] = useState({
+    badge_vi: 'Giáo dục từ miền Tây',
+    badge_en: 'Education from the West',
+    intro_paragraph1_vi: '',
+    intro_paragraph1_en: '',
+    intro_paragraph2_vi: '',
+    intro_paragraph2_en: '',
+    intro_paragraph3_vi: '',
+    intro_paragraph3_en: '',
+    youtube_video_url: 'https://www.youtube.com/embed/sCJunphEExA?si=vlYEK38MaI1B1KD-',
+    main_areas_title_vi: 'HOẠT ĐỘNG TRONG 7 LĨNH VỰC CHÍNH',
+    main_areas_title_en: 'OPERATES IN 7 MAIN AREAS',
+    // 7 Main Activity Areas
+    area1_title_vi: 'Công nghệ giáo dục',
+    area1_title_en: 'Educational Technology',
+    area1_icon: 'fa-laptop-code',
+    area2_title_vi: 'Đào tạo tư duy kỹ năng mềm kỹ năng sống',
+    area2_title_en: 'Thinking & Soft Skills Training',
+    area2_icon: 'fa-brain',
+    area3_title_vi: 'Định hướng nghề nghiệp, kết nối việc làm',
+    area3_title_en: 'Career Guidance & Job Matching',
+    area3_icon: 'fa-briefcase',
+    area4_title_vi: 'Hỗ trợ khởi nghiệp và phát triển doanh nghiệp',
+    area4_title_en: 'Startup Support & Business Development',
+    area4_icon: 'fa-rocket',
+    area5_title_vi: 'Tư vấn giáo dục, xây dựng chương trình đào tạo',
+    area5_title_en: 'Education Consulting & Curriculum Development',
+    area5_icon: 'fa-chalkboard-teacher',
+    area6_title_vi: 'Hợp tác đào tạo theo nhu cầu doanh nghiệp',
+    area6_title_en: 'Corporate Training Solutions',
+    area6_icon: 'fa-handshake',
+    area7_title_vi: 'Chuyển đổi số trong giáo dục',
+    area7_title_en: 'Digital Transformation in Education',
+    area7_icon: 'fa-digital-tachograph',
+    vision_title_vi: 'Tầm nhìn',
+    vision_title_en: 'Vision',
+    vision_content_vi: '',
+    vision_content_en: '',
+    vision_icon: 'fa-eye',
+    mission_title_vi: 'Sứ mệnh',
+    mission_title_en: 'Mission',
+    mission_content_vi: '',
+    mission_content_en: '',
+    mission_icon: 'fa-bullseye',
+    values_title_vi: 'Giá trị cốt lõi',
+    values_title_en: 'Core Values',
+    values_content_vi: 'Tiên phong - Toàn diện - Bền vững',
+    values_content_en: 'Pioneering - Comprehensive - Sustainable',
+    values_icon: 'fa-gem',
+    value1_title_vi: 'Tiên phong',
+    value1_title_en: 'Pioneering',
+    value1_desc_vi: 'Dẫn đầu và sáng tạo, áp dụng công nghệ mới, tạo ra chuẩn mực mới trong giáo dục',
+    value1_desc_en: 'Lead and innovate, apply new technology, create new standards in education',
+    value2_title_vi: 'Toàn diện',
+    value2_title_en: 'Comprehensive',
+    value2_desc_vi: 'Trang bị đầy đủ kỹ năng mềm, kiến thức nền tảng và năng lực tương lai cho người học',
+    value2_desc_en: 'Equip learners with full soft skills, foundational knowledge and future capabilities',
+    value3_title_vi: 'Bền vững',
+    value3_title_en: 'Sustainable',
+    value3_desc_vi: 'Tạo ra sự phát triển lâu dài cho cá nhân và xã hội, kiến tạo tương lai thịnh vượng',
+    value3_desc_en: 'Create long-term development for individuals and society, build a prosperous future',
+    team_badge_vi: 'Đội ngũ',
+    team_badge_en: 'Our Team',
+    team_title_vi: 'Ban Lãnh Đạo',
+    team_title_en: 'Leadership Team',
+  })
 
   useEffect(() => {
-    const fetchLeaders = async () => {
+    const fetchData = async () => {
       try {
-        // Get top 3 instructors as leadership team
-        const response = await api.get('/instructors', {
-          params: {
-            page: 0,
-            size: 3
-          }
-        })
+        setLoading(true)
         
-        if (response.data.success && response.data.data.content) {
-          setLeaders(response.data.data.content)
+        // Fetch about content and leaders in parallel
+        const [settingsResponse, leadersResponse] = await Promise.all([
+          settingsService.getSettingsByGroup('about'),
+          api.get('/instructors', { params: { page: 0, size: 3 } })
+        ])
+        
+        // Update about content
+        if (settingsResponse.success && settingsResponse.data) {
+          setAboutContent(prev => ({
+            ...prev,
+            ...settingsResponse.data
+          }))
+        }
+        
+        // Update leaders
+        if (leadersResponse.data.success && leadersResponse.data.data.content) {
+          setLeaders(leadersResponse.data.data.content)
         }
       } catch (error) {
-        console.error('Error fetching leaders:', error)
-        // Keep empty array as fallback
+        console.error('Error fetching data:', error)
       } finally {
+        setLoading(false)
         setLoadingLeaders(false)
       }
     }
 
-    fetchLeaders()
+    fetchData()
   }, [])
 
   const mainAreas = [
     {
-      icon: '/images/icons/tech-edu.png',
-      title: language === 'vi' ? 'Công nghệ giáo dục' : 'Educational Technology',
-      titleEn: 'Educational Technology'
+      icon: aboutContent.area1_icon || 'fa-laptop-code',
+      title: language === 'vi' ? aboutContent.area1_title_vi : aboutContent.area1_title_en,
     },
     {
-      icon: '/images/icons/skills.png',
-      title: language === 'vi' ? 'Đào tạo tư duy kỹ năng mềm kỹ năng sống' : 'Thinking & Soft Skills Training',
-      titleEn: 'Thinking & Soft Skills Training'
+      icon: aboutContent.area2_icon || 'fa-brain',
+      title: language === 'vi' ? aboutContent.area2_title_vi : aboutContent.area2_title_en,
     },
     {
-      icon: '/images/icons/career.png',
-      title: language === 'vi' ? 'Định hướng nghề nghiệp, kết nối việc làm' : 'Career Guidance & Job Matching',
-      titleEn: 'Career Guidance & Job Matching'
+      icon: aboutContent.area3_icon || 'fa-briefcase',
+      title: language === 'vi' ? aboutContent.area3_title_vi : aboutContent.area3_title_en,
     },
     {
-      icon: '/images/icons/startup.png',
-      title: language === 'vi' ? 'Hỗ trợ khởi nghiệp và phát triển doanh nghiệp' : 'Startup Support & Business Development',
-      titleEn: 'Startup Support & Business Development'
+      icon: aboutContent.area4_icon || 'fa-rocket',
+      title: language === 'vi' ? aboutContent.area4_title_vi : aboutContent.area4_title_en,
     },
     {
-      icon: '/images/icons/consulting.png',
-      title: language === 'vi' ? 'Tư vấn giáo dục, xây dựng chương trình đào tạo' : 'Education Consulting & Curriculum Development',
-      titleEn: 'Education Consulting'
+      icon: aboutContent.area5_icon || 'fa-chalkboard-teacher',
+      title: language === 'vi' ? aboutContent.area5_title_vi : aboutContent.area5_title_en,
     },
     {
-      icon: '/images/icons/training.png',
-      title: language === 'vi' ? 'Hợp tác đào tạo theo nhu cầu doanh nghiệp' : 'Corporate Training Solutions',
-      titleEn: 'Corporate Training'
+      icon: aboutContent.area6_icon || 'fa-handshake',
+      title: language === 'vi' ? aboutContent.area6_title_vi : aboutContent.area6_title_en,
     },
     {
-      icon: '/images/icons/digital.png',
-      title: language === 'vi' ? 'Chuyển đổi số trong giáo dục' : 'Digital Transformation in Education',
-      titleEn: 'Digital Transformation'
+      icon: aboutContent.area7_icon || 'fa-digital-tachograph',
+      title: language === 'vi' ? aboutContent.area7_title_vi : aboutContent.area7_title_en,
     }
   ]
 
   const values = [
     {
-      icon: 'fa-eye',
-      title: language === 'vi' ? 'Tầm nhìn' : 'Vision',
-      content: language === 'vi' 
-        ? 'Trở thành Thương hiệu tiên phong dẫn đầu khu vực trong việc khai phóng tiềm năng thế hệ trẻ, tạo ra chuẩn mực mới về trang bị năng lực toàn diện để kiến tạo một tương lai thịnh vượng và hạnh phúc'
-        : 'To become a pioneering brand leading the region in unleashing youth potential, creating new standards for comprehensive capacity building to construct a prosperous and happy future',
-      gradient: 'bg-gradient-blue'
+      icon: aboutContent.vision_icon,
+      title: language === 'vi' ? aboutContent.vision_title_vi : aboutContent.vision_title_en,
+      content: language === 'vi' ? aboutContent.vision_content_vi : aboutContent.vision_content_en,
+      gradient: 'bg-gradient-blue',
+      details: [
+        {
+          title: language === 'vi' ? aboutContent.value1_title_vi : aboutContent.value1_title_en,
+          description: language === 'vi' ? aboutContent.value1_desc_vi : aboutContent.value1_desc_en
+        }
+      ]
     },
     {
-      icon: 'fa-bullseye',
-      title: language === 'vi' ? 'Sứ mệnh' : 'Mission',
-      content: language === 'vi'
-        ? 'Happy World Mekong trở thành điểm chạm kỹ năng, luôn tiên phong mang đến cơ hội trang bị kỹ năng mềm, kiến thức nền tảng và năng lực tương lai thông qua các chương trình, giải pháp giáo dục hiện đại và dịch vụ công nghệ mới; Kiến tạo tương lai bằng cách khai phóng tiềm năng của thế hệ trẻ, góp phần xây dựng một thế giới hạnh phúc.'
-        : 'Happy World Mekong becomes a skills touch point, always pioneering to bring opportunities to equip soft skills, foundational knowledge and future capabilities through modern education programs, solutions and new technology services; Building the future by unleashing youth potential, contributing to building a happy world.',
-      gradient: 'bg-gradient-orange'
+      icon: aboutContent.mission_icon,
+      title: language === 'vi' ? aboutContent.mission_title_vi : aboutContent.mission_title_en,
+      content: language === 'vi' ? aboutContent.mission_content_vi : aboutContent.mission_content_en,
+      gradient: 'bg-gradient-orange',
+      details: [
+        {
+          title: language === 'vi' ? aboutContent.value2_title_vi : aboutContent.value2_title_en,
+          description: language === 'vi' ? aboutContent.value2_desc_vi : aboutContent.value2_desc_en
+        }
+      ]
     },
     {
-      icon: 'fa-gem',
-      title: language === 'vi' ? 'Giá trị cốt lõi' : 'Core Values',
-      content: language === 'vi'
-        ? 'Tiên phong - Toàn diện - Bền vững'
-        : 'Pioneering - Comprehensive - Sustainable',
-      gradient: 'bg-gradient-green'
+      icon: aboutContent.values_icon,
+      title: language === 'vi' ? aboutContent.values_title_vi : aboutContent.values_title_en,
+      content: language === 'vi' ? aboutContent.values_content_vi : aboutContent.values_content_en,
+      gradient: 'bg-gradient-green',
+      details: [
+        {
+          title: language === 'vi' ? aboutContent.value3_title_vi : aboutContent.value3_title_en,
+          description: language === 'vi' ? aboutContent.value3_desc_vi : aboutContent.value3_desc_en
+        }
+      ]
     }
   ]
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="text-center">
+          <div className="inline-block animate-spin rounded-full h-16 w-16 border-b-2 border-mekong-blue mb-4"></div>
+          <p className="text-gray-600">{language === 'vi' ? 'Đang tải...' : 'Loading...'}</p>
+        </div>
+      </div>
+    )
+  }
 
   return (
     <div className="about-page">
@@ -112,7 +205,7 @@ const About = () => {
             >
               <div className="bg-white px-6 py-3 rounded-full shadow-lg">
                 <p className="text-mekong-blue font-bold m-0">
-                  🏆 {language === 'vi' ? 'Giáo dục từ miền Tây' : 'Education from the West'}
+                  🏆 {language === 'vi' ? aboutContent.badge_vi : aboutContent.badge_en}
                 </p>
               </div>
             </motion.div>
@@ -140,23 +233,17 @@ const About = () => {
               >
                 <p className="text-gray-700 leading-relaxed mb-4">
                   <span className="font-bold">Happy World Mekong</span>{' '}
-                  {language === 'vi' 
-                    ? 'là Công ty công nghệ giáo dục khu vực Đồng bằng sông Cửu Long, chuyên cung cấp các giải pháp toàn diện về đào tạo tân tiến, định hướng nghề nghiệp, cung ứng nguồn nhân lực chất lượng cao và tạo môi trường cho khởi nghiệp.'
-                    : 'is an educational technology company in the Mekong Delta region, specializing in providing comprehensive solutions for innovative training, career guidance, high-quality human resource supply, and creating an environment for entrepreneurship.'}
+                  {language === 'vi' ? aboutContent.intro_paragraph1_vi : aboutContent.intro_paragraph1_en}
                 </p>
                 <p className="text-gray-700 leading-relaxed mb-4">
                   <span className="font-bold">
                     {language === 'vi' ? 'Công ty Cổ phần Công nghệ Giáo dục Happy World Mekong' : 'Happy World Mekong Education Technology Co., Ltd'}
                   </span>{' '}
-                  {language === 'vi'
-                    ? 'được sáng lập bởi những chuyên gia đào tạo và giảng viên uy tín - những người tâm huyết với sự nghiệp phát triển nguồn nhân lực vùng Đồng bằng sông Cửu Long.'
-                    : 'was founded by reputable training experts and lecturers - people passionate about human resource development in the Mekong Delta region.'}
+                  {language === 'vi' ? aboutContent.intro_paragraph2_vi : aboutContent.intro_paragraph2_en}
                 </p>
                 <p className="text-gray-700 leading-relaxed">
                   <span className="font-bold">Happy World Mekong</span>{' '}
-                  {language === 'vi'
-                    ? 'là đơn vị doanh nghiệp đào tạo kỹ năng toàn diện, định hướng nghề nghiệp cho học sinh, sinh viên, góp phần nâng cao chất lượng nguồn nhân lực tại khu vực miền Tây Nam Bộ.'
-                    : 'is an enterprise providing comprehensive skills training and career guidance for students, contributing to improving human resource quality in the Southwest region.'}
+                  {language === 'vi' ? aboutContent.intro_paragraph3_vi : aboutContent.intro_paragraph3_en}
                 </p>
               </motion.div>
 
@@ -169,7 +256,7 @@ const About = () => {
                 <div className="aspect-video">
                   <iframe
                     className="w-full h-full"
-                    src="https://www.youtube.com/embed/sCJunphEExA?si=vlYEK38MaI1B1KD-"
+                    src={aboutContent.youtube_video_url}
                     title="Happy World Mekong Introduction"
                     frameBorder="0"
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
@@ -195,7 +282,7 @@ const About = () => {
               <span className="text-mekong-blue">HAPPY</span>{' '}
               <span className="text-sunrise-orange">WORLD</span>{' '}
               <span className="text-rice-green">MEKONG</span>{' '}
-              {language === 'vi' ? 'HOẠT ĐỘNG TRONG 7 LĨNH VỰC CHÍNH' : 'OPERATES IN 7 MAIN AREAS'}
+              {language === 'vi' ? aboutContent.main_areas_title_vi : aboutContent.main_areas_title_en}
             </h2>
           </motion.div>
 
@@ -211,7 +298,7 @@ const About = () => {
               >
                 <div className="w-full h-32 flex items-center justify-center mb-4">
                   <div className="w-24 h-24 bg-gradient-blue rounded-full flex items-center justify-center text-white text-3xl">
-                    <i className={`fas fa-${index % 4 === 0 ? 'laptop-code' : index % 4 === 1 ? 'brain' : index % 4 === 2 ? 'briefcase' : 'rocket'}`}></i>
+                    <i className={`fas ${area.icon}`}></i>
                   </div>
                 </div>
                 <p className="font-bold text-gray-900">{area.title}</p>
@@ -264,10 +351,10 @@ const About = () => {
             className="text-center mb-12"
           >
             <span className="inline-block px-4 py-2 bg-blue-50 text-mekong-blue rounded-full font-semibold mb-4">
-              {language === 'vi' ? 'Đội ngũ' : 'Our Team'}
+              {language === 'vi' ? aboutContent.team_badge_vi : aboutContent.team_badge_en}
             </span>
             <h2 className="text-3xl md:text-4xl font-heading font-bold">
-              {language === 'vi' ? 'Ban Lãnh Đạo' : 'Leadership Team'}
+              {language === 'vi' ? aboutContent.team_title_vi : aboutContent.team_title_en}
             </h2>
           </motion.div>
 

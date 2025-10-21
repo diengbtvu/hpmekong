@@ -161,6 +161,138 @@
     -webkit-box-orient: vertical;
     overflow: hidden;
   }
+
+  /* Rich Text Editor Content Styles */
+  .prose {
+    @apply text-gray-800 leading-relaxed;
+  }
+
+  .prose p {
+    @apply mb-4 text-base leading-7;
+  }
+
+  .prose h1 {
+    @apply text-3xl font-bold mt-8 mb-4 text-gray-900;
+  }
+
+  .prose h2 {
+    @apply text-2xl font-bold mt-6 mb-3 text-gray-900;
+  }
+
+  .prose h3 {
+    @apply text-xl font-bold mt-5 mb-2 text-gray-900;
+  }
+
+  .prose h4 {
+    @apply text-lg font-semibold mt-4 mb-2 text-gray-900;
+  }
+
+  .prose h5 {
+    @apply text-base font-semibold mt-3 mb-2 text-gray-900;
+  }
+
+  .prose h6 {
+    @apply text-sm font-semibold mt-3 mb-2 text-gray-900;
+  }
+
+  .prose ul {
+    @apply list-disc list-outside ml-6 mb-4 space-y-2;
+  }
+
+  .prose ol {
+    @apply list-decimal list-outside ml-6 mb-4 space-y-2;
+  }
+
+  .prose li {
+    @apply text-base leading-7;
+  }
+
+  .prose li > ul,
+  .prose li > ol {
+    @apply mt-2 mb-0;
+  }
+
+  .prose a {
+    @apply text-mekong-blue hover:underline font-medium;
+  }
+
+  .prose strong {
+    @apply font-bold text-gray-900;
+  }
+
+  .prose em {
+    @apply italic;
+  }
+
+  .prose code {
+    @apply bg-gray-100 text-red-600 px-1.5 py-0.5 rounded text-sm font-mono;
+  }
+
+  .prose pre {
+    @apply bg-gray-900 text-gray-100 p-4 rounded-lg overflow-x-auto mb-4;
+  }
+
+  .prose pre code {
+    @apply bg-transparent text-gray-100 p-0;
+  }
+
+  .prose blockquote {
+    @apply border-l-4 border-mekong-blue pl-4 py-2 my-4 italic text-gray-700 bg-blue-50 rounded-r;
+  }
+
+  .prose img {
+    @apply rounded-lg my-6 shadow-lg max-w-full h-auto mx-auto;
+  }
+
+  .prose figure {
+    @apply my-6;
+  }
+
+  .prose figcaption {
+    @apply text-sm text-gray-600 text-center mt-2 italic;
+  }
+
+  .prose table {
+    @apply w-full border-collapse mb-4 shadow-sm;
+  }
+
+  .prose thead {
+    @apply bg-gray-100;
+  }
+
+  .prose th {
+    @apply border border-gray-300 px-4 py-2 text-left font-semibold text-gray-900;
+  }
+
+  .prose td {
+    @apply border border-gray-300 px-4 py-2;
+  }
+
+  .prose tbody tr:nth-child(even) {
+    @apply bg-gray-50;
+  }
+
+  .prose tbody tr:hover {
+    @apply bg-blue-50;
+  }
+
+  .prose hr {
+    @apply my-8 border-t-2 border-gray-200;
+  }
+
+  .prose iframe,
+  .prose video {
+    @apply w-full rounded-lg my-6 shadow-lg;
+  }
+
+  /* Ensure large content fits */
+  .prose-lg {
+    @apply text-lg;
+  }
+
+  .prose-lg p {
+    @apply text-lg leading-8;
+  }
 }
 
 @layer utilities {

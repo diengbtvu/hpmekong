@@ -7,6 +7,7 @@ import ImageUpload from '../../components/admin/ImageUpload'
 import api from '../../services/api'
 import toast from '../../utils/toast'
 import { useLanguage } from '../../i18n/config'
+import { generateSlug } from '../../utils/slugify'
 
 const CenterManagement = () => {
   const { language } = useLanguage()
@@ -269,7 +270,14 @@ const CenterManagement = () => {
               label={`${t('name')} *`}
               name="name"
               value={formData.name}
-              onChange={(e) => setFormData({...formData, name: e.target.value})}
+              onChange={(e) => {
+                const name = e.target.value
+                setFormData({
+                  ...formData,
+                  name: name,
+                  slug: !editingCenter ? generateSlug(name) : formData.slug
+                })
+              }}
               required
             />
             <FormInput

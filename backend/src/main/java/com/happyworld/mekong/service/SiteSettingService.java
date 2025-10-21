@@ -1,6 +1,7 @@
 package com.happyworld.mekong.service;
 
 import com.happyworld.mekong.dto.request.SiteSettingRequest;
+import com.happyworld.mekong.dto.request.UpsertSiteSettingRequest;
 import com.happyworld.mekong.dto.response.SiteSettingResponse;
 import com.happyworld.mekong.entity.SiteSetting;
 import com.happyworld.mekong.exception.ResourceNotFoundException;
@@ -155,6 +156,73 @@ public class SiteSettingService {
         
         log.info("Updated setting value for key: {}", key);
         return convertToResponse(setting);
+    }
+
+    @Transactional
+    public SiteSettingResponse upsertSetting(String key, UpsertSiteSettingRequest request) {
+        log.debug("Upserting setting with key: {}", key);
+        
+        // Validate key
+        if (key == null || key.trim().isEmpty()) {
+            throw new IllegalArgumentException("Setting key cannot be empty");
+        }
+        
+        // Try to find existing setting
+        return siteSettingRepository.findBySettingKey(key)
+                .map(existing -> {
+                    // Update existing setting
+                    if (!existing.getIsEditable()) {
+                        throw new IllegalStateException("Setting is not editable");
+                    }
+                    
+                    if (request.getSettingValue() != null) {
+                        existing.setSettingValue(request.getSettingValue());
+                    }
+                    if (request.getValueType() != null) {
+                        existing.setValueType(request.getValueType());
+                    }
+                    if (request.getSettingGroup() != null) {
+                        existing.setSettingGroup(request.getSettingGroup());
+                    }
+                    if (request.getLabel() != null) {
+                        existing.setLabel(request.getLabel());
+                    }
+                    if (request.getDescription() != null) {
+                        existing.setDescription(request.getDescription());
+                    }
+                    if (request.getDisplayOrder() != null) {
+                        existing.setDisplayOrder(request.getDisplayOrder());
+                    }
+                    if (request.getIsPublic() != null) {
+                        existing.setIsPublic(request.getIsPublic());
+                    }
+                    
+                    SiteSetting saved = siteSettingRepository.save(existing);
+                    log.info("Updated existing setting with key: {}", key);
+                    return convertToResponse(saved);
+                })
+                .orElseGet(() -> {
+                    // Create new setting with defaults
+                    SiteSetting.ValueType valueType = request.getValueType() != null 
+                        ? request.getValueType() 
+                        : SiteSetting.ValueType.STRING;
+                    
+                    SiteSetting newSetting = SiteSetting.builder()
+                            .settingKey(key)
+                            .settingValue(request.getSettingValue() != null ? request.getSettingValue() : "")
+                            .valueType(valueType)
+                            .settingGroup(request.getSettingGroup() != null ? request.getSettingGroup() : "general")
+                            .label(request.getLabel() != null ? request.getLabel() : key)
+                            .description(request.getDescription() != null ? request.getDescription() : "")
+                            .displayOrder(request.getDisplayOrder() != null ? request.getDisplayOrder() : 0)
+                            .isPublic(request.getIsPublic() != null ? request.getIsPublic() : true)
+                            .isEditable(request.getIsEditable() != null ? request.getIsEditable() : true)
+                            .build();
+                    
+                    SiteSetting saved = siteSettingRepository.save(newSetting);
+                    log.info("Created new setting with key: {}", key);
+                    return convertToResponse(saved);
+                });
     }
 
     @Transactional

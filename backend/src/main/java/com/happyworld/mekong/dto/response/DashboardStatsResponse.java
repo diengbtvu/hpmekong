@@ -39,9 +39,16 @@ public class DashboardStatsResponse {
     private Long totalPosts;
     private Long publishedPosts;
     
-    // Growth stats
-    private Map<String, Object> userGrowth;
-    private Map<String, Object> revenueGrowth;
-    private Map<String, Object> enrollmentGrowth;
+    // Growth percentages (compared to last month)
+    private Double userGrowthPercent;
+    private Double courseGrowthPercent;
+    private Double enrollmentGrowthPercent;
+    private Double revenueGrowthPercent;
+    
+    // Previous month data for comparison
+    private Long totalUsersLastMonth;
+    private Long totalCoursesLastMonth;
+    private Long totalEnrollmentsLastMonth;
+    private BigDecimal totalRevenueLastMonth;
 }
 

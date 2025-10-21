@@ -5,6 +5,7 @@ import { motion } from 'framer-motion'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import { Autoplay, Pagination, EffectCards } from 'swiper/modules'
 import { bannerService } from '../../services/contentService'
+import api from '../../services/api'
 import 'swiper/css'
 import 'swiper/css/effect-cards'
 import 'swiper/css/pagination'
@@ -16,7 +17,7 @@ const HeroSection = () => {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    const fetchBanners = async () => {
+    const fetchData = async () => {
       try {
         // Fetch HERO banner for main image
         const heroResponse = await bannerService.getBannersByType('HERO')
@@ -24,19 +25,26 @@ const HeroSection = () => {
           setHeroBanner(heroResponse.data[0]) // Get first active HERO banner
         }
 
-        // Fetch FEATURED_NEWS for slider
-        const newsResponse = await bannerService.getBannersByType('FEATURED_NEWS')
-        if (newsResponse.success && newsResponse.data) {
-          setFeaturedNews(newsResponse.data.map(banner => ({
-            id: banner.id,
-            title: language === 'vi' ? banner.title : (banner.titleEn || banner.title),
-            excerpt: language === 'vi' ? banner.description : (banner.descriptionEn || banner.description),
-            image: banner.imageUrl,
-            link: banner.linkUrl
-          })))
+        // Fetch latest 3 posts for slider
+        const postsResponse = await api.get('/posts', {
+          params: {
+            page: 0,
+            size: 3
+          }
+        })
+        
+        if (postsResponse.data.success && postsResponse.data.data.content) {
+          const posts = postsResponse.data.data.content.map(post => ({
+            id: post.id,
+            title: language === 'vi' ? post.title : (post.titleEn || post.title),
+            excerpt: language === 'vi' ? (post.excerpt || '') : (post.excerptEn || post.excerpt || ''),
+            image: post.featuredImageUrl || 'https://placehold.co/400x300',
+            link: `/news/${post.slug}`
+          }))
+          setFeaturedNews(posts)
         }
       } catch (error) {
-        console.error('Error fetching banners:', error)
+        console.error('Error fetching data:', error)
         // Fallback to empty on error
         setHeroBanner(null)
         setFeaturedNews([])
@@ -45,7 +53,7 @@ const HeroSection = () => {
       }
     }
 
-    fetchBanners()
+    fetchData()
   }, [language])
 
   return (

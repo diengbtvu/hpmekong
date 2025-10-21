@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Repository
@@ -29,6 +30,8 @@ public interface CourseRepository extends JpaRepository<Course, Long>, JpaSpecif
     Page<Course> findTopCoursesByEnrollments(Course.CourseStatus status, Pageable pageable);
 
     long countByStatus(Course.CourseStatus status);
+    
+    long countByCreatedAtBefore(LocalDateTime date);
 
     boolean existsBySlug(String slug);
 }

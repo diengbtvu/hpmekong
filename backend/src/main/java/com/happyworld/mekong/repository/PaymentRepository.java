@@ -27,6 +27,9 @@ public interface PaymentRepository extends JpaRepository<Payment, Long> {
 
     @Query("SELECT SUM(p.amount) FROM Payment p WHERE p.status = :status AND p.createdAt >= :startDate")
     BigDecimal sumAmountByStatusAndCreatedAtAfter(Payment.PaymentStatus status, LocalDateTime startDate);
+    
+    @Query("SELECT SUM(p.amount) FROM Payment p WHERE p.status = :status AND p.createdAt < :endDate")
+    BigDecimal sumAmountByStatusAndCreatedAtBefore(Payment.PaymentStatus status, LocalDateTime endDate);
 
     long countByStatus(Payment.PaymentStatus status);
 }

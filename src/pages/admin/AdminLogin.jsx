@@ -28,7 +28,6 @@ const AdminLogin = () => {
       forgotPassword: 'Quên mật khẩu?',
       login: 'Đăng nhập',
       loggingIn: 'Đang đăng nhập...',
-      demoCredentials: 'Thông tin demo',
       noAdminAccess: 'Bạn không có quyền truy cập trang quản trị',
       loginFailed: 'Đăng nhập thất bại',
       serverError: 'Lỗi server',
@@ -45,7 +44,6 @@ const AdminLogin = () => {
       forgotPassword: 'Forgot Password?',
       login: 'Login',
       loggingIn: 'Logging in...',
-      demoCredentials: 'Demo Credentials',
       noAdminAccess: 'You do not have admin access',
       loginFailed: 'Login failed',
       serverError: 'Server error',
@@ -174,7 +172,7 @@ const AdminLogin = () => {
                   onChange={handleChange}
                   required
                   className="block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-mekong-blue focus:border-transparent transition-colors"
-                  placeholder="admin@happyworldmekong.com"
+                  placeholder={t('enterEmail')}
                 />
               </div>
             </div>
@@ -243,15 +241,6 @@ const AdminLogin = () => {
               )}
             </button>
           </form>
-
-          {/* Demo Credentials */}
-          <div className="mt-6 pt-6 border-t border-gray-200">
-            <p className="text-xs text-gray-500 text-center mb-2">{t('demoCredentials')}:</p>
-            <div className="bg-gray-50 rounded-lg p-3 text-xs text-gray-600 space-y-1">
-              <p><strong>{t('email')}:</strong> admin@mekong.com</p>
-              <p><strong>{t('password')}:</strong> Admin123</p>
-            </div>
-          </div>
         </div>
 
         {/* Back to Home */}

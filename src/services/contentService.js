@@ -219,6 +219,20 @@ export const settingsService = {
     return response.data
   },
 
+  upsertSetting: async (key, data) => {
+    const response = await api.put(`/admin/settings/key/${key}`, {
+      settingValue: data.value,
+      settingGroup: data.group,
+      valueType: data.valueType || 'STRING',
+      isPublic: data.isPublic !== undefined ? data.isPublic : true,
+      isEditable: data.isEditable !== undefined ? data.isEditable : true,
+      label: data.label || key,
+      description: data.description || '',
+      displayOrder: data.displayOrder || 0
+    })
+    return response.data
+  },
+
   deleteSetting: async (id) => {
     const response = await api.delete(`/admin/settings/${id}`)
     return response.data

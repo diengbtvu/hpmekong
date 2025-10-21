@@ -54,6 +54,10 @@ public class PostService {
                 .status(Post.PostStatus.DRAFT)
                 .isFeatured(request.getIsFeatured())
                 .allowComments(request.getAllowComments())
+                .viewCount(0)
+                .commentCount(0)
+                .likeCount(0)
+                .shareCount(0)
                 .metaTitle(request.getMetaTitle())
                 .metaDescription(request.getMetaDescription())
                 .metaKeywords(request.getMetaKeywords())
@@ -71,7 +75,8 @@ public class PostService {
                 .orElseThrow(() -> new ResourceNotFoundException("Post", "slug", slug));
 
         // Increment view count
-        post.setViewCount(post.getViewCount() + 1);
+        Integer currentViewCount = post.getViewCount() != null ? post.getViewCount() : 0;
+        post.setViewCount(currentViewCount + 1);
         postRepository.save(post);
 
         return mapToPostResponse(post);
@@ -119,10 +124,10 @@ public class PostService {
                 .status(post.getStatus().name())
                 .isFeatured(post.getIsFeatured())
                 .allowComments(post.getAllowComments())
-                .viewCount(post.getViewCount())
-                .commentCount(post.getCommentCount())
-                .likeCount(post.getLikeCount())
-                .shareCount(post.getShareCount())
+                .viewCount(post.getViewCount() != null ? post.getViewCount() : 0)
+                .commentCount(post.getCommentCount() != null ? post.getCommentCount() : 0)
+                .likeCount(post.getLikeCount() != null ? post.getLikeCount() : 0)
+                .shareCount(post.getShareCount() != null ? post.getShareCount() : 0)
                 .publishedAt(post.getPublishedAt())
                 .createdAt(post.getCreatedAt())
                 .updatedAt(post.getUpdatedAt());
@@ -166,6 +171,10 @@ public class PostService {
                 .status(request.getStatus() != null ? Post.PostStatus.valueOf(request.getStatus()) : Post.PostStatus.DRAFT)
                 .isFeatured(request.getIsFeatured())
                 .allowComments(request.getAllowComments())
+                .viewCount(0)
+                .commentCount(0)
+                .likeCount(0)
+                .shareCount(0)
                 .metaTitle(request.getMetaTitle())
                 .metaDescription(request.getMetaDescription())
                 .metaKeywords(request.getMetaKeywords())

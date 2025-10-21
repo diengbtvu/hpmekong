@@ -16,9 +16,9 @@ const InstructorCard = ({ instructor, index = 0, onClick }) => {
     >
       {/* Avatar */}
       <div className="aspect-square bg-gray-200 overflow-hidden">
-        {instructor.avatar ? (
+        {instructor.avatarUrl ? (
           <img
-            src={instructor.avatar}
+            src={instructor.avatarUrl}
             alt={instructor.name}
             className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
           />
@@ -50,10 +50,10 @@ const InstructorCard = ({ instructor, index = 0, onClick }) => {
 
         {/* Stats */}
         <div className="flex items-center justify-center gap-4 text-xs text-gray-600 mb-4 pt-4 border-t border-gray-200">
-          {instructor.experience && (
+          {instructor.yearsExperience && (
             <span className="flex items-center gap-1">
               <i className="fas fa-calendar-alt"></i>
-              {instructor.experience} {language === 'vi' ? 'năm' : 'years'}
+              {instructor.yearsExperience} {language === 'vi' ? 'năm' : 'years'}
             </span>
           )}
           {instructor.coursesCount && (

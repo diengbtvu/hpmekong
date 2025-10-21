@@ -3,9 +3,11 @@ package com.happyworld.mekong.service;
 import com.happyworld.mekong.dto.request.InstructorRequest;
 import com.happyworld.mekong.dto.response.InstructorResponse;
 import com.happyworld.mekong.entity.Instructor;
+import com.happyworld.mekong.entity.Profile;
 import com.happyworld.mekong.entity.User;
 import com.happyworld.mekong.exception.ResourceNotFoundException;
 import com.happyworld.mekong.repository.InstructorRepository;
+import com.happyworld.mekong.repository.ProfileRepository;
 import com.happyworld.mekong.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -23,6 +25,7 @@ public class InstructorService {
 
     private final InstructorRepository instructorRepository;
     private final UserRepository userRepository;
+    private final ProfileRepository profileRepository;
 
     @Transactional(readOnly = true)
     public Page<InstructorResponse> getAllInstructors(Pageable pageable) {
@@ -69,9 +72,37 @@ public class InstructorService {
     public InstructorResponse createInstructor(InstructorRequest request) {
         log.info("Creating instructor: {}", request.getName());
         
-        // Get or create user - simplified: use admin user (ID 1) as placeholder
-        User user = userRepository.findById(1L)
-                .orElseThrow(() -> new ResourceNotFoundException("User not found"));
+        // Always create new user for instructor (to avoid unique constraint on user_id)
+        // Use slug-based email if no email provided
+        String email = request.getEmail() != null && !request.getEmail().isEmpty() 
+                ? request.getEmail() 
+                : request.getSlug() + "@instructor.local";
+        
+        // If email exists, append a unique suffix
+        String finalEmail = email;
+        int suffix = 1;
+        while (userRepository.existsByEmail(finalEmail)) {
+            finalEmail = email.replace("@", "+" + suffix + "@");
+            suffix++;
+        }
+        
+        User user = User.builder()
+                .email(finalEmail)
+                .username(request.getSlug())
+                .password("$2a$10$defaultpassword") // Default hashed password
+                .phone(request.getPhone())
+                .isActive(true)
+                .emailVerifiedAt(java.time.LocalDateTime.now())
+                .build();
+        user = userRepository.save(user);
+        
+        // Create profile for user
+        Profile profile = Profile.builder()
+                .user(user)
+                .fullName(request.getName())
+                .avatarUrl(request.getAvatarUrl())
+                .build();
+        profileRepository.save(profile);
 
         Instructor instructor = new Instructor();
         instructor.setUser(user);

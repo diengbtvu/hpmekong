@@ -28,5 +28,7 @@ public interface UserRepository extends JpaRepository<User, Long>, JpaSpecificat
     boolean existsByPhone(String phone);
 
     long countByCreatedAtAfter(LocalDateTime date);
+    
+    long countByCreatedAtBefore(LocalDateTime date);
 }
 

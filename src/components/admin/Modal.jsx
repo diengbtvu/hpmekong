@@ -18,6 +18,7 @@ const Modal = ({ isOpen, onClose, title, children, size = 'md', footer }) => {
     md: 'max-w-2xl',
     lg: 'max-w-4xl',
     xl: 'max-w-6xl',
+    '2xl': 'max-w-7xl',
     full: 'max-w-full mx-4'
   }
 

@@ -3,6 +3,7 @@ package com.happyworld.mekong.controller;
 import com.happyworld.mekong.constant.MessageConstants;
 import com.happyworld.mekong.dto.common.ApiResponse;
 import com.happyworld.mekong.dto.request.SiteSettingRequest;
+import com.happyworld.mekong.dto.request.UpsertSiteSettingRequest;
 import com.happyworld.mekong.dto.response.SiteSettingResponse;
 import com.happyworld.mekong.service.SiteSettingService;
 import jakarta.validation.Valid;
@@ -92,6 +93,16 @@ public class SiteSettingController {
         log.info("PATCH /api/v1/admin/settings/key/{}", key);
         String value = payload.get("value");
         SiteSettingResponse setting = siteSettingService.updateSettingValue(key, value);
+        return ResponseEntity.ok(ApiResponse.success(setting, MessageConstants.SUCCESS_UPDATE));
+    }
+
+    @PutMapping("/admin/settings/key/{key}")
+    @PreAuthorize("hasAnyRole('ADMIN', 'SUPER_ADMIN')")
+    public ResponseEntity<ApiResponse<SiteSettingResponse>> upsertSetting(
+            @PathVariable String key,
+            @Valid @RequestBody UpsertSiteSettingRequest request) {
+        log.info("PUT /api/v1/admin/settings/key/{} (upsert)", key);
+        SiteSettingResponse setting = siteSettingService.upsertSetting(key, request);
         return ResponseEntity.ok(ApiResponse.success(setting, MessageConstants.SUCCESS_UPDATE));
     }
 

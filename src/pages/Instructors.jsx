@@ -165,9 +165,9 @@ const Instructors = () => {
             <div className="grid grid-cols-1 md:grid-cols-2">
               {/* Left: Image */}
               <div className="relative">
-                {selectedInstructor.avatar ? (
+                {selectedInstructor.avatarUrl ? (
                   <img
-                    src={selectedInstructor.avatar}
+                    src={selectedInstructor.avatarUrl}
                     alt={selectedInstructor.name}
                     className="w-full h-full object-cover"
                   />
@@ -220,15 +220,15 @@ const Instructors = () => {
 
                   <div className="flex items-center gap-6 pt-4 border-t">
                     <div className="text-center">
-                      <div className="text-2xl font-bold text-mekong-blue">{selectedInstructor.coursesCount}</div>
+                      <div className="text-2xl font-bold text-mekong-blue">{selectedInstructor.totalCourses}</div>
                       <div className="text-xs text-gray-600">{language === 'vi' ? 'Khóa học' : 'Courses'}</div>
                     </div>
                     <div className="text-center">
-                      <div className="text-2xl font-bold text-sunrise-orange">{selectedInstructor.studentsCount?.toLocaleString()}</div>
+                      <div className="text-2xl font-bold text-sunrise-orange">{selectedInstructor.totalStudents?.toLocaleString()}</div>
                       <div className="text-xs text-gray-600">{language === 'vi' ? 'Học viên' : 'Students'}</div>
                     </div>
                     <div className="text-center">
-                      <div className="text-2xl font-bold text-rice-green">{selectedInstructor.rating}</div>
+                      <div className="text-2xl font-bold text-rice-green">{selectedInstructor.averageRating}</div>
                       <div className="text-xs text-gray-600">⭐ Rating</div>
                     </div>
                   </div>

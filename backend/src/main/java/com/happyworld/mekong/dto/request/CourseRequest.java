@@ -44,6 +44,8 @@ public class CourseRequest {
     private String level; // ALL_LEVELS, BEGINNER, INTERMEDIATE, ADVANCED, EXPERT
 
     private String language = "vi";
+    
+    private String deliveryMode = "ONLINE"; // ONLINE, OFFLINE, HYBRID
 
     private Integer durationHours;
 

@@ -76,7 +76,7 @@ public class PostController {
     }
 
     @DeleteMapping("/posts/{id}")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'SUPER_ADMIN')")
     public ResponseEntity<ApiResponse<String>> deletePost(@PathVariable Long id) {
         log.info("DELETE /api/v1/posts/{}", id);
         
@@ -128,7 +128,7 @@ public class PostController {
     }
 
     @DeleteMapping("/admin/posts/{id}")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'SUPER_ADMIN')")
     public ResponseEntity<ApiResponse<Void>> deletePostAdmin(@PathVariable Long id) {
         log.info("DELETE /api/v1/admin/posts/{}", id);
         
