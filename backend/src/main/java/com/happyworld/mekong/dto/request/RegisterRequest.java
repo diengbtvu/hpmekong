@@ -25,6 +25,6 @@ public class RegisterRequest {
     @Pattern(regexp = "^0\\d{9}$", message = "Số điện thoại không hợp lệ")
     private String phone;
 
-    private String role = "STUDENT"; // Default role
+    private String role = "ROLE_STUDENT"; // Default role
 }
 

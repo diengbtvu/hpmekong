@@ -93,6 +93,16 @@ public class User extends BaseEntity {
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private Profile profile;
 
+    // Lifecycle callbacks
+    @PrePersist
+    protected void onCreate() {
+        if (isActive == null) isActive = true;
+        if (isVerified == null) isVerified = false;
+        if (isLocked == null) isLocked = false;
+        if (failedLoginAttempts == null) failedLoginAttempts = 0;
+        if (twoFactorEnabled == null) twoFactorEnabled = false;
+    }
+
     // Helper methods
     public void addRole(Role role) {
         this.roles.add(role);

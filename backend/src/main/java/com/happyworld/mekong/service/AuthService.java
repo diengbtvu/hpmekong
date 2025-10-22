@@ -97,12 +97,12 @@ public class AuthService {
                 .orElseThrow(() -> new UnauthorizedException(MessageConstants.ERROR_INVALID_CREDENTIALS));
 
         // Check if account is locked
-        if (user.getIsLocked()) {
+        if (Boolean.TRUE.equals(user.getIsLocked())) {
             throw new UnauthorizedException(MessageConstants.ERROR_ACCOUNT_LOCKED);
         }
 
         // Check if account is active
-        if (!user.getIsActive()) {
+        if (Boolean.FALSE.equals(user.getIsActive())) {
             throw new UnauthorizedException(MessageConstants.ERROR_ACCOUNT_DISABLED);
         }
 
@@ -158,7 +158,7 @@ public class AuthService {
                 .orElseThrow(() -> new ResourceNotFoundException("User not found"));
         
         // Check if user is active
-        if (!user.getIsActive() || user.getIsLocked()) {
+        if (Boolean.FALSE.equals(user.getIsActive()) || Boolean.TRUE.equals(user.getIsLocked())) {
             throw new UnauthorizedException("Account is not active");
         }
         
