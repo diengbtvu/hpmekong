@@ -14,19 +14,24 @@ const Courses = () => {
   const [sortBy, setSortBy] = useState('newest')
   const [courses, setCourses] = useState([])
   const [loading, setLoading] = useState(true)
+  const [currentPage, setCurrentPage] = useState(1)
+  const [totalPages, setTotalPages] = useState(1)
+  const pageSize = 12 // 12 courses per page (4x3 grid)
 
   useEffect(() => {
     const fetchCourses = async () => {
       try {
         const response = await api.get('/courses', {
           params: {
-            page: 0,
-            size: 100
+            page: currentPage - 1,
+            size: pageSize
           }
         })
         
         if (response.data.success) {
-          setCourses(response.data.data.content || [])
+          const data = response.data.data
+          setCourses(data.content || [])
+          setTotalPages(data.totalPages || 1)
         }
       } catch (error) {
         console.error('Error fetching courses:', error)
@@ -37,7 +42,7 @@ const Courses = () => {
     }
 
     fetchCourses()
-  }, [language])
+  }, [language, currentPage])
 
   // Mock data - ONLY for reference, NOT used in production
   const mockCoursesReference = [
@@ -277,28 +282,47 @@ const Courses = () => {
               )}
 
               {/* Pagination */}
-              <div className="flex justify-center mt-12">
-                <div className="flex items-center gap-2">
-                  <button className="w-10 h-10 rounded-lg border-2 border-gray-300 hover:border-mekong-blue hover:text-mekong-blue transition-colors flex items-center justify-center">
-                    <i className="fas fa-chevron-left"></i>
-                  </button>
-                  {[1, 2, 3, 4, 5].map(page => (
-                    <button
-                      key={page}
-                      className={`w-10 h-10 rounded-lg border-2 transition-colors flex items-center justify-center font-semibold ${
-                        page === 1 
-                          ? 'bg-gradient-blue text-white border-transparent' 
+              {totalPages > 1 && (
+                <div className="flex justify-center mt-12">
+                  <div className="flex items-center gap-2">
+                    <button 
+                      onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
+                      disabled={currentPage === 1}
+                      className={`w-10 h-10 rounded-lg border-2 transition-colors flex items-center justify-center ${
+                        currentPage === 1
+                          ? 'border-gray-200 text-gray-400 cursor-not-allowed'
                           : 'border-gray-300 hover:border-mekong-blue hover:text-mekong-blue'
                       }`}
                     >
-                      {page}
+                      <i className="fas fa-chevron-left"></i>
                     </button>
-                  ))}
-                  <button className="w-10 h-10 rounded-lg border-2 border-gray-300 hover:border-mekong-blue hover:text-mekong-blue transition-colors flex items-center justify-center">
-                    <i className="fas fa-chevron-right"></i>
-                  </button>
+                    {Array.from({ length: totalPages }, (_, i) => i + 1).map(page => (
+                      <button
+                        key={page}
+                        onClick={() => setCurrentPage(page)}
+                        className={`w-10 h-10 rounded-lg border-2 transition-colors flex items-center justify-center font-semibold ${
+                          page === currentPage
+                            ? 'bg-gradient-blue text-white border-transparent' 
+                            : 'border-gray-300 hover:border-mekong-blue hover:text-mekong-blue'
+                        }`}
+                      >
+                        {page}
+                      </button>
+                    ))}
+                    <button 
+                      onClick={() => setCurrentPage(prev => Math.min(totalPages, prev + 1))}
+                      disabled={currentPage === totalPages}
+                      className={`w-10 h-10 rounded-lg border-2 transition-colors flex items-center justify-center ${
+                        currentPage === totalPages
+                          ? 'border-gray-200 text-gray-400 cursor-not-allowed'
+                          : 'border-gray-300 hover:border-mekong-blue hover:text-mekong-blue'
+                      }`}
+                    >
+                      <i className="fas fa-chevron-right"></i>
+                    </button>
+                  </div>
                 </div>
-              </div>
+              )}
             </div>
           </div>
         </div>

@@ -54,6 +54,11 @@ public class PaymentService {
 
         // Validate payment type and get reference
         String description = validateAndGetDescription(request);
+        
+        // PayOS requires description max 25 characters
+        if (description.length() > 25) {
+            description = description.substring(0, 22) + "...";
+        }
 
         // Generate payment code
         String paymentCode = generatePaymentCode();
@@ -91,7 +96,7 @@ public class PaymentService {
                     .description(description)
                     .returnUrl(returnUrl)
                     .cancelUrl(cancelUrl)
-                    .items(List.of(item))
+                    .item(item)  // Use .item() instead of .items() according to PayOS SDK
                     .build();
 
             CheckoutResponseData checkoutResponse = payOS.createPaymentLink(paymentData);

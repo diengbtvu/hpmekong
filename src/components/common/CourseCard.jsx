@@ -26,9 +26,9 @@ const CourseCard = ({ course, index = 0 }) => {
       {/* Image */}
       <Link to={`/courses/${course.slug}`} className="block relative overflow-hidden">
         <div className="aspect-video bg-gray-200 relative">
-          {course.image ? (
+          {(course.image || course.thumbnailUrl) ? (
             <img
-              src={course.image}
+              src={course.image || course.thumbnailUrl}
               alt={course.title}
               className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
             />
@@ -69,8 +69,8 @@ const CourseCard = ({ course, index = 0 }) => {
         {/* Instructor */}
         <div className="flex items-center gap-2 mb-3">
           <div className="w-8 h-8 rounded-full bg-gray-300 overflow-hidden">
-            {course.instructor?.avatar ? (
-              <img src={course.instructor.avatar} alt={course.instructor.name} className="w-full h-full object-cover" />
+            {(course.instructor?.avatar || course.instructor?.avatarUrl) ? (
+              <img src={course.instructor.avatar || course.instructor.avatarUrl} alt={course.instructor.name} className="w-full h-full object-cover" />
             ) : (
               <div className="w-full h-full bg-gray-400"></div>
             )}

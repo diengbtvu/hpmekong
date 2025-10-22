@@ -4,6 +4,7 @@ import Modal from '../../components/admin/Modal'
 import FormInput from '../../components/admin/FormInput'
 import FormSelect from '../../components/admin/FormSelect'
 import ImageUpload from '../../components/admin/ImageUpload'
+import CurriculumBuilder from '../../components/admin/CurriculumBuilder'
 import api from '../../services/api'
 import toast from '../../utils/toast'
 import { useLanguage } from '../../i18n/config'
@@ -18,7 +19,7 @@ const CourseManagement = () => {
   const [loading, setLoading] = useState(true)
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [editingCourse, setEditingCourse] = useState(null)
-  const [activeTab, setActiveTab] = useState('basic') // basic, content, pricing, settings
+  const [activeTab, setActiveTab] = useState('basic') // basic, content, pricing, settings, curriculum
   const [formData, setFormData] = useState({
     title: '',
     slug: '',
@@ -59,6 +60,7 @@ const CourseManagement = () => {
       // Tabs
       basicInfo: 'Thông tin cơ bản',
       content: 'Nội dung khóa học',
+      curriculum: 'Chương trình học',
       pricing: 'Giá & Khuyến mãi',
       settings: 'Cài đặt',
       
@@ -136,6 +138,7 @@ const CourseManagement = () => {
       
       basicInfo: 'Basic Information',
       content: 'Course Content',
+      curriculum: 'Curriculum',
       pricing: 'Pricing & Discounts',
       settings: 'Settings',
       
@@ -431,6 +434,7 @@ const CourseManagement = () => {
   const tabs = [
     { id: 'basic', label: t('basicInfo'), icon: 'fa-info-circle' },
     { id: 'content', label: t('content'), icon: 'fa-book' },
+    { id: 'curriculum', label: t('curriculum'), icon: 'fa-list-ol' },
     { id: 'pricing', label: t('pricing'), icon: 'fa-dollar-sign' },
     { id: 'settings', label: t('settings'), icon: 'fa-cog' }
   ]
@@ -769,6 +773,38 @@ const CourseManagement = () => {
                   </p>
                 </div>
               )}
+            </div>
+          )}
+
+          {/* Curriculum Tab */}
+          {activeTab === 'curriculum' && editingCourse && (
+            <div className="space-y-4">
+              <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-4">
+                <div className="flex items-start gap-3">
+                  <i className="fas fa-info-circle text-blue-600 mt-1"></i>
+                  <div className="flex-1">
+                    <h4 className="font-semibold text-blue-900 mb-1">Quản lý Chương trình học</h4>
+                    <p className="text-sm text-blue-800">
+                      Tạo các module (chương) và bài học cho khóa học của bạn. 
+                      Mỗi module có thể chứa nhiều bài học với các loại khác nhau (video, tài liệu, quiz, bài tập).
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <CurriculumBuilder 
+                courseId={editingCourse.id}
+              />
+            </div>
+          )}
+
+          {activeTab === 'curriculum' && !editingCourse && (
+            <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
+              <div className="flex items-center gap-3">
+                <i className="fas fa-exclamation-triangle text-yellow-600"></i>
+                <p className="text-yellow-800">
+                  Vui lòng lưu khóa học trước khi thêm chương trình học
+                </p>
+              </div>
             </div>
           )}
 

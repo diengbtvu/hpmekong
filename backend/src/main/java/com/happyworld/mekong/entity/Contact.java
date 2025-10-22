@@ -28,6 +28,8 @@ public class Contact {
 
     private String phone;
 
+    private String topic;
+
     @Column(nullable = false)
     private String subject;
 

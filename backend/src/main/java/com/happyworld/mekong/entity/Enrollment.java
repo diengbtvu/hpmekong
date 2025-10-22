@@ -56,6 +56,10 @@ public class Enrollment extends BaseEntity {
     @Column(name = "expires_at")
     private LocalDateTime expiresAt;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "payment_id")
+    private Payment payment;
+
     @Column(name = "amount_paid", precision = 10, scale = 2)
     private BigDecimal amountPaid = BigDecimal.ZERO;
 

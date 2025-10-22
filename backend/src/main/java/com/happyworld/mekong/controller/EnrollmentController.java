@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.*;
 public class EnrollmentController {
 
     private final EnrollmentService enrollmentService;
+    private final com.happyworld.mekong.security.JwtTokenProvider jwtTokenProvider;
 
     @PostMapping("/enrollments")
     public ResponseEntity<ApiResponse<EnrollmentResponse>> enrollCourse(
@@ -99,9 +100,41 @@ public class EnrollmentController {
     }
 
     private Long getUserIdFromAuth(Authentication authentication) {
-        // TODO: Implement proper user ID extraction from JWT
-        // For now, return a mock ID
-        return 1L;
+        if (authentication == null || !authentication.isAuthenticated()) {
+            throw new com.happyworld.mekong.exception.UnauthorizedException("User is not authenticated");
+        }
+        
+        // Try to get JWT token from authentication credentials
+        Object credentials = authentication.getCredentials();
+        if (credentials instanceof String) {
+            String token = (String) credentials;
+            try {
+                Long userId = jwtTokenProvider.getUserIdFromToken(token);
+                log.debug("Extracted userId {} from JWT token", userId);
+                return userId;
+            } catch (Exception e) {
+                log.error("Error extracting userId from JWT token", e);
+            }
+        }
+        
+        // Fallback: Try details field
+        Object details = authentication.getDetails();
+        if (details instanceof String) {
+            String token = (String) details;
+            try {
+                Long userId = jwtTokenProvider.getUserIdFromToken(token);
+                log.debug("Extracted userId {} from JWT details", userId);
+                return userId;
+            } catch (Exception e) {
+                log.error("Error extracting userId from JWT details", e);
+            }
+        }
+        
+        log.error("Unable to extract user ID from authentication. Principal: {}, Credentials: {}, Details: {}", 
+            authentication.getPrincipal().getClass().getName(),
+            credentials != null ? credentials.getClass().getName() : "null",
+            details != null ? details.getClass().getName() : "null");
+        throw new com.happyworld.mekong.exception.UnauthorizedException("Unable to extract user ID from authentication");
     }
 }
 

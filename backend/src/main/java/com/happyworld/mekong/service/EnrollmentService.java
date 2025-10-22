@@ -34,8 +34,19 @@ public class EnrollmentService {
         log.info("User {} enrolling in course {}", userId, request.getCourseId());
 
         // Check if already enrolled
-        if (enrollmentRepository.existsByUserIdAndCourseId(userId, request.getCourseId())) {
-            throw new BadRequestException(MessageConstants.ERROR_ALREADY_ENROLLED);
+        var existingEnrollment = enrollmentRepository
+                .findByUserIdAndCourseId(userId, request.getCourseId());
+        
+        if (existingEnrollment.isPresent()) {
+            Enrollment enrollment = existingEnrollment.get();
+            // If already ACTIVE or COMPLETED, throw error
+            if (enrollment.getStatus() == Enrollment.EnrollmentStatus.ACTIVE || 
+                enrollment.getStatus() == Enrollment.EnrollmentStatus.COMPLETED) {
+                throw new BadRequestException(MessageConstants.ERROR_ALREADY_ENROLLED);
+            }
+            // If PENDING, return existing enrollment (for payment retry)
+            log.info("Returning existing PENDING enrollment for user {} in course {}", userId, request.getCourseId());
+            return mapToEnrollmentResponse(enrollment);
         }
 
         // Get course
@@ -63,19 +74,23 @@ public class EnrollmentService {
         if (course.getIsFree()) {
             enrollment.setStatus(Enrollment.EnrollmentStatus.ACTIVE);
             enrollment.setAmountPaid(BigDecimal.ZERO);
+            enrollment.setStartedAt(LocalDateTime.now());
         } else {
-            // TODO: Handle payment verification
+            // For paid courses, create with PENDING status
+            // Webhook will activate after payment success
             enrollment.setStatus(Enrollment.EnrollmentStatus.PENDING);
             enrollment.setAmountPaid(course.getPrice());
         }
 
         Enrollment savedEnrollment = enrollmentRepository.save(enrollment);
 
-        // Update course stats
-        course.setTotalStudents(course.getTotalStudents() + 1);
+        // Update course stats only for new enrollments
+        Integer currentStudents = course.getTotalStudents();
+        course.setTotalStudents(currentStudents != null ? currentStudents + 1 : 1);
         courseRepository.save(course);
 
-        log.info("Enrollment created successfully for user {} in course {}", userId, course.getId());
+        log.info("Enrollment created successfully for user {} in course {} with status {}", 
+                userId, course.getId(), savedEnrollment.getStatus());
 
         return mapToEnrollmentResponse(savedEnrollment);
     }

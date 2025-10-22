@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
+import contactService from '../../services/contactService'
 import api from '../../services/api'
 import { useLanguage } from '../../i18n/config'
 
 const AdminDashboard = () => {
   const [stats, setStats] = useState(null)
   const [loading, setLoading] = useState(true)
+  const [recentContacts, setRecentContacts] = useState([])
   const user = JSON.parse(localStorage.getItem('user') || '{}')
   const { language } = useLanguage()
 
@@ -59,6 +61,7 @@ const AdminDashboard = () => {
 
   useEffect(() => {
     fetchStats()
+    fetchRecentContacts()
   }, [])
 
   const fetchStats = async () => {
@@ -71,6 +74,17 @@ const AdminDashboard = () => {
       console.error('Error fetching stats:', error)
     } finally {
       setLoading(false)
+    }
+  }
+
+  const fetchRecentContacts = async () => {
+    try {
+      const response = await contactService.getContacts({ page: 0, size: 5 })
+      if (response.success) {
+        setRecentContacts(response.data || [])
+      }
+    } catch (error) {
+      console.error('Error fetching recent contacts:', error)
     }
   }
 
@@ -143,8 +157,17 @@ const AdminDashboard = () => {
     return `${days} ${language === 'vi' ? 'ngày trước' : 'days ago'}`
   }
 
-  // Recent activities from stats - showing real data
-  const recentActivities = stats?.recentActivities || []
+  // Build recent activities from contacts
+  const recentActivities = recentContacts.map(contact => ({
+    icon: 'fa-envelope',
+    color: 'text-blue-600',
+    user: contact.name,
+    action: language === 'vi' 
+      ? `đã gửi liên hệ: "${contact.subject}"` 
+      : `submitted a contact: "${contact.subject}"`,
+    createdAt: contact.createdAt,
+    link: '/admin/business/contacts'
+  }))
 
   return (
     <div className="space-y-6">
@@ -237,16 +260,20 @@ const AdminDashboard = () => {
           <div className="bg-white rounded-xl p-6 shadow-sm">
             <div className="flex items-center justify-between mb-4">
               <h2 className="text-lg font-bold text-gray-900">{t('recentActivities')}</h2>
-              <button className="text-sm text-mekong-blue hover:text-blue-700 font-medium">
+              <Link to="/admin/business/contacts" className="text-sm text-mekong-blue hover:text-blue-700 font-medium">
                 {t('viewAll')}
-              </button>
+              </Link>
             </div>
             <div className="space-y-4">
               {recentActivities.length > 0 ? (
                 recentActivities.map((activity, index) => (
-                  <div key={index} className="flex items-start gap-4">
+                  <Link 
+                    key={index} 
+                    to={activity.link}
+                    className="flex items-start gap-4 p-3 rounded-lg hover:bg-gray-50 transition-colors group"
+                  >
                     <div className="flex-shrink-0">
-                      <div className="w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center">
+                      <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform">
                         <i className={`fas ${activity.icon} ${activity.color}`}></i>
                       </div>
                     </div>
@@ -257,7 +284,8 @@ const AdminDashboard = () => {
                       </p>
                       <p className="text-xs text-gray-500 mt-1">{getTimeAgo(activity.createdAt)}</p>
                     </div>
-                  </div>
+                    <i className="fas fa-arrow-right text-gray-400 group-hover:text-mekong-blue transition-colors"></i>
+                  </Link>
                 ))
               ) : (
                 <div className="text-center py-8">

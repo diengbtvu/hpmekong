@@ -2,6 +2,7 @@ package com.happyworld.mekong.service;
 
 import com.happyworld.mekong.dto.request.PostCreateRequest;
 import com.happyworld.mekong.dto.request.PostRequest;
+import com.happyworld.mekong.dto.response.CategoryResponse;
 import com.happyworld.mekong.dto.response.PostResponse;
 import com.happyworld.mekong.entity.Post;
 import com.happyworld.mekong.entity.PostCategory;
@@ -131,6 +132,19 @@ public class PostService {
                 .publishedAt(post.getPublishedAt())
                 .createdAt(post.getCreatedAt())
                 .updatedAt(post.getUpdatedAt());
+
+        // Category
+        if (post.getCategory() != null) {
+            builder.category(CategoryResponse.builder()
+                    .id(post.getCategory().getId())
+                    .name(post.getCategory().getName())
+                    .slug(post.getCategory().getSlug())
+                    .description(post.getCategory().getDescription())
+                    .icon(post.getCategory().getIcon())
+                    .color(post.getCategory().getColor())
+                    .displayOrder(post.getCategory().getDisplayOrder())
+                    .build());
+        }
 
         // Author
         if (post.getAuthor() != null) {

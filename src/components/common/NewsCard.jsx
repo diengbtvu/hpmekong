@@ -20,9 +20,18 @@ const NewsCard = ({ post, index = 0 }) => {
       activities: 'bg-blue-100 text-blue-700',
       recruitment: 'bg-green-100 text-green-700',
       events: 'bg-orange-100 text-orange-700',
+      announcements: 'bg-red-100 text-red-700'
     }
     return colors[category] || 'bg-gray-100 text-gray-700'
   }
+
+  // Extract category info safely - handle both old format (string) and new format (object)
+  const categoryName = typeof post.category === 'object' && post.category?.name 
+    ? post.category.name 
+    : post.categoryName || null
+  const categorySlug = typeof post.category === 'object' && post.category?.slug
+    ? post.category.slug
+    : (typeof post.category === 'string' ? post.category : null)
 
   return (
     <motion.div
@@ -49,10 +58,10 @@ const NewsCard = ({ post, index = 0 }) => {
         </div>
 
         {/* Category Badge */}
-        {post.category && (
+        {categoryName && (
           <div className="absolute top-3 left-3">
-            <span className={`px-3 py-1 ${getCategoryColor(post.category)} text-xs font-bold rounded-full`}>
-              {post.categoryName || post.category}
+            <span className={`px-3 py-1 ${getCategoryColor(categorySlug)} text-xs font-bold rounded-full`}>
+              {categoryName}
             </span>
           </div>
         )}

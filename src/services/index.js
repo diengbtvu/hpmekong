@@ -6,4 +6,6 @@ export { default as instructorService } from './instructorService'
 export { default as newsService } from './newsService'
 export { default as contactService } from './contactService'
 export { default as leaderService } from './leaderService'
+export { default as enrollmentService } from './enrollmentService'
+export { default as paymentService } from './paymentService'
 

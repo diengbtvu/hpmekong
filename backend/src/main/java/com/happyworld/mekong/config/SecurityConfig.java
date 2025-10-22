@@ -58,14 +58,16 @@ public class SecurityConfig {
                         .requestMatchers("/api/v1/public/**").permitAll()  // Add all public content APIs
                         .requestMatchers("/api/v1/courses/**").permitAll()
                         .requestMatchers("/api/v1/posts/**").permitAll()
+                        .requestMatchers("/api/v1/post-categories/**").permitAll()
                         .requestMatchers("/api/v1/jobs/**").permitAll()
                         .requestMatchers("/api/v1/instructors/**").permitAll()
                         .requestMatchers("/api/v1/leaders/**").permitAll()  // Allow public access to leaders
                         .requestMatchers("/api/v1/centers/**").permitAll()
                         .requestMatchers("/api/v1/categories/**").permitAll()
-                        .requestMatchers("/api/v1/contact").permitAll()
+                        .requestMatchers("/api/v1/contacts").permitAll()
                         .requestMatchers("/api/v1/newsletter/subscribe").permitAll()
                         .requestMatchers("/api/v1/health/**").permitAll()
+                        .requestMatchers("/api/webhooks/**").permitAll()  // Allow PayOS webhooks
                         .requestMatchers("/actuator/**").permitAll()
                         .requestMatchers("/uploads/**").permitAll()  // Allow public access to uploaded files
 

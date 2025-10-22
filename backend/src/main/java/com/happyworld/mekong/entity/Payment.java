@@ -77,15 +77,15 @@ public class Payment extends BaseEntity {
     private String metadata;
 
     public enum PaymentMethod {
-        PAYOS, BANK_TRANSFER, CASH, CRYPTO
+        PAYOS, VNPAY, MOMO, BANK_TRANSFER, CASH, CRYPTO
     }
 
     public enum PaymentType {
-        COURSE_ENROLLMENT, JOB_POSTING, SUBSCRIPTION, BOOK_PURCHASE, SPACE_RENTAL, OTHER
+        COURSE_ENROLLMENT, SUBSCRIPTION, ONE_TIME, DONATION
     }
 
     public enum PaymentStatus {
-        PENDING, PROCESSING, COMPLETED, FAILED, REFUNDED, CANCELLED
+        PENDING, COMPLETED, FAILED, CANCELLED, REFUNDED, EXPIRED
     }
 }
 

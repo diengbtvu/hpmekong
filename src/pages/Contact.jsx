@@ -1,10 +1,14 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useLanguage } from '../i18n/config.jsx'
+import { useLocation } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import { CONTACT_INFO } from '../utils/constants'
+import { contactService } from '../services'
+import api from '../services/api'
 
 const Contact = () => {
   const { t, language } = useLanguage()
+  const location = useLocation()
   const [formData, setFormData] = useState({
     topic: '',
     fullName: '',
@@ -15,6 +19,32 @@ const Contact = () => {
   const [errors, setErrors] = useState({})
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [submitStatus, setSubmitStatus] = useState(null)
+  const [settings, setSettings] = useState(null)
+
+  useEffect(() => {
+    fetchSettings()
+    
+    // Prefill form from navigation state
+    if (location.state) {
+      if (location.state.topic) {
+        setFormData(prev => ({ ...prev, topic: location.state.topic }))
+      }
+      if (location.state.prefilledMessage) {
+        setFormData(prev => ({ ...prev, message: location.state.prefilledMessage }))
+      }
+    }
+  }, [location.state])
+
+  const fetchSettings = async () => {
+    try {
+      const response = await api.get('/public/settings')
+      if (response.data.success) {
+        setSettings(response.data.data)
+      }
+    } catch (error) {
+      console.error('Error fetching settings:', error)
+    }
+  }
 
   const handleChange = (e) => {
     const { name, value } = e.target
@@ -57,14 +87,28 @@ const Contact = () => {
     setIsSubmitting(true)
     
     try {
-      // TODO: Call API
-      await new Promise(resolve => setTimeout(resolve, 1000))
+      // Map frontend fields to backend API format
+      const payload = {
+        name: formData.fullName,
+        email: formData.email,
+        phone: formData.phone,
+        topic: formData.topic, // Key for filtering/searching (e.g., "consultation")
+        subject: t(`contact.topics.${formData.topic}`), // Translated text for display (e.g., "Tư vấn")
+        message: formData.message
+      }
       
-      setSubmitStatus('success')
-      setFormData({ topic: '', fullName: '', email: '', phone: '', message: '' })
+      const response = await contactService.submitContact(payload)
       
-      setTimeout(() => setSubmitStatus(null), 5000)
+      if (response.success) {
+        setSubmitStatus('success')
+        setFormData({ topic: '', fullName: '', email: '', phone: '', message: '' })
+        
+        setTimeout(() => setSubmitStatus(null), 5000)
+      } else {
+        throw new Error(response.message || 'Failed to submit')
+      }
     } catch (error) {
+      console.error('Error submitting contact form:', error)
       setSubmitStatus('error')
       setTimeout(() => setSubmitStatus(null), 5000)
     } finally {
@@ -106,14 +150,22 @@ const Contact = () => {
               transition={{ delay: 0.2 }}
             >
               <div className="bg-white rounded-2xl overflow-hidden shadow-lg h-full min-h-[400px]">
-                <iframe
-                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3928.841459932746!2d105.78164431533394!3d10.029933692833894!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31a0629f6de3cfbd%3A0x30b3c5f90e5d1ec8!2zQ-G6p24gVGjGoSwgVmnhu4d0IE5hbQ!5e0!3m2!1svi!2s!4v1234567890"
-                  width="100%"
-                  height="100%"
-                  style={{ border: 0, minHeight: '400px' }}
-                  allowFullScreen=""
-                  loading="lazy"
-                ></iframe>
+                {settings?.google_maps_embed ? (
+                  <div 
+                    dangerouslySetInnerHTML={{ __html: settings.google_maps_embed }}
+                    className="w-full h-full min-h-[400px]"
+                    style={{ border: 0 }}
+                  />
+                ) : (
+                  <iframe
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3928.841459932746!2d105.78164431533394!3d10.029933692833894!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31a0629f6de3cfbd%3A0x30b3c5f90e5d1ec8!2zQ-G6p24gVGjGoSwgVmnhu4d0IE5hbQ!5e0!3m2!1svi!2s!4v1234567890"
+                    width="100%"
+                    height="100%"
+                    style={{ border: 0, minHeight: '400px' }}
+                    allowFullScreen=""
+                    loading="lazy"
+                  ></iframe>
+                )}
               </div>
             </motion.div>
 
@@ -238,18 +290,18 @@ const Contact = () => {
                 <div className="space-y-3">
                   <div className="flex items-center gap-3">
                     <i className="fas fa-map-marker-alt text-mekong-blue"></i>
-                    <span className="text-gray-700">{CONTACT_INFO.address}</span>
+                    <span className="text-gray-700">{settings?.address || CONTACT_INFO.address}</span>
                   </div>
                   <div className="flex items-center gap-3">
                     <i className="fas fa-envelope text-mekong-blue"></i>
-                    <a href={`mailto:${CONTACT_INFO.email}`} className="text-gray-700 hover:text-mekong-blue transition-colors">
-                      {CONTACT_INFO.email}
+                    <a href={`mailto:${settings?.email || CONTACT_INFO.email}`} className="text-gray-700 hover:text-mekong-blue transition-colors">
+                      {settings?.email || CONTACT_INFO.email}
                     </a>
                   </div>
                   <div className="flex items-center gap-3">
                     <i className="fas fa-phone text-mekong-blue"></i>
-                    <a href={`tel:${CONTACT_INFO.hotline}`} className="text-gray-700 hover:text-mekong-blue transition-colors">
-                      {CONTACT_INFO.hotline}
+                    <a href={`tel:${settings?.hotline || CONTACT_INFO.hotline}`} className="text-gray-700 hover:text-mekong-blue transition-colors">
+                      {settings?.hotline || CONTACT_INFO.hotline}
                     </a>
                   </div>
                 </div>

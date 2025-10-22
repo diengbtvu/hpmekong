@@ -23,13 +23,14 @@ import java.util.List;
 public class PaymentController {
 
     private final PaymentService paymentService;
+    private final com.happyworld.mekong.security.JwtTokenProvider jwtTokenProvider;
 
     @PostMapping("/payments/create")
     public ResponseEntity<ApiResponse<PaymentResponse>> createPayment(
             @Valid @RequestBody PaymentCreateRequest request,
             Authentication authentication) {
         
-        Long userId = 1L; // TODO: Get from authentication
+        Long userId = getUserIdFromAuth(authentication);
         log.info("POST /api/v1/payments/create - User: {}, Type: {}", userId, request.getPaymentType());
         
         PaymentResponse payment = paymentService.createPayment(userId, request);
@@ -37,6 +38,32 @@ public class PaymentController {
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(ApiResponse.success(payment, "Tạo link thanh toán thành công"));
+    }
+    
+    private Long getUserIdFromAuth(Authentication authentication) {
+        if (authentication == null || !authentication.isAuthenticated()) {
+            throw new com.happyworld.mekong.exception.UnauthorizedException("User is not authenticated");
+        }
+        
+        Object credentials = authentication.getCredentials();
+        if (credentials instanceof String) {
+            try {
+                return jwtTokenProvider.getUserIdFromToken((String) credentials);
+            } catch (Exception e) {
+                log.error("Error extracting userId from credentials", e);
+            }
+        }
+        
+        Object details = authentication.getDetails();
+        if (details instanceof String) {
+            try {
+                return jwtTokenProvider.getUserIdFromToken((String) details);
+            } catch (Exception e) {
+                log.error("Error extracting userId from details", e);
+            }
+        }
+        
+        throw new com.happyworld.mekong.exception.UnauthorizedException("Unable to extract user ID");
     }
 
     @GetMapping("/payments/{paymentCode}")

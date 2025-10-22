@@ -23,6 +23,9 @@ public class ContactRequest {
     @Size(max = 20, message = "Số điện thoại không quá 20 ký tự")
     private String phone;
     
+    @Size(max = 100, message = "Topic key không quá 100 ký tự")
+    private String topic;
+    
     @NotBlank(message = "Chủ đề là bắt buộc")
     @Size(max = 500, message = "Chủ đề không quá 500 ký tự")
     private String subject;

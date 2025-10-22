@@ -31,7 +31,10 @@ const Modal = ({ isOpen, onClose, title, children, size = 'md', footer }) => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            onClick={onClose}
+            onClick={(e) => {
+              console.log('Backdrop clicked')
+              onClose()
+            }}
             className="fixed inset-0 bg-black bg-opacity-50 z-50"
           />
           
@@ -43,7 +46,10 @@ const Modal = ({ isOpen, onClose, title, children, size = 'md', footer }) => {
                 animate={{ opacity: 1, scale: 1, y: 0 }}
                 exit={{ opacity: 0, scale: 0.95, y: 20 }}
                 className={`relative bg-white rounded-2xl shadow-2xl w-full ${sizes[size]}`}
-                onClick={(e) => e.stopPropagation()}
+                onClick={(e) => {
+                  console.log('Modal content clicked, stopping propagation')
+                  e.stopPropagation()
+                }}
               >
                 {/* Header */}
                 <div className="flex items-center justify-between p-6 border-b border-gray-200">

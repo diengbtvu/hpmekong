@@ -13,6 +13,10 @@ import News from './pages/News'
 import NewsDetail from './pages/NewsDetail'
 import Gallery from './pages/Gallery'
 import Contact from './pages/Contact'
+import Cart from './pages/Cart'
+import MyCourses from './pages/MyCourses'
+import PaymentSuccess from './pages/PaymentSuccess'
+import PaymentCancel from './pages/PaymentCancel'
 import Login from './pages/Login'
 import Register from './pages/Register'
 
@@ -73,6 +77,10 @@ function App() {
               <Route path="news/:slug" element={<NewsDetail />} />
               <Route path="gallery" element={<Gallery />} />
               <Route path="contact" element={<Contact />} />
+              <Route path="cart" element={<Cart />} />
+              <Route path="profile/my-courses" element={<MyCourses />} />
+              <Route path="payment/success" element={<PaymentSuccess />} />
+              <Route path="payment/cancel" element={<PaymentCancel />} />
             </Route>
 
             {/* Admin Routes */}
