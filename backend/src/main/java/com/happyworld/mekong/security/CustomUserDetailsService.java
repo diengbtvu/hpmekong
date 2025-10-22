@@ -38,8 +38,9 @@ public class CustomUserDetailsService implements UserDetailsService {
     }
 
     private UserDetails buildUserDetails(User user) {
+        // Don't add "ROLE_" prefix because role names already include it (e.g., "ROLE_ADMIN")
         List<GrantedAuthority> authorities = user.getRoles().stream()
-                .map(role -> new SimpleGrantedAuthority("ROLE_" + role.getName()))
+                .map(role -> new SimpleGrantedAuthority(role.getName()))
                 .collect(Collectors.toList());
 
         return org.springframework.security.core.userdetails.User.builder()
