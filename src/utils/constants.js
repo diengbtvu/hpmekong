@@ -1,5 +1,5 @@
 // API Base URL
-export const API_BASE_URL = import.meta.env.VITE_API_URL || 'https://esj.vn/api'
+export const API_BASE_URL = import.meta.env.VITE_API_URL || 'https://hwm.edu.vn/api'
 
 // App Info
 export const APP_NAME = 'Happy World Mekong'
@@ -178,7 +178,7 @@ export const CONTACT_INFO = {
   address: 'Số 99, Đường Phạm Ngũ Lão, phường Trà Vình, tỉnh Vĩnh Long',
   email: 'Happyworldesj@gmail.com',
   hotline: '0123 456 789',
-  website: 'https://esj.vn',
+  website: 'https://hwm.edu.vn',
   workingHours: 'T2 - T6: 8:00 - 17:30, T7: 8:00 - 12:00',
 }
 

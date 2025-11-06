@@ -17,7 +17,7 @@ Roles: ĐÚNG FORMAT (UPPERCASE)
 - INSTRUCTOR (level 50)
 - STUDENT (level 30)
 
-Admin User: admin@esj.vn
+Admin User: admin@hwm.edu.vn
 - Role: SUPER_ADMIN ✅
 - Status: Active ✅
 - Verified: Yes ✅
@@ -38,7 +38,7 @@ Admin User: admin@esj.vn
 
 ### Production Admin Account
 ```
-Email: admin@esj.vn
+Email: admin@hwm.edu.vn
 Password: Admin@123
 Role: SUPER_ADMIN
 ```
@@ -65,8 +65,8 @@ Role: SUPER_ADMIN
 
 ### 1. Đăng nhập Admin Panel
 ```
-URL: https://esj.vn/admin/login
-Email: admin@esj.vn
+URL: https://hwm.edu.vn/admin/login
+Email: admin@hwm.edu.vn
 Password: Admin@123
 ```
 
@@ -80,13 +80,13 @@ Sau khi đăng nhập lần đầu:
 ### 3. Test API với curl
 ```bash
 # Login
-TOKEN=$(curl -s -X POST "https://esj.vn/api/v1/auth/login" \
+TOKEN=$(curl -s -X POST "https://hwm.edu.vn/api/v1/auth/login" \
   -H "Content-Type: application/json" \
-  -d '{"email":"admin@esj.vn","password":"Admin@123"}' | \
+  -d '{"email":"admin@hwm.edu.vn","password":"Admin@123"}' | \
   grep -o '"token":"[^"]*"' | cut -d'"' -f4)
 
 # Test admin endpoint
-curl -X GET "https://esj.vn/api/v1/admin/dashboard/stats" \
+curl -X GET "https://hwm.edu.vn/api/v1/admin/dashboard/stats" \
   -H "Authorization: Bearer $TOKEN" \
   -H "Content-Type: application/json"
 ```

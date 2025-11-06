@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 // Base URL from env or default
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'https://esj.vn/api/v1'
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'https://hwm.edu.vn/api/v1'
 
 // Create axios instance
 const api = axios.create({

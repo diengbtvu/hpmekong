@@ -52,7 +52,7 @@ SELECT u.id, u.email, r.name as role_name
 FROM users u 
 JOIN user_roles ur ON u.id = ur.user_id 
 JOIN roles r ON ur.role_id = r.id 
-WHERE u.email = 'your-email@esj.vn';
+WHERE u.email = 'your-email@hwm.edu.vn';
 ```
 
 ### 6. Test sau khi cập nhật
@@ -62,7 +62,7 @@ User cần **login lại** để nhận token mới với role mới:
 # Login để lấy token mới
 curl -X POST http://localhost:8080/api/v1/auth/login \
   -H "Content-Type: application/json" \
-  -d '{"email": "your-email@esj.vn", "password": "YourPassword"}'
+  -d '{"email": "your-email@hwm.edu.vn", "password": "YourPassword"}'
 
 # Test admin endpoint
 curl -X GET "http://localhost:8080/api/v1/admin/contacts" \
@@ -75,7 +75,7 @@ curl -X GET "http://localhost:8080/api/v1/admin/contacts" \
 ```bash
 mysql -h 127.0.0.1 -u hpmekong -p'k/fFYISAMEKPLbJqbskccKWyCTjv/jAFYLy1/MQSckQ=' hpmekong << 'EOF'
 -- Thay YOUR_EMAIL bằng email của bạn
-SET @email = 'YOUR_EMAIL@esj.vn';
+SET @email = 'YOUR_EMAIL@hwm.edu.vn';
 
 DELETE FROM user_roles WHERE user_id = (SELECT id FROM users WHERE email = @email);
 
@@ -112,6 +112,6 @@ EOF
 - `/api/v1/admin/settings` - Cài đặt hệ thống (chỉ SUPER_ADMIN)
 
 ## Đã test thành công
-✅ `testuser@esj.vn` với `ROLE_SUPER_ADMIN` - Truy cập admin dashboard OK
+✅ `testuser@hwm.edu.vn` với `ROLE_SUPER_ADMIN` - Truy cập admin dashboard OK
 ✅ All admin endpoints trả về 200 thay vì 403
 ✅ Authentication và authorization hoạt động hoàn hảo

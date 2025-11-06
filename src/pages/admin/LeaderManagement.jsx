@@ -444,7 +444,7 @@ const LeaderManagement = () => {
                         setFormData({ ...formData, avatarUrl: e.target.value })
                         setImagePreview(e.target.value)
                       }}
-                      placeholder="https://esj.vn/uploads/leaders/..."
+                      placeholder="https://hwm.edu.vn/uploads/leaders/..."
                       className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-mekong-blue focus:border-transparent mt-1"
                     />
                   </div>

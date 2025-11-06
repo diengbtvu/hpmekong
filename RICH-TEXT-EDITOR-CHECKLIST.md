@@ -58,7 +58,7 @@ import RichTextEditor from '../../components/admin/RichTextEditor'
 **Test API:**
 ```bash
 # Với token hợp lệ
-curl -X POST https://esj.vn/api/v1/files/upload/image \
+curl -X POST https://hwm.edu.vn/api/v1/files/upload/image \
   -H "Authorization: Bearer YOUR_TOKEN" \
   -F "file=@test.png" \
   -F "folder=posts"
@@ -67,7 +67,7 @@ curl -X POST https://esj.vn/api/v1/files/upload/image \
 {
   "success": true,
   "data": {
-    "url": "https://esj.vn/uploads/posts/UUID.png",
+    "url": "https://hwm.edu.vn/uploads/posts/UUID.png",
     "filename": "test.png"
   },
   "message": "Upload hình ảnh thành công"
@@ -190,7 +190,7 @@ docker logs hpmekong-frontend 2>&1 | grep "built in"
 
 ### Test 1: Upload ảnh trong editor
 ```
-1. Truy cập: https://esj.vn/admin/posts
+1. Truy cập: https://hwm.edu.vn/admin/posts
 2. Đăng nhập với admin account
 3. Click "Thêm Bài viết"
 4. Trong editor, click icon "Image"
@@ -241,7 +241,7 @@ ls -lh /root/hpmekong/uploads/posts/
 du -h /root/hpmekong/uploads/posts/*
 
 # Test URL public
-curl -I https://esj.vn/uploads/posts/FILENAME.png
+curl -I https://hwm.edu.vn/uploads/posts/FILENAME.png
 # Expected: HTTP 200 OK
 ```
 
@@ -315,7 +315,7 @@ docker-compose -f docker-compose.prod.yml up -d frontend
 <em>chữ nghiêng</em>, 
 <span style="color: rgb(255, 0, 0);">màu đỏ</span></p>
 
-<img src="https://esj.vn/uploads/posts/UUID.png" alt="">
+<img src="https://hwm.edu.vn/uploads/posts/UUID.png" alt="">
 
 <ul>
   <li>Item 1</li>

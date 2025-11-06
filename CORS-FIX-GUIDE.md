@@ -14,7 +14,7 @@
 ### 1. Backend - SecurityConfig.java
 - ✅ Thêm `@Value` annotations để đọc CORS config từ `application-prod.yml`
 - ✅ Replace hardcoded localhost origins bằng dynamic configuration
-- ✅ Support multiple production domains (esj.vn, IP address, www subdomain)
+- ✅ Support multiple production domains (hwm.edu.vn, IP address, www subdomain)
 
 ### 2. Nginx Configuration
 - ✅ Thêm CORS headers cho tất cả API proxy requests
@@ -24,10 +24,10 @@
 
 ### 3. Production Configuration
 - ✅ Cập nhật `application-prod.yml` với đầy đủ production origins:
-  - https://esj.vn
-  - http://esj.vn
-  - https://www.esj.vn
-  - http://www.esj.vn
+  - https://hwm.edu.vn
+  - http://hwm.edu.vn
+  - https://www.hwm.edu.vn
+  - http://www.hwm.edu.vn
   - http://103.200.20.62
   - https://103.200.20.62
   - http://103.200.20.62:8081
@@ -61,7 +61,7 @@ docker-compose -f docker-compose.prod.yml logs -f frontend
 ### Test 1: Preflight OPTIONS request
 ```bash
 curl -I -X OPTIONS http://103.200.20.62:8081/api/v1/public/settings \
-  -H 'Origin: https://esj.vn' \
+  -H 'Origin: https://hwm.edu.vn' \
   -H 'Access-Control-Request-Method: GET' \
   -H 'Access-Control-Request-Headers: Content-Type'
 ```
@@ -69,7 +69,7 @@ curl -I -X OPTIONS http://103.200.20.62:8081/api/v1/public/settings \
 **Kết quả mong đợi:**
 ```
 HTTP/1.1 204 No Content
-Access-Control-Allow-Origin: https://esj.vn
+Access-Control-Allow-Origin: https://hwm.edu.vn
 Access-Control-Allow-Methods: GET, POST, PUT, PATCH, DELETE, OPTIONS
 Access-Control-Allow-Headers: Authorization, Content-Type, Accept, Origin, X-Requested-With
 Access-Control-Allow-Credentials: true
@@ -93,7 +93,7 @@ Content-Type: application/json
 ```
 
 ### Test 3: Test từ browser console
-Mở browser console trên https://esj.vn và chạy:
+Mở browser console trên https://hwm.edu.vn và chạy:
 
 ```javascript
 fetch('http://103.200.20.62:8081/api/v1/public/settings', {
