@@ -1,4 +1,4 @@
-import React, { useMemo, useRef } from 'react'
+import React, { useMemo, useRef, useState } from 'react'
 import ReactQuill from 'react-quill'
 import 'react-quill/dist/quill.snow.css'
 import api from '../../services/api'
@@ -6,6 +6,41 @@ import toast from '../../utils/toast'
 
 const RichTextEditor = ({ label, value, onChange, height = 400 }) => {
   const quillRef = useRef(null)
+  const [showCaptionModal, setShowCaptionModal] = useState(false)
+  const [pendingImage, setPendingImage] = useState(null)
+  const [imageCaption, setImageCaption] = useState('')
+  const [imageAlt, setImageAlt] = useState('')
+
+  // Insert image with caption
+  const insertImageWithCaption = (imageUrl, alt, caption) => {
+    const quill = quillRef.current.getEditor()
+    const range = quill.getSelection(true)
+
+    // Insert image with alt text
+    quill.insertEmbed(range.index, 'image', imageUrl)
+    
+    // Set alt attribute
+    setTimeout(() => {
+      const images = quill.root.querySelectorAll('img')
+      const lastImage = images[images.length - 1]
+      if (lastImage && alt) {
+        lastImage.setAttribute('alt', alt)
+      }
+      if (lastImage && caption) {
+        lastImage.setAttribute('title', caption)
+      }
+    }, 0)
+
+    // Insert caption as italic text below image if provided
+    if (caption) {
+      quill.insertText(range.index + 1, '\n')
+      quill.insertText(range.index + 2, caption, { italic: true, color: '#6b7280', size: 'small' })
+      quill.insertText(range.index + 2 + caption.length, '\n')
+      quill.setSelection(range.index + 3 + caption.length)
+    } else {
+      quill.setSelection(range.index + 1)
+    }
+  }
 
   // Custom image upload handler
   const imageHandler = () => {
@@ -39,9 +74,16 @@ const RichTextEditor = ({ label, value, onChange, height = 400 }) => {
         if (response.data.success) {
           // Remove loading text
           quill.deleteText(range.index, 15)
-          // Insert image
-          quill.insertEmbed(range.index, 'image', response.data.data.url)
-          quill.setSelection(range.index + 1)
+          
+          // Store image URL and show caption modal
+          setPendingImage({
+            url: response.data.data.url,
+            range: range.index
+          })
+          setImageCaption('')
+          setImageAlt('')
+          setShowCaptionModal(true)
+          
           toast.success('Tải ảnh lên thành công!')
         }
       } catch (error) {
@@ -54,6 +96,30 @@ const RichTextEditor = ({ label, value, onChange, height = 400 }) => {
           quill.deleteText(range.index - 15, 15)
         }
       }
+    }
+  }
+
+  // Handle caption submit
+  const handleCaptionSubmit = () => {
+    if (pendingImage) {
+      insertImageWithCaption(pendingImage.url, imageAlt, imageCaption)
+      setShowCaptionModal(false)
+      setPendingImage(null)
+      setImageCaption('')
+      setImageAlt('')
+    }
+  }
+
+  // Handle caption skip
+  const handleCaptionSkip = () => {
+    if (pendingImage) {
+      const quill = quillRef.current.getEditor()
+      quill.insertEmbed(pendingImage.range, 'image', pendingImage.url)
+      quill.setSelection(pendingImage.range + 1)
+      setShowCaptionModal(false)
+      setPendingImage(null)
+      setImageCaption('')
+      setImageAlt('')
     }
   }
 
@@ -117,6 +183,94 @@ const RichTextEditor = ({ label, value, onChange, height = 400 }) => {
       <p className="text-xs text-gray-500 mt-1">
         Hỗ trợ định dạng văn bản, hình ảnh, video, và nhiều hơn nữa. Click vào icon hình ảnh để tải ảnh lên.
       </p>
+
+      {/* Caption Modal */}
+      {showCaptionModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white rounded-lg shadow-xl max-w-lg w-full mx-4">
+            <div className="p-6">
+              <div className="flex items-center justify-between mb-4">
+                <h3 className="text-lg font-semibold text-gray-900">
+                  Thêm mô tả cho ảnh
+                </h3>
+                <button
+                  onClick={handleCaptionSkip}
+                  className="text-gray-400 hover:text-gray-600"
+                >
+                  <i className="fas fa-times"></i>
+                </button>
+              </div>
+
+              {/* Preview image */}
+              {pendingImage && (
+                <div className="mb-4">
+                  <img 
+                    src={pendingImage.url} 
+                    alt="Preview" 
+                    className="w-full max-h-64 object-contain rounded-lg border"
+                  />
+                </div>
+              )}
+
+              {/* Alt text input */}
+              <div className="mb-4">
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Alt Text (Văn bản thay thế)
+                  <span className="text-gray-500 text-xs ml-1">(Tốt cho SEO)</span>
+                </label>
+                <input
+                  type="text"
+                  value={imageAlt}
+                  onChange={(e) => setImageAlt(e.target.value)}
+                  placeholder="Mô tả ngắn gọn nội dung ảnh..."
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-mekong-blue focus:border-transparent"
+                  onKeyPress={(e) => {
+                    if (e.key === 'Enter' && !e.shiftKey) {
+                      e.preventDefault()
+                      handleCaptionSubmit()
+                    }
+                  }}
+                />
+              </div>
+
+              {/* Caption input */}
+              <div className="mb-6">
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Caption (Chú thích)
+                  <span className="text-gray-500 text-xs ml-1">(Hiển thị dưới ảnh)</span>
+                </label>
+                <textarea
+                  value={imageCaption}
+                  onChange={(e) => setImageCaption(e.target.value)}
+                  placeholder="Nhập chú thích cho ảnh (tùy chọn)..."
+                  rows="3"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-mekong-blue focus:border-transparent resize-none"
+                />
+                <p className="text-xs text-gray-500 mt-1">
+                  Caption sẽ hiển thị dưới ảnh với font chữ nhỏ và màu xám
+                </p>
+              </div>
+
+              {/* Action buttons */}
+              <div className="flex gap-3">
+                <button
+                  onClick={handleCaptionSubmit}
+                  className="flex-1 px-4 py-2 bg-mekong-blue text-white rounded-lg hover:bg-blue-dark transition-colors"
+                >
+                  <i className="fas fa-check mr-2"></i>
+                  Chèn ảnh
+                </button>
+                <button
+                  onClick={handleCaptionSkip}
+                  className="px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors"
+                >
+                  Bỏ qua
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
       
       <style jsx>{`
         .quill-editor-wrapper {
