@@ -3,6 +3,7 @@ import { Outlet } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import Header from '../components/common/Header'
 import Footer from '../components/common/Footer'
+import FloatingZaloButton from '../components/common/FloatingZaloButton'
 
 const MainLayout = () => {
   const [showScrollTop, setShowScrollTop] = useState(false)
@@ -29,6 +30,9 @@ const MainLayout = () => {
       </main>
       
       <Footer />
+
+      {/* Floating Zalo Button */}
+      <FloatingZaloButton />
 
       {/* Scroll to Top Button */}
       <button
