@@ -6,7 +6,13 @@ WORKDIR /app
 # Copy package files
 COPY package*.json ./
 
-# Install dependencies
+# Install dependencies (skip postinstall scripts first)
+RUN npm install --legacy-peer-deps --ignore-scripts
+
+# Run postinstall manually (optional, only if needed)
+# RUN npm rebuild
+
+# Install all with scripts
 RUN npm install --legacy-peer-deps
 
 # Copy source code
