@@ -4,6 +4,7 @@ import { Navigate } from 'react-router-dom'
 const ProtectedRoute = ({ children, requiredRoles = [] }) => {
   const token = localStorage.getItem('token')
   const user = JSON.parse(localStorage.getItem('user') || '{}')
+  const userRoles = user?.roles || []
 
   // Check if user is logged in
   if (!token || !user.id) {
@@ -12,7 +13,12 @@ const ProtectedRoute = ({ children, requiredRoles = [] }) => {
 
   // Check if user has required role
   if (requiredRoles.length > 0) {
-    const hasRequiredRole = requiredRoles.includes(user.role)
+    // Check roles array (API returns roles with ROLE_ prefix)
+    const hasRequiredRole = requiredRoles.some(requiredRole => 
+      userRoles.includes(requiredRole) || 
+      userRoles.includes(`ROLE_${requiredRole}`) ||
+      userRoles.includes(requiredRole.replace('ROLE_', ''))
+    )
     if (!hasRequiredRole) {
       return (
         <div className="min-h-screen flex items-center justify-center bg-gray-100">

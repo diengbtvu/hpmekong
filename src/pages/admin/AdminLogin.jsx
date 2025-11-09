@@ -77,8 +77,9 @@ const AdminLogin = () => {
         
         console.log('User roles:', userRoles)
         
-        // Check if user is admin
+        // Check if user is admin (roles from API include ROLE_ prefix)
         const isAdmin = userRoles.some(role => 
+          role === 'ROLE_ADMIN' || role === 'ROLE_SUPER_ADMIN' || role === 'ROLE_CENTER_MANAGER' ||
           role === 'ADMIN' || role === 'SUPER_ADMIN' || role === 'CENTER_MANAGER'
         )
 

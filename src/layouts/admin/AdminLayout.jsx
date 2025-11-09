@@ -251,8 +251,12 @@ const AdminLayout = () => {
                 </span>
               </div>
               <div className="hidden md:block">
-                <p className="text-sm font-semibold text-gray-900">{user.name || 'Admin'}</p>
-                <p className="text-xs text-gray-500">{user.role || t('administrator')}</p>
+                <p className="text-sm font-semibold text-gray-900">{user.fullName || user.name || 'Admin'}</p>
+                <p className="text-xs text-gray-500">
+                  {user.roles && user.roles.length > 0 
+                    ? user.roles[0].replace('ROLE_', '') 
+                    : user.role || t('administrator')}
+                </p>
               </div>
               <button onClick={handleLogout} className="text-gray-400 hover:text-red-500 transition-colors" title={t('logout')}>
                 <i className="fas fa-sign-out-alt"></i>
