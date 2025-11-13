@@ -83,22 +83,22 @@ const FeaturedNewsSection = () => {
                 viewport={{ once: true }}
                 className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-all group"
               >
-                {/* Horizontal layout: image left 40%, content right 60% */}
-                <div className="flex flex-col md:flex-row">
-                  {/* Image - 40% */}
-                  <Link to={`/news/${news.slug}`} className="md:w-2/5 flex-shrink-0">
-                    <div className="h-48 md:h-full bg-gray-200 overflow-hidden">
+                {/* Vertical layout: image on top, content below */}
+                <div className="flex flex-col h-full">
+                  {/* Image */}
+                  <Link to={`/news/${news.slug}`} className="block relative overflow-hidden bg-white border-b border-gray-100">
+                    <div className="aspect-video relative flex items-center justify-center bg-gray-50">
                       <img
                         src={news.image}
                         alt={news.title}
-                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                        className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-500"
                       />
                     </div>
                   </Link>
 
-                  {/* Content - 60% */}
-                  <div className="md:w-3/5 p-5 flex flex-col justify-between">
-                    <div>
+                  {/* Content */}
+                  <div className="p-5 flex flex-col flex-grow">
+                    <div className="flex-grow">
                       <div className="flex items-center gap-3 text-xs text-gray-600 mb-2">
                         <span><i className="far fa-calendar"></i> {news.date}</span>
                         <span><i className="far fa-user"></i> by {news.author}</span>
@@ -110,7 +110,7 @@ const FeaturedNewsSection = () => {
                         </h3>
                       </Link>
 
-                      <p className="text-gray-600 text-sm line-clamp-3 mb-3">
+                      <p className="text-gray-600 text-sm line-clamp-3 mb-4">
                         {news.excerpt}
                       </p>
                     </div>
