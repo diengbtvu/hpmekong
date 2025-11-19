@@ -12,7 +12,7 @@ const EcosystemSection = () => {
     const fetchCenters = async () => {
       try {
         const response = await api.get('/centers')
-        
+
         if (response.data.success) {
           setCenters(response.data.data || [])
         }
@@ -90,7 +90,7 @@ const EcosystemSection = () => {
                   {center.logoUrl ? (
                     <img
                       src={center.logoUrl}
-                      alt={center.name}
+                      alt={(language === 'en' && center.nameEn) ? center.nameEn : center.name}
                       className="max-w-full max-h-full w-auto h-auto object-contain transition-transform group-hover:scale-105"
                     />
                   ) : (
@@ -102,10 +102,10 @@ const EcosystemSection = () => {
 
                 {/* Content */}
                 <h3 className="text-lg font-bold text-gray-900 text-center mb-2 group-hover:text-mekong-blue transition-colors">
-                  {center.name}
+                  {(language === 'en' && center.nameEn) ? center.nameEn : center.name}
                 </h3>
-                <p className="text-gray-600 text-center text-sm mb-4 h-12">
-                  {center.tagline || center.description || ''}
+                <p className="text-gray-600 text-center text-sm mb-4 h-12 line-clamp-2">
+                  {(language === 'en' && center.taglineEn) ? center.taglineEn : (center.tagline || center.description || '')}
                 </p>
 
                 {/* View More */}

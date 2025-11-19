@@ -19,7 +19,9 @@ const CenterManagement = () => {
     name: '',
     slug: '',
     tagline: '',
+    taglineEn: '',
     description: '',
+    descriptionEn: '',
     logoUrl: '',
     coverImageUrl: '',
     primaryColor: '#0066cc',
@@ -27,7 +29,8 @@ const CenterManagement = () => {
     phone: '',
     website: '',
     isActive: true,
-    displayOrder: 0
+    displayOrder: 0,
+    nameEn: ''
   })
 
   const translations = {
@@ -38,9 +41,12 @@ const CenterManagement = () => {
       editCenter: 'Sửa Trung tâm',
       createCenter: 'Tạo Trung tâm',
       name: 'Tên trung tâm',
+      nameEn: 'Tên trung tâm (EN)',
       slug: 'Slug (URL)',
       tagline: 'Slogan',
+      taglineEn: 'Slogan (EN)',
       description: 'Mô tả',
+      descriptionEn: 'Mô tả (EN)',
       logo: 'Logo',
       coverImage: 'Ảnh bìa',
       primaryColor: 'Màu chủ đạo',
@@ -71,9 +77,12 @@ const CenterManagement = () => {
       editCenter: 'Edit Center',
       createCenter: 'Create Center',
       name: 'Center Name',
+      nameEn: 'Center Name (EN)',
       slug: 'Slug (URL)',
       tagline: 'Tagline',
+      taglineEn: 'Tagline (EN)',
       description: 'Description',
+      descriptionEn: 'Description (EN)',
       logo: 'Logo',
       coverImage: 'Cover Image',
       primaryColor: 'Primary Color',
@@ -124,7 +133,9 @@ const CenterManagement = () => {
       name: '',
       slug: '',
       tagline: '',
+      taglineEn: '',
       description: '',
+      descriptionEn: '',
       logoUrl: '',
       coverImageUrl: '',
       primaryColor: '#0066cc',
@@ -132,7 +143,8 @@ const CenterManagement = () => {
       phone: '',
       website: '',
       isActive: true,
-      displayOrder: 0
+      displayOrder: 0,
+      nameEn: ''
     })
     setIsModalOpen(true)
   }
@@ -157,18 +169,18 @@ const CenterManagement = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-    
+
     // Validate required fields
     if (!formData.name || !formData.name.trim()) {
       toast.error(language === 'vi' ? 'Vui lòng nhập tên trung tâm' : 'Please enter center name')
       return
     }
-    
+
     if (!formData.slug || !formData.slug.trim()) {
       toast.error(language === 'vi' ? 'Vui lòng nhập slug' : 'Please enter slug')
       return
     }
-    
+
     try {
       if (editingCenter) {
         await api.put(`/admin/centers/${editingCenter.id}`, formData)
@@ -188,8 +200,8 @@ const CenterManagement = () => {
 
   const columns = [
     { key: 'id', label: t('id'), sortable: true },
-    { 
-      key: 'logoUrl', 
+    {
+      key: 'logoUrl',
       label: t('logo'),
       render: (value) => value ? (
         <img src={value} alt="" className="w-12 h-12 object-contain rounded" />
@@ -201,8 +213,8 @@ const CenterManagement = () => {
     },
     { key: 'name', label: t('name'), sortable: true },
     { key: 'slug', label: t('slug') },
-    { 
-      key: 'isActive', 
+    {
+      key: 'isActive',
       label: t('status'),
       render: (value) => (
         <span className={`px-2 py-1 text-xs rounded-full ${value ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800'}`}>
@@ -284,17 +296,31 @@ const CenterManagement = () => {
               label={`${t('slug')} *`}
               name="slug"
               value={formData.slug}
-              onChange={(e) => setFormData({...formData, slug: e.target.value})}
+              onChange={(e) => setFormData({ ...formData, slug: e.target.value })}
               placeholder="mekong-skills-pro"
               required
             />
           </div>
 
           <FormInput
+            label={t('nameEn')}
+            name="nameEn"
+            value={formData.nameEn}
+            onChange={(e) => setFormData({ ...formData, nameEn: e.target.value })}
+          />
+
+          <FormInput
             label={t('tagline')}
             name="tagline"
             value={formData.tagline}
-            onChange={(e) => setFormData({...formData, tagline: e.target.value})}
+            onChange={(e) => setFormData({ ...formData, tagline: e.target.value })}
+          />
+
+          <FormInput
+            label={t('taglineEn')}
+            name="taglineEn"
+            value={formData.taglineEn}
+            onChange={(e) => setFormData({ ...formData, taglineEn: e.target.value })}
           />
 
           <FormInput
@@ -303,20 +329,29 @@ const CenterManagement = () => {
             type="textarea"
             rows={3}
             value={formData.description}
-            onChange={(e) => setFormData({...formData, description: e.target.value})}
+            onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+          />
+
+          <FormInput
+            label={t('descriptionEn')}
+            name="descriptionEn"
+            type="textarea"
+            rows={3}
+            value={formData.descriptionEn}
+            onChange={(e) => setFormData({ ...formData, descriptionEn: e.target.value })}
           />
 
           <ImageUpload
             label={t('logo')}
             value={formData.logoUrl}
-            onChange={(url) => setFormData({...formData, logoUrl: url})}
+            onChange={(url) => setFormData({ ...formData, logoUrl: url })}
             folder="centers"
           />
 
           <ImageUpload
             label={t('coverImage')}
             value={formData.coverImageUrl}
-            onChange={(url) => setFormData({...formData, coverImageUrl: url})}
+            onChange={(url) => setFormData({ ...formData, coverImageUrl: url })}
             folder="centers"
           />
 
@@ -326,14 +361,14 @@ const CenterManagement = () => {
               name="primaryColor"
               type="color"
               value={formData.primaryColor}
-              onChange={(e) => setFormData({...formData, primaryColor: e.target.value})}
+              onChange={(e) => setFormData({ ...formData, primaryColor: e.target.value })}
             />
             <FormInput
               label={t('displayOrder')}
               name="displayOrder"
               type="number"
               value={formData.displayOrder}
-              onChange={(e) => setFormData({...formData, displayOrder: parseInt(e.target.value)})}
+              onChange={(e) => setFormData({ ...formData, displayOrder: parseInt(e.target.value) })}
             />
           </div>
 
@@ -343,13 +378,13 @@ const CenterManagement = () => {
               name="email"
               type="email"
               value={formData.email}
-              onChange={(e) => setFormData({...formData, email: e.target.value})}
+              onChange={(e) => setFormData({ ...formData, email: e.target.value })}
             />
             <FormInput
               label={t('phone')}
               name="phone"
               value={formData.phone}
-              onChange={(e) => setFormData({...formData, phone: e.target.value})}
+              onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
             />
           </div>
 
@@ -358,14 +393,14 @@ const CenterManagement = () => {
             name="website"
             type="url"
             value={formData.website}
-            onChange={(e) => setFormData({...formData, website: e.target.value})}
+            onChange={(e) => setFormData({ ...formData, website: e.target.value })}
           />
 
           <FormSelect
             label={t('status')}
             name="isActive"
             value={formData.isActive}
-            onChange={(e) => setFormData({...formData, isActive: e.target.value === 'true'})}
+            onChange={(e) => setFormData({ ...formData, isActive: e.target.value === 'true' })}
             options={[
               { value: 'true', label: t('active') },
               { value: 'false', label: t('inactive') }

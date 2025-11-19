@@ -12,12 +12,18 @@ public class PostRequest {
     @NotBlank(message = "Title is required")
     private String title;
 
+    private String titleEn;
+
     @NotBlank(message = "Slug is required")
     private String slug;
 
     private String excerpt;
 
+    private String excerptEn;
+
     private String content;
+
+    private String contentEn;
 
     private String featuredImageUrl;
 

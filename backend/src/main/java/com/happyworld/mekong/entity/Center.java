@@ -18,14 +18,23 @@ public class Center extends BaseEntity {
     @Column(nullable = false)
     private String name;
 
+    @Column(name = "name_en")
+    private String nameEn;
+
     @Column(nullable = false, unique = true)
     private String slug;
 
     @Column(length = 500)
     private String tagline;
 
+    @Column(name = "tagline_en", length = 500)
+    private String taglineEn;
+
     @Column(columnDefinition = "TEXT")
     private String description;
+
+    @Column(name = "description_en", columnDefinition = "TEXT")
+    private String descriptionEn;
 
     @Column(name = "logo_url", length = 500)
     private String logoUrl;

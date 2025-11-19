@@ -11,9 +11,12 @@ public class PostResponse {
 
     private Long id;
     private String title;
+    private String titleEn;
     private String slug;
     private String excerpt;
+    private String excerptEn;
     private String content;
+    private String contentEn;
     
     private String featuredImageUrl;
     

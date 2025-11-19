@@ -19,9 +19,12 @@ const PostManagement = () => {
   const [editingPost, setEditingPost] = useState(null)
   const [formData, setFormData] = useState({
     title: '',
+    titleEn: '',
     slug: '',
     excerpt: '',
+    excerptEn: '',
     content: '',
+    contentEn: '',
     featuredImageUrl: '',
     categoryId: '',
     status: 'DRAFT',
@@ -37,9 +40,12 @@ const PostManagement = () => {
       editPost: 'Sửa Bài viết',
       createPost: 'Tạo Bài viết',
       title: 'Tiêu đề',
+      titleEn: 'Tiêu đề (EN)',
       slug: 'Slug (URL)',
       excerpt: 'Tóm tắt',
+      excerptEn: 'Tóm tắt (EN)',
       content: 'Nội dung',
+      contentEn: 'Nội dung (EN)',
       featuredImage: 'Ảnh đại diện',
       category: 'Danh mục',
       status: 'Trạng thái',
@@ -73,9 +79,12 @@ const PostManagement = () => {
       editPost: 'Edit Post',
       createPost: 'Create Post',
       title: 'Title',
+      titleEn: 'Title (EN)',
       slug: 'Slug (URL)',
       excerpt: 'Excerpt',
+      excerptEn: 'Excerpt (EN)',
       content: 'Content',
+      contentEn: 'Content (EN)',
       featuredImage: 'Featured Image',
       category: 'Category',
       status: 'Status',
@@ -139,9 +148,12 @@ const PostManagement = () => {
     setEditingPost(null)
     setFormData({
       title: '',
+      titleEn: '',
       slug: '',
       excerpt: '',
+      excerptEn: '',
       content: '',
+      contentEn: '',
       featuredImageUrl: '',
       categoryId: '',
       status: 'DRAFT',
@@ -155,9 +167,12 @@ const PostManagement = () => {
     setEditingPost(post)
     setFormData({
       title: post.title,
+      titleEn: post.titleEn || '',
       slug: post.slug,
       excerpt: post.excerpt || '',
+      excerptEn: post.excerptEn || '',
       content: post.content || '',
+      contentEn: post.contentEn || '',
       featuredImageUrl: post.featuredImageUrl || '',
       categoryId: post.category?.id || '',
       status: post.status || 'DRAFT',
@@ -181,7 +196,7 @@ const PostManagement = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-    
+
     try {
       if (editingPost) {
         await api.put(`/admin/posts/${editingPost.id}`, formData)
@@ -201,8 +216,8 @@ const PostManagement = () => {
 
   const columns = [
     { key: 'id', label: t('id'), sortable: true },
-    { 
-      key: 'featuredImageUrl', 
+    {
+      key: 'featuredImageUrl',
       label: t('image'),
       render: (value) => value ? (
         <img src={value} alt="" className="w-20 h-12 object-cover rounded" />
@@ -213,22 +228,21 @@ const PostManagement = () => {
       )
     },
     { key: 'title', label: t('title'), sortable: true },
-    { 
-      key: 'status', 
+    {
+      key: 'status',
       label: t('status'),
       render: (value) => (
-        <span className={`px-2 py-1 text-xs rounded-full ${
-          value === 'PUBLISHED' || value === 'published' ? 'bg-green-100 text-green-800' : 
-          value === 'DRAFT' || value === 'draft' ? 'bg-yellow-100 text-yellow-800' : 
-          'bg-gray-100 text-gray-800'
-        }`}>
+        <span className={`px-2 py-1 text-xs rounded-full ${value === 'PUBLISHED' || value === 'published' ? 'bg-green-100 text-green-800' :
+          value === 'DRAFT' || value === 'draft' ? 'bg-yellow-100 text-yellow-800' :
+            'bg-gray-100 text-gray-800'
+          }`}>
           {t((value || 'draft').toLowerCase())}
         </span>
       )
     },
     { key: 'viewCount', label: t('views'), sortable: true },
-    { 
-      key: 'publishedAt', 
+    {
+      key: 'publishedAt',
       label: t('publishedAt'),
       render: (value) => value ? new Date(value).toLocaleDateString('vi-VN') : '-'
     },
@@ -305,7 +319,7 @@ const PostManagement = () => {
               label={`${t('slug')} *`}
               name="slug"
               value={formData.slug}
-              onChange={(e) => setFormData({...formData, slug: e.target.value})}
+              onChange={(e) => setFormData({ ...formData, slug: e.target.value })}
               required
             />
           </div>
@@ -316,21 +330,37 @@ const PostManagement = () => {
             type="textarea"
             rows={3}
             value={formData.excerpt}
-            onChange={(e) => setFormData({...formData, excerpt: e.target.value})}
+            onChange={(e) => setFormData({ ...formData, excerpt: e.target.value })}
             placeholder="Mô tả ngắn gọn về bài viết (hiển thị ở danh sách bài viết)"
+          />
+
+          <FormInput
+            label={t('excerptEn')}
+            name="excerptEn"
+            type="textarea"
+            rows={3}
+            value={formData.excerptEn}
+            onChange={(e) => setFormData({ ...formData, excerptEn: e.target.value })}
           />
 
           <RichTextEditor
             label={`${t('content')} *`}
             value={formData.content}
-            onChange={(content) => setFormData({...formData, content: content})}
+            onChange={(content) => setFormData({ ...formData, content: content })}
+            height={500}
+          />
+
+          <RichTextEditor
+            label={t('contentEn')}
+            value={formData.contentEn}
+            onChange={(content) => setFormData({ ...formData, contentEn: content })}
             height={500}
           />
 
           <ImageUpload
             label={t('featuredImage')}
             value={formData.featuredImageUrl}
-            onChange={(url) => setFormData({...formData, featuredImageUrl: url})}
+            onChange={(url) => setFormData({ ...formData, featuredImageUrl: url })}
             folder="posts"
           />
 
@@ -339,7 +369,7 @@ const PostManagement = () => {
               label={t('category')}
               name="categoryId"
               value={formData.categoryId}
-              onChange={(e) => setFormData({...formData, categoryId: e.target.value})}
+              onChange={(e) => setFormData({ ...formData, categoryId: e.target.value })}
               options={[
                 { value: '', label: '-- Chọn danh mục --' },
                 ...categories.map(c => ({ value: c.id, label: c.name }))
@@ -349,7 +379,7 @@ const PostManagement = () => {
               label={t('status')}
               name="status"
               value={formData.status}
-              onChange={(e) => setFormData({...formData, status: e.target.value})}
+              onChange={(e) => setFormData({ ...formData, status: e.target.value })}
               options={[
                 { value: 'DRAFT', label: t('draft') },
                 { value: 'PUBLISHED', label: t('published') },
@@ -360,7 +390,7 @@ const PostManagement = () => {
               label={t('featured')}
               name="isFeatured"
               value={formData.isFeatured}
-              onChange={(e) => setFormData({...formData, isFeatured: e.target.value === 'true'})}
+              onChange={(e) => setFormData({ ...formData, isFeatured: e.target.value === 'true' })}
               options={[
                 { value: 'false', label: t('no') },
                 { value: 'true', label: t('yes') }

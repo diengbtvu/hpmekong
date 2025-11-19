@@ -63,9 +63,12 @@ public class CenterService {
         
         Center center = Center.builder()
                 .name(request.getName())
+                .nameEn(request.getNameEn())
                 .slug(request.getSlug())
                 .tagline(request.getTagline())
+                .taglineEn(request.getTaglineEn())
                 .description(request.getDescription())
+                .descriptionEn(request.getDescriptionEn())
                 .logoUrl(request.getLogoUrl())
                 .coverImageUrl(request.getCoverImageUrl())
                 .primaryColor(request.getPrimaryColor())
@@ -97,9 +100,12 @@ public class CenterService {
                 .orElseThrow(() -> new ResourceNotFoundException("Center not found with id: " + id));
 
         center.setName(request.getName());
+        center.setNameEn(request.getNameEn());
         center.setSlug(request.getSlug());
         center.setTagline(request.getTagline());
+        center.setTaglineEn(request.getTaglineEn());
         center.setDescription(request.getDescription());
+        center.setDescriptionEn(request.getDescriptionEn());
         center.setLogoUrl(request.getLogoUrl());
         center.setCoverImageUrl(request.getCoverImageUrl());
         center.setPrimaryColor(request.getPrimaryColor());
@@ -138,9 +144,12 @@ public class CenterService {
         return CenterBasicResponse.builder()
                 .id(center.getId())
                 .name(center.getName())
+                .nameEn(center.getNameEn())
                 .slug(center.getSlug())
                 .tagline(center.getTagline())
+                .taglineEn(center.getTaglineEn())
                 .description(center.getDescription())
+                .descriptionEn(center.getDescriptionEn())
                 .logoUrl(center.getLogoUrl())
                 .coverImageUrl(center.getCoverImageUrl())
                 .primaryColor(center.getPrimaryColor())

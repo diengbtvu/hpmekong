@@ -26,8 +26,8 @@ const NewsCard = ({ post, index = 0 }) => {
   }
 
   // Extract category info safely - handle both old format (string) and new format (object)
-  const categoryName = typeof post.category === 'object' && post.category?.name 
-    ? post.category.name 
+  const categoryName = typeof post.category === 'object' && post.category?.name
+    ? post.category.name
     : post.categoryName || null
   const categorySlug = typeof post.category === 'object' && post.category?.slug
     ? post.category.slug
@@ -93,13 +93,13 @@ const NewsCard = ({ post, index = 0 }) => {
         {/* Title */}
         <Link to={`/news/${post.slug}`}>
           <h3 className="font-bold text-sm sm:text-base md:text-lg text-gray-900 mb-2 sm:mb-3 line-clamp-2 group-hover:text-mekong-blue transition-colors">
-            {post.title}
+            {(language === 'en' && post.titleEn) ? post.titleEn : post.title}
           </h3>
         </Link>
 
         {/* Excerpt */}
         <p className="text-gray-600 text-xs sm:text-sm line-clamp-2 sm:line-clamp-3 mb-3 sm:mb-4">
-          {post.excerpt || post.description}
+          {(language === 'en' && post.excerptEn) ? post.excerptEn : (post.excerpt || post.description)}
         </p>
 
         {/* Read More */}

@@ -47,9 +47,12 @@ public class PostService {
 
         Post post = Post.builder()
                 .title(request.getTitle())
+                .titleEn(request.getTitleEn())
                 .slug(slug)
                 .excerpt(request.getExcerpt())
+                .excerptEn(request.getExcerptEn())
                 .content(request.getContent())
+                .contentEn(request.getContentEn())
                 .featuredImageUrl(request.getFeaturedImageUrl())
                 .author(author)
                 .status(Post.PostStatus.DRAFT)
@@ -118,9 +121,12 @@ public class PostService {
         PostResponse.PostResponseBuilder builder = PostResponse.builder()
                 .id(post.getId())
                 .title(post.getTitle())
+                .titleEn(post.getTitleEn())
                 .slug(post.getSlug())
                 .excerpt(post.getExcerpt())
+                .excerptEn(post.getExcerptEn())
                 .content(post.getContent())
+                .contentEn(post.getContentEn())
                 .featuredImageUrl(post.getFeaturedImageUrl())
                 .status(post.getStatus().name())
                 .isFeatured(post.getIsFeatured())
@@ -177,9 +183,12 @@ public class PostService {
 
         Post post = Post.builder()
                 .title(request.getTitle())
+                .titleEn(request.getTitleEn())
                 .slug(request.getSlug())
                 .excerpt(request.getExcerpt())
+                .excerptEn(request.getExcerptEn())
                 .content(request.getContent())
+                .contentEn(request.getContentEn())
                 .featuredImageUrl(request.getFeaturedImageUrl())
                 .author(author)
                 .status(request.getStatus() != null ? Post.PostStatus.valueOf(request.getStatus()) : Post.PostStatus.DRAFT)
@@ -208,9 +217,12 @@ public class PostService {
                 .orElseThrow(() -> new ResourceNotFoundException("Post not found"));
 
         post.setTitle(request.getTitle());
+        post.setTitleEn(request.getTitleEn());
         post.setSlug(request.getSlug());
         post.setExcerpt(request.getExcerpt());
+        post.setExcerptEn(request.getExcerptEn());
         post.setContent(request.getContent());
+        post.setContentEn(request.getContentEn());
         post.setFeaturedImageUrl(request.getFeaturedImageUrl());
         post.setStatus(request.getStatus() != null ? Post.PostStatus.valueOf(request.getStatus()) : post.getStatus());
         post.setIsFeatured(request.getIsFeatured());

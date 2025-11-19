@@ -74,7 +74,7 @@ const NewsDetail = () => {
   const breadcrumbItems = [
     { label: language === 'vi' ? 'Trang chủ' : 'Home', path: '/' },
     { label: language === 'vi' ? 'Tin tức' : 'News', path: '/news' },
-    { label: post.title.substring(0, 50) + '...' }
+    { label: ((language === 'en' && post.titleEn) ? post.titleEn : post.title).substring(0, 50) + '...' }
   ]
 
   const estimateReadingTime = (content) => {
@@ -104,7 +104,7 @@ const NewsDetail = () => {
                   <div className="aspect-video bg-gray-200">
                     <img
                       src={post.featuredImageUrl}
-                      alt={post.title}
+                      alt={(language === 'en' && post.titleEn) ? post.titleEn : post.title}
                       className="w-full h-full object-cover"
                     />
                   </div>
@@ -114,7 +114,7 @@ const NewsDetail = () => {
                 <div className="p-8">
                   {/* Title */}
                   <h1 className="text-3xl md:text-4xl font-heading font-bold text-gray-900 mb-4">
-                    {post.title}
+                    {(language === 'en' && post.titleEn) ? post.titleEn : post.title}
                   </h1>
 
                   {/* Meta */}
@@ -142,14 +142,14 @@ const NewsDetail = () => {
                   {/* Excerpt */}
                   {post.excerpt && (
                     <div className="text-lg text-gray-700 italic mb-6 pb-6 border-b">
-                      {post.excerpt}
+                      {(language === 'en' && post.excerptEn) ? post.excerptEn : post.excerpt}
                     </div>
                   )}
 
                   {/* Article Content */}
-                  <div 
+                  <div
                     className="prose prose-lg max-w-none"
-                    dangerouslySetInnerHTML={{ __html: post.content }}
+                    dangerouslySetInnerHTML={{ __html: (language === 'en' && post.contentEn) ? post.contentEn : post.content }}
                   />
 
                   {/* Share Buttons */}
@@ -193,7 +193,7 @@ const NewsDetail = () => {
                           {relatedPost.featuredImageUrl ? (
                             <img
                               src={relatedPost.featuredImageUrl}
-                              alt={relatedPost.title}
+                              alt={(language === 'en' && relatedPost.titleEn) ? relatedPost.titleEn : relatedPost.title}
                               className="w-full h-full object-cover group-hover:scale-110 transition-transform"
                             />
                           ) : (
@@ -204,7 +204,7 @@ const NewsDetail = () => {
                         </div>
                         <div>
                           <h4 className="font-semibold text-sm line-clamp-2 group-hover:text-mekong-blue transition-colors mb-1">
-                            {relatedPost.title}
+                            {(language === 'en' && relatedPost.titleEn) ? relatedPost.titleEn : relatedPost.title}
                           </h4>
                           <p className="text-xs text-gray-500">
                             {new Date(relatedPost.publishedAt || relatedPost.createdAt).toLocaleDateString(language === 'vi' ? 'vi-VN' : 'en-US')}

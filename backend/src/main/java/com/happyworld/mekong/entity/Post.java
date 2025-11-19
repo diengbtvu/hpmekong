@@ -19,14 +19,23 @@ public class Post extends BaseEntity {
     @Column(length = 500, nullable = false)
     private String title;
 
+    @Column(name = "title_en", length = 500)
+    private String titleEn;
+
     @Column(length = 500, unique = true, nullable = false)
     private String slug;
 
     @Column(columnDefinition = "TEXT")
     private String excerpt;
 
+    @Column(name = "excerpt_en", columnDefinition = "TEXT")
+    private String excerptEn;
+
     @Column(columnDefinition = "LONGTEXT")
     private String content;
+
+    @Column(name = "content_en", columnDefinition = "LONGTEXT")
+    private String contentEn;
 
     @Column(name = "featured_image_url", length = 500)
     private String featuredImageUrl;

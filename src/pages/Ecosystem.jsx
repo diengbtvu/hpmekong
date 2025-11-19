@@ -1,42 +1,31 @@
 import React from 'react'
 import { useLanguage } from '../i18n/config.jsx'
 import { motion } from 'framer-motion'
-import { CENTERS } from '../utils/constants'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import api from '../services/api'
 
 const Ecosystem = () => {
   const { t, language } = useLanguage()
   const [selectedCenter, setSelectedCenter] = useState(null)
 
-  const centerDetails = {
-    'skills-pro': {
-      fullDescription: language === 'vi' 
-        ? 'Mekong Skills Pro là thương hiệu chương trình đào tạo kỹ năng chuyên sâu của Happy World Mekong. Chúng tôi cung cấp các khóa học kỹ năng mềm, kỹ năng cứng giúp học viên rút ngắn con đường thành công 5-7 năm.'
-        : 'Mekong Skills Pro is the professional skills training brand of Happy World Mekong. We provide soft and hard skills courses to help students shorten their path to success by 5-7 years.',
-      courses: language === 'vi' 
-        ? ['Kỹ năng giao tiếp', 'Làm việc nhóm', 'Thuyết trình', 'Lãnh đạo', 'Quản lý thời gian']
-        : ['Communication Skills', 'Teamwork', 'Presentation', 'Leadership', 'Time Management'],
-      stats: { students: '10,000+', courses: '25+', rating: '4.9' }
-    },
-    'career-guide': {
-      fullDescription: language === 'vi'
-        ? 'Hệ thống hướng nghiệp online giúp học sinh tìm ra con đường phù hợp với năng lực và đam mê. Trắc nghiệm tính cách, tư vấn chọn ngành, kết nối với các trường đại học.'
-        : 'Online career guidance system helping students find paths suitable to their abilities and passions. Personality tests, major counseling, university connections.',
-      courses: language === 'vi'
-        ? ['Test Holland', 'Test MBTI', 'Tư vấn chọn trường', 'Career Roadmap']
-        : ['Holland Test', 'MBTI Test', 'University Selection', 'Career Roadmap'],
-      stats: { students: '5,000+', tests: '20,000+', rating: '4.8' }
-    },
-    'boss': {
-      fullDescription: language === 'vi'
-        ? 'Chương trình đào tạo dành riêng cho doanh nhân, CEO và những người khởi nghiệp. Triển khai đề án hỗ trợ khởi nghiệp khu vực Đồng bằng sông Cửu Long.'
-        : 'Training program for entrepreneurs, CEOs and startups. Implementing startup support initiatives in the Mekong Delta region.',
-      courses: language === 'vi'
-        ? ['CEO Excellence', 'Khởi nghiệp số', 'Chiến lược kinh doanh', 'Tài chính DN']
-        : ['CEO Excellence', 'Digital Startup', 'Business Strategy', 'Corporate Finance'],
-      stats: { students: '2,000+', courses: '15+', rating: '5.0' }
-    },
-  }
+  const [centers, setCenters] = useState([])
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    const fetchCenters = async () => {
+      try {
+        const response = await api.get('/centers')
+        if (response.data.success) {
+          setCenters(response.data.data)
+        }
+      } catch (error) {
+        console.error('Error fetching centers:', error)
+      } finally {
+        setLoading(false)
+      }
+    }
+    fetchCenters()
+  }, [])
 
   return (
     <div className="ecosystem-page">
@@ -79,9 +68,10 @@ const Ecosystem = () => {
       <section className="section-padding bg-white">
         <div className="container-custom">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {CENTERS.map((center, index) => {
-              const centerKey = center.slug
-              const details = t(`ecosystem.centers.${centerKey}`)
+            {centers.map((center, index) => {
+              const name = (language === 'en' && center.nameEn) ? center.nameEn : center.name
+              const tagline = (language === 'en' && center.taglineEn) ? center.taglineEn : center.tagline
+              const description = (language === 'en' && center.descriptionEn) ? center.descriptionEn : center.description
 
               return (
                 <motion.div
@@ -97,36 +87,30 @@ const Ecosystem = () => {
                   <div
                     className="h-32 flex items-center justify-center text-white relative overflow-hidden"
                     style={{
-                      background: typeof center.color === 'string' && center.color.includes('gradient') 
-                        ? center.color 
-                        : `linear-gradient(135deg, ${center.color} 0%, ${center.color}CC 100%)`
+                      background: center.primaryColor && center.primaryColor.includes('gradient')
+                        ? center.primaryColor
+                        : `linear-gradient(135deg, ${center.primaryColor || '#0057B8'} 0%, ${center.primaryColor || '#0057B8'}CC 100%)`
                     }}
                   >
-                    <i className={`fas ${center.icon} text-5xl opacity-90 group-hover:scale-110 transition-transform`}></i>
+                    {center.logoUrl ? (
+                      <img src={center.logoUrl} alt={name} className="h-16 object-contain bg-white rounded p-1" />
+                    ) : (
+                      <i className="fas fa-building text-5xl opacity-90 group-hover:scale-110 transition-transform"></i>
+                    )}
                   </div>
 
                   {/* Content */}
                   <div className="p-6">
                     <h3 className="text-xl font-bold text-gray-900 mb-3 group-hover:text-mekong-blue transition-colors">
-                      {details.name}
+                      {name}
                     </h3>
                     <p className="text-gray-600 mb-4 line-clamp-2">
-                      {details.description}
+                      {tagline || description}
                     </p>
-
-                    {/* Features list */}
-                    <ul className="space-y-2 mb-4">
-                      {details.features?.slice(0, 3).map((feature, idx) => (
-                        <li key={idx} className="flex items-start gap-2 text-sm text-gray-700">
-                          <i className="fas fa-check text-rice-green mt-0.5"></i>
-                          <span>{feature}</span>
-                        </li>
-                      ))}
-                    </ul>
 
                     {/* CTA */}
                     <a
-                      href={center.url}
+                      href={center.website || '#'}
                       target="_blank"
                       rel="noopener noreferrer"
                       onClick={(e) => e.stopPropagation()}
@@ -167,7 +151,7 @@ const Ecosystem = () => {
               {
                 icon: 'fa-university',
                 title: language === 'vi' ? 'Hợp tác Đại học' : 'University Partnership',
-                description: language === 'vi' 
+                description: language === 'vi'
                   ? 'Đưa chương trình vào giảng dạy chính khóa'
                   : 'Integrate programs into main curriculum'
               },
@@ -229,7 +213,11 @@ const Ecosystem = () => {
             {/* Modal Header */}
             <div
               className="h-40 flex items-center justify-center text-white relative"
-              style={{ backgroundColor: selectedCenter.color }}
+              style={{
+                background: selectedCenter.primaryColor && selectedCenter.primaryColor.includes('gradient')
+                  ? selectedCenter.primaryColor
+                  : `linear-gradient(135deg, ${selectedCenter.primaryColor || '#0057B8'} 0%, ${selectedCenter.primaryColor || '#0057B8'}CC 100%)`
+              }}
             >
               <button
                 onClick={() => setSelectedCenter(null)}
@@ -238,30 +226,26 @@ const Ecosystem = () => {
                 <i className="fas fa-times text-2xl"></i>
               </button>
               <div className="text-center">
-                <i className={`fas ${selectedCenter.icon} text-6xl mb-2`}></i>
-                <h3 className="text-2xl font-bold">{selectedCenter.name}</h3>
+                {selectedCenter.logoUrl ? (
+                  <img src={selectedCenter.logoUrl} alt={selectedCenter.name} className="h-20 object-contain bg-white rounded p-2 mb-2 mx-auto" />
+                ) : (
+                  <i className="fas fa-building text-6xl mb-2"></i>
+                )}
+                <h3 className="text-2xl font-bold">
+                  {(language === 'en' && selectedCenter.nameEn) ? selectedCenter.nameEn : selectedCenter.name}
+                </h3>
               </div>
             </div>
 
             {/* Modal Content */}
             <div className="p-8">
               <p className="text-gray-700 text-lg mb-6">
-                {t(`ecosystem.centers.${selectedCenter.slug}.description`)}
+                {(language === 'en' && selectedCenter.descriptionEn) ? selectedCenter.descriptionEn : selectedCenter.description}
               </p>
-
-              <h4 className="font-bold text-lg mb-4">{language === 'vi' ? 'Dịch vụ chính:' : 'Main Services:'}</h4>
-              <ul className="space-y-3 mb-6">
-                {t(`ecosystem.centers.${selectedCenter.slug}.features`)?.map((feature, idx) => (
-                  <li key={idx} className="flex items-start gap-3">
-                    <i className="fas fa-check-circle text-rice-green mt-1"></i>
-                    <span className="text-gray-700">{feature}</span>
-                  </li>
-                ))}
-              </ul>
 
               <div className="flex gap-4">
                 <a
-                  href={selectedCenter.url}
+                  href={selectedCenter.website || '#'}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="btn btn-primary flex-1 justify-center"
