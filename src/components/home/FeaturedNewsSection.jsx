@@ -19,7 +19,7 @@ const FeaturedNewsSection = () => {
             size: 3
           }
         })
-        
+
         if (response.data.success) {
           // Map the posts data to match our UI structure
           const posts = (response.data.data.content || []).map(post => ({

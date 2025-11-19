@@ -101,11 +101,11 @@ const NewsDetail = () => {
               <article className="bg-white rounded-2xl shadow-lg overflow-hidden">
                 {/* Featured Image */}
                 {post.featuredImageUrl && (
-                  <div className="aspect-video bg-gray-200">
+                  <div className="aspect-video bg-gray-200 flex items-center justify-center">
                     <img
                       src={post.featuredImageUrl}
                       alt={(language === 'en' && post.titleEn) ? post.titleEn : post.title}
-                      className="w-full h-full object-cover"
+                      className="w-full h-full object-contain"
                     />
                   </div>
                 )}
@@ -189,12 +189,12 @@ const NewsDetail = () => {
                         to={`/news/${relatedPost.slug}`}
                         className="flex gap-3 group"
                       >
-                        <div className="w-24 h-24 flex-shrink-0 rounded-lg overflow-hidden bg-gray-200">
+                        <div className="w-24 h-24 flex-shrink-0 rounded-lg overflow-hidden bg-gray-200 flex items-center justify-center">
                           {relatedPost.featuredImageUrl ? (
                             <img
                               src={relatedPost.featuredImageUrl}
                               alt={(language === 'en' && relatedPost.titleEn) ? relatedPost.titleEn : relatedPost.title}
-                              className="w-full h-full object-cover group-hover:scale-110 transition-transform"
+                              className="w-full h-full object-contain group-hover:scale-110 transition-transform"
                             />
                           ) : (
                             <div className="w-full h-full flex items-center justify-center">
