@@ -316,13 +316,20 @@ const PostManagement = () => {
               required
             />
             <FormInput
-              label={`${t('slug')} *`}
-              name="slug"
-              value={formData.slug}
-              onChange={(e) => setFormData({ ...formData, slug: e.target.value })}
-              required
+              label={t('titleEn')}
+              name="titleEn"
+              value={formData.titleEn}
+              onChange={(e) => setFormData({ ...formData, titleEn: e.target.value })}
             />
           </div>
+
+          <FormInput
+            label={`${t('slug')} *`}
+            name="slug"
+            value={formData.slug}
+            onChange={(e) => setFormData({ ...formData, slug: e.target.value })}
+            required
+          />
 
           <FormInput
             label={t('excerpt')}

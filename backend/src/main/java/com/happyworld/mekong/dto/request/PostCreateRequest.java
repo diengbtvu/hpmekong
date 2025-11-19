@@ -10,11 +10,19 @@ public class PostCreateRequest {
     @Size(max = 500)
     private String title;
 
+    @Size(max = 500)
+    private String titleEn;
+
     @Size(max = 1000)
     private String excerpt;
 
+    @Size(max = 1000)
+    private String excerptEn;
+
     @NotBlank(message = "Nội dung là bắt buộc")
     private String content;
+
+    private String contentEn;
 
     private String featuredImageUrl;
     
