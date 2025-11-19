@@ -51,7 +51,7 @@ const Header = () => {
         path: '/ecosystem',
         icon: 'fa-sitemap',
         children: centers.map(c => ({
-          name: c.name,
+          name: language === 'vi' ? c.name : (c.nameEn || c.name),
           path: c.website || '#',
           external: !!c.website,
         })),
@@ -82,7 +82,7 @@ const Header = () => {
       },
     ]
     setNavMenu(menu)
-  }, [centers])
+  }, [centers, language])
 
   // Check user login status
   useEffect(() => {
@@ -125,7 +125,7 @@ const Header = () => {
               alt="Happy World Mekong Logo"
               className="h-10 sm:h-12 md:h-14 lg:h-16 xl:h-20 w-auto flex-shrink-0"
             />
-            
+
             {/* Company Info */}
             <div className="flex flex-col gap-0 md:gap-0.5 text-center">
               {/* Company Name */}
@@ -253,15 +253,15 @@ const Header = () => {
                 </div>
               ) : (
                 <div className="hidden md:flex items-center gap-2">
-                  <Link 
-                    to="/login" 
+                  <Link
+                    to="/login"
                     className="w-10 h-10 rounded-full border-2 border-mekong-blue text-mekong-blue hover:bg-mekong-blue hover:text-white transition-all flex items-center justify-center"
                     title={language === 'vi' ? 'Đăng nhập' : 'Login'}
                   >
                     <i className="fas fa-sign-in-alt"></i>
                   </Link>
-                  <Link 
-                    to="/register" 
+                  <Link
+                    to="/register"
                     className="w-10 h-10 rounded-full bg-mekong-blue text-white hover:bg-mekong-blue-dark transition-colors flex items-center justify-center"
                     title={language === 'vi' ? 'Đăng ký' : 'Register'}
                   >
@@ -269,7 +269,7 @@ const Header = () => {
                   </Link>
                 </div>
               )}
-              
+
               {/* Search Dropdown - giống NovaEdu */}
               <div className="relative">
                 <button
@@ -390,7 +390,7 @@ const Header = () => {
                   )}
                 </div>
               ))}
-              
+
               {/* Mobile Auth Actions */}
               <div className="mt-4 px-4 space-y-2">
                 {user ? (

@@ -12,26 +12,28 @@ const FooterManagement = () => {
   const [formData, setFormData] = useState({
     // Contact Info
     address: '',
+    address_en: '',
     email: '',
     hotline: '',
     website: '',
     working_hours: '',
-    
+
     // Social Links
     facebook: '',
     youtube: '',
     instagram: '',
     tiktok: '',
     zalo: '',
-    
+
     // Map
     google_maps_embed: '',
-    
+
     // Company Info
     company_name: '',
+    company_name_en: '',
     company_description_vi: '',
     company_description_en: '',
-    
+
     // Footer Copyright
     copyright_text: ''
   })
@@ -45,7 +47,9 @@ const FooterManagement = () => {
       companyInfo: 'Thông tin công ty',
       mapLocation: 'Bản đồ & Vị trí',
       companyName: 'Tên công ty',
+      companyNameEn: 'Tên công ty (Tiếng Anh)',
       address: 'Địa chỉ',
+      addressEn: 'Địa chỉ (Tiếng Anh)',
       email: 'Email',
       hotline: 'Hotline',
       website: 'Website',
@@ -75,7 +79,9 @@ const FooterManagement = () => {
       companyInfo: 'Company Information',
       mapLocation: 'Map & Location',
       companyName: 'Company Name',
+      companyNameEn: 'Company Name (English)',
       address: 'Address',
+      addressEn: 'Address (English)',
       email: 'Email',
       hotline: 'Hotline',
       website: 'Website',
@@ -108,21 +114,22 @@ const FooterManagement = () => {
   const fetchSettings = async () => {
     try {
       setLoading(true)
-      
+
       // Fetch all settings groups
       const [contactRes, socialRes] = await Promise.all([
         api.get('/public/settings/group/contact'),
         api.get('/public/settings/group/social')
       ])
-      
+
       const allSettings = {
         ...(contactRes.data.data || {}),
         ...(socialRes.data.data || {})
       }
-      
+
       setSettings(allSettings)
       setFormData({
         address: allSettings.address || '',
+        address_en: allSettings.address_en || '',
         email: allSettings.email || '',
         hotline: allSettings.hotline || '',
         website: allSettings.website || '',
@@ -134,6 +141,7 @@ const FooterManagement = () => {
         zalo: allSettings.zalo || '',
         google_maps_embed: allSettings.google_maps_embed || '',
         company_name: allSettings.company_name || 'CÔNG TY CP CÔNG NGHỆ GIÁO DỤC HAPPY WORLD MEKONG',
+        company_name_en: allSettings.company_name_en || 'HAPPY WORLD MEKONG EDUCATION TECHNOLOGY JSC',
         company_description_vi: allSettings.company_description_vi || '',
         company_description_en: allSettings.company_description_en || '',
         copyright_text: allSettings.copyright_text || '© 2024 Happy World Mekong. All rights reserved.'
@@ -149,27 +157,27 @@ const FooterManagement = () => {
   const handleSave = async () => {
     try {
       setSaving(true)
-      
+
       // Update each setting via API
-      const updates = Object.keys(formData).map(key => 
+      const updates = Object.keys(formData).map(key =>
         api.patch(`/admin/settings/key/${key}`, { value: formData[key] })
           .catch(() => {
             // If setting doesn't exist, create it
             return api.post('/admin/settings', {
               settingKey: key,
               settingValue: formData[key],
-              settingGroup: key.startsWith('company_') ? 'company' : 
-                           ['facebook', 'youtube', 'instagram', 'tiktok', 'zalo'].includes(key) ? 'social' : 
-                           'contact',
+              settingGroup: key.startsWith('company_') ? 'company' :
+                ['facebook', 'youtube', 'instagram', 'tiktok', 'zalo'].includes(key) ? 'social' :
+                  'contact',
               label: key.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase()),
               valueType: 'STRING',
               isPublic: true
             })
           })
       )
-      
+
       await Promise.all(updates)
-      
+
       toast.success(t('settingsUpdated'))
       fetchSettings()
     } catch (error) {
@@ -225,22 +233,31 @@ const FooterManagement = () => {
                 type="textarea"
                 rows={3}
                 value={formData.address}
-                onChange={(e) => setFormData({...formData, address: e.target.value})}
+                onChange={(e) => setFormData({ ...formData, address: e.target.value })}
                 placeholder="123 Đường ABC, Phường XYZ, TP..."
+              />
+              <FormInput
+                label={t('addressEn')}
+                name="address_en"
+                type="textarea"
+                rows={3}
+                value={formData.address_en}
+                onChange={(e) => setFormData({ ...formData, address_en: e.target.value })}
+                placeholder="123 ABC Street, XYZ Ward, City..."
               />
               <FormInput
                 label={t('email')}
                 name="email"
                 type="email"
                 value={formData.email}
-                onChange={(e) => setFormData({...formData, email: e.target.value})}
+                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                 placeholder="contact@example.com"
               />
               <FormInput
                 label={t('hotline')}
                 name="hotline"
                 value={formData.hotline}
-                onChange={(e) => setFormData({...formData, hotline: e.target.value})}
+                onChange={(e) => setFormData({ ...formData, hotline: e.target.value })}
                 placeholder="0123 456 789"
               />
               <FormInput
@@ -248,14 +265,14 @@ const FooterManagement = () => {
                 name="website"
                 type="url"
                 value={formData.website}
-                onChange={(e) => setFormData({...formData, website: e.target.value})}
+                onChange={(e) => setFormData({ ...formData, website: e.target.value })}
                 placeholder="https://example.com"
               />
               <FormInput
                 label={t('workingHours')}
                 name="working_hours"
                 value={formData.working_hours}
-                onChange={(e) => setFormData({...formData, working_hours: e.target.value})}
+                onChange={(e) => setFormData({ ...formData, working_hours: e.target.value })}
                 placeholder="T2-T6: 8:00 - 17:00"
               />
             </div>
@@ -272,35 +289,35 @@ const FooterManagement = () => {
                 label={t('facebook')}
                 name="facebook"
                 value={formData.facebook}
-                onChange={(e) => setFormData({...formData, facebook: e.target.value})}
+                onChange={(e) => setFormData({ ...formData, facebook: e.target.value })}
                 placeholder="https://facebook.com/..."
               />
               <FormInput
                 label={t('youtube')}
                 name="youtube"
                 value={formData.youtube}
-                onChange={(e) => setFormData({...formData, youtube: e.target.value})}
+                onChange={(e) => setFormData({ ...formData, youtube: e.target.value })}
                 placeholder="https://youtube.com/..."
               />
               <FormInput
                 label={t('instagram')}
                 name="instagram"
                 value={formData.instagram}
-                onChange={(e) => setFormData({...formData, instagram: e.target.value})}
+                onChange={(e) => setFormData({ ...formData, instagram: e.target.value })}
                 placeholder="https://instagram.com/..."
               />
               <FormInput
                 label={t('tiktok')}
                 name="tiktok"
                 value={formData.tiktok}
-                onChange={(e) => setFormData({...formData, tiktok: e.target.value})}
+                onChange={(e) => setFormData({ ...formData, tiktok: e.target.value })}
                 placeholder="https://tiktok.com/@..."
               />
               <FormInput
                 label={t('zalo')}
                 name="zalo"
                 value={formData.zalo}
-                onChange={(e) => setFormData({...formData, zalo: e.target.value})}
+                onChange={(e) => setFormData({ ...formData, zalo: e.target.value })}
                 placeholder="https://zalo.me/..."
               />
             </div>
@@ -317,8 +334,15 @@ const FooterManagement = () => {
                 label={t('companyName')}
                 name="company_name"
                 value={formData.company_name}
-                onChange={(e) => setFormData({...formData, company_name: e.target.value})}
+                onChange={(e) => setFormData({ ...formData, company_name: e.target.value })}
                 placeholder="CÔNG TY CP..."
+              />
+              <FormInput
+                label={t('companyNameEn')}
+                name="company_name_en"
+                value={formData.company_name_en}
+                onChange={(e) => setFormData({ ...formData, company_name_en: e.target.value })}
+                placeholder="COMPANY JSC..."
               />
               <FormInput
                 label={t('companyDescriptionVi')}
@@ -326,7 +350,7 @@ const FooterManagement = () => {
                 type="textarea"
                 rows={4}
                 value={formData.company_description_vi}
-                onChange={(e) => setFormData({...formData, company_description_vi: e.target.value})}
+                onChange={(e) => setFormData({ ...formData, company_description_vi: e.target.value })}
                 placeholder="Mô tả ngắn về công ty bằng tiếng Việt..."
               />
               <FormInput
@@ -335,14 +359,14 @@ const FooterManagement = () => {
                 type="textarea"
                 rows={4}
                 value={formData.company_description_en}
-                onChange={(e) => setFormData({...formData, company_description_en: e.target.value})}
+                onChange={(e) => setFormData({ ...formData, company_description_en: e.target.value })}
                 placeholder="Short company description in English..."
               />
               <FormInput
                 label={t('copyrightText')}
                 name="copyright_text"
                 value={formData.copyright_text}
-                onChange={(e) => setFormData({...formData, copyright_text: e.target.value})}
+                onChange={(e) => setFormData({ ...formData, copyright_text: e.target.value })}
                 placeholder="© 2024 Company Name. All rights reserved."
               />
             </div>
@@ -360,7 +384,7 @@ const FooterManagement = () => {
               type="textarea"
               rows={3}
               value={formData.google_maps_embed}
-              onChange={(e) => setFormData({...formData, google_maps_embed: e.target.value})}
+              onChange={(e) => setFormData({ ...formData, google_maps_embed: e.target.value })}
               placeholder="<iframe src='https://www.google.com/maps/embed?...' ...></iframe>"
             />
             <p className="text-xs text-gray-500 mt-2">
@@ -376,7 +400,7 @@ const FooterManagement = () => {
               <i className="fas fa-eye text-mekong-blue"></i>
               {t('preview')}
             </h3>
-            
+
             {/* Footer Preview */}
             <div className="border border-gray-200 rounded-lg p-6 bg-gray-50 text-sm">
               <div className="grid grid-cols-1 gap-6">

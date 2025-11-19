@@ -10,6 +10,7 @@ const Footer = () => {
   const [socialLinks, setSocialLinks] = useState(SOCIAL_LINKS)
   const [companyInfo, setCompanyInfo] = useState({
     name: 'CÔNG TY CP CÔNG NGHỆ GIÁO DỤC HAPPY WORLD MEKONG',
+    name_en: 'HAPPY WORLD MEKONG EDUCATION TECHNOLOGY JSC',
     description_vi: 'Happy World Mekong - Điểm chạm kỹ năng, tiên phong trong việc khai phóng tiềm năng thế hệ trẻ.',
     description_en: 'Happy World Mekong - Skills Touch Point, pioneering in unleashing youth potential.',
     copyright: '© 2024 Happy World Mekong. All rights reserved.',
@@ -24,20 +25,22 @@ const Footer = () => {
           settingsService.getSettingsByGroup('contact'),
           settingsService.getSettingsByGroup('social')
         ])
-        
+
         if (contactResponse.success && contactResponse.data) {
           setContactInfo({
             address: contactResponse.data.address || CONTACT_INFO.address,
+            address_en: contactResponse.data.address_en || '',
             email: contactResponse.data.email || CONTACT_INFO.email,
             hotline: contactResponse.data.hotline || CONTACT_INFO.hotline,
             website: contactResponse.data.website || CONTACT_INFO.website,
             workingHours: contactResponse.data.working_hours || CONTACT_INFO.workingHours,
           })
-          
+
           // Set company info from contact group
           setCompanyInfo(prev => ({
             ...prev,
             name: contactResponse.data.company_name || prev.name,
+            name_en: contactResponse.data.company_name_en || prev.name_en,
             description_vi: contactResponse.data.company_description_vi || prev.description_vi,
             description_en: contactResponse.data.company_description_en || prev.description_en,
             copyright: contactResponse.data.copyright_text || prev.copyright,
@@ -81,11 +84,15 @@ const Footer = () => {
                 </div>
               </div>
             </div>
-            <h5 className="font-bold text-gray-900 mb-2 sm:mb-3 text-xs sm:text-sm">{companyInfo.name}</h5>
+            <h5 className="font-bold text-gray-900 mb-2 sm:mb-3 text-xs sm:text-sm">
+              {language === 'vi' ? companyInfo.name : (companyInfo.name_en || companyInfo.name)}
+            </h5>
             <ul className="space-y-2 text-gray-600 text-xs sm:text-sm">
               <li className="flex items-start gap-2">
                 <i className="fas fa-map-marker-alt mt-1 text-mekong-blue flex-shrink-0"></i>
-                <span>{contactInfo.address}</span>
+                <span>
+                  {language === 'vi' ? contactInfo.address : (contactInfo.address_en || contactInfo.address)}
+                </span>
               </li>
               <li className="flex items-center gap-2">
                 <i className="fas fa-globe text-mekong-blue flex-shrink-0"></i>
@@ -163,9 +170,9 @@ const Footer = () => {
           <div className="lg:pl-4">
             <h5 className="font-bold text-gray-900 mb-2 sm:mb-3 text-xs sm:text-sm">{language === 'vi' ? 'Vị trí' : 'Location'}</h5>
             {companyInfo.google_maps_embed && companyInfo.google_maps_embed.trim() !== '' ? (
-              <div 
+              <div
                 className="rounded-lg shadow-md overflow-hidden w-full"
-                dangerouslySetInnerHTML={{ 
+                dangerouslySetInnerHTML={{
                   __html: (() => {
                     const embed = companyInfo.google_maps_embed
                     // If it's a full iframe tag
