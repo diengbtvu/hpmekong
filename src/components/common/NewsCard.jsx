@@ -52,15 +52,15 @@ const NewsCard = ({ post, index = 0 }) => {
             />
           ) : (
             <div className="w-full h-full flex items-center justify-center">
-              <i className="fas fa-newspaper text-6xl text-gray-400"></i>
+              <i className="fas fa-newspaper text-4xl sm:text-5xl md:text-6xl text-gray-400"></i>
             </div>
           )}
         </div>
 
         {/* Category Badge */}
         {categoryName && (
-          <div className="absolute top-3 left-3">
-            <span className={`px-3 py-1 ${getCategoryColor(categorySlug)} text-xs font-bold rounded-full`}>
+          <div className="absolute top-2 sm:top-3 left-2 sm:left-3">
+            <span className={`px-2 py-0.5 sm:px-3 sm:py-1 ${getCategoryColor(categorySlug)} text-[10px] sm:text-xs font-bold rounded-full`}>
               {categoryName}
             </span>
           </div>
@@ -68,22 +68,23 @@ const NewsCard = ({ post, index = 0 }) => {
       </Link>
 
       {/* Content */}
-      <div className="p-5">
+      <div className="p-3 sm:p-4 md:p-5">
         {/* Meta Info */}
-        <div className="flex items-center gap-4 text-xs text-gray-500 mb-3">
+        <div className="flex flex-wrap items-center gap-2 sm:gap-3 md:gap-4 text-[10px] sm:text-xs text-gray-500 mb-2 sm:mb-3">
           <span className="flex items-center gap-1">
-            <i className="far fa-calendar"></i>
-            {formatDate(post.publishedAt || post.createdAt)}
+            <i className="far fa-calendar text-[10px] sm:text-xs"></i>
+            <span className="hidden sm:inline">{formatDate(post.publishedAt || post.createdAt)}</span>
+            <span className="sm:hidden">{formatDate(post.publishedAt || post.createdAt).split(' ')[0]}</span>
           </span>
           {post.author && (
-            <span className="flex items-center gap-1">
-              <i className="far fa-user"></i>
-              {typeof post.author === 'object' ? post.author.name : post.author}
+            <span className="flex items-center gap-1 truncate max-w-[120px] sm:max-w-none">
+              <i className="far fa-user text-[10px] sm:text-xs"></i>
+              <span className="truncate">{typeof post.author === 'object' ? post.author.name : post.author}</span>
             </span>
           )}
           {post.views && (
             <span className="flex items-center gap-1">
-              <i className="far fa-eye"></i>
+              <i className="far fa-eye text-[10px] sm:text-xs"></i>
               {post.views}
             </span>
           )}
@@ -91,23 +92,23 @@ const NewsCard = ({ post, index = 0 }) => {
 
         {/* Title */}
         <Link to={`/news/${post.slug}`}>
-          <h3 className="font-bold text-lg text-gray-900 mb-3 line-clamp-2 group-hover:text-mekong-blue transition-colors">
+          <h3 className="font-bold text-sm sm:text-base md:text-lg text-gray-900 mb-2 sm:mb-3 line-clamp-2 group-hover:text-mekong-blue transition-colors">
             {post.title}
           </h3>
         </Link>
 
         {/* Excerpt */}
-        <p className="text-gray-600 text-sm line-clamp-3 mb-4">
+        <p className="text-gray-600 text-xs sm:text-sm line-clamp-2 sm:line-clamp-3 mb-3 sm:mb-4">
           {post.excerpt || post.description}
         </p>
 
         {/* Read More */}
         <Link
           to={`/news/${post.slug}`}
-          className="inline-flex items-center gap-2 text-mekong-blue font-semibold text-sm hover:gap-3 transition-all"
+          className="inline-flex items-center gap-1 sm:gap-2 text-mekong-blue font-semibold text-xs sm:text-sm hover:gap-2 sm:hover:gap-3 transition-all"
         >
           {t('common.readMore')}
-          <i className="fas fa-arrow-right"></i>
+          <i className="fas fa-arrow-right text-[10px] sm:text-xs"></i>
         </Link>
       </div>
     </motion.div>

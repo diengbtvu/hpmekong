@@ -69,35 +69,35 @@ const Register = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-orange-50 flex items-center justify-center py-12 px-4">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-orange-50 flex items-center justify-center py-8 sm:py-12 px-3 sm:px-4">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         className="max-w-md w-full"
       >
         {/* Logo & Title */}
-        <div className="text-center mb-8">
-          <div className="flex justify-center mb-4">
-            <img 
-              src="/logo.png" 
-              alt="Happy World Mekong Logo" 
-              className="h-16 w-auto object-contain"
+        <div className="text-center mb-6 sm:mb-8">
+          <div className="flex justify-center mb-3 sm:mb-4">
+            <img
+              src="/logo.png"
+              alt="Happy World Mekong Logo"
+              className="h-12 sm:h-16 w-auto object-contain"
             />
           </div>
-          <h2 className="text-3xl font-bold text-mekong-blue">
+          <h2 className="text-2xl sm:text-3xl font-bold text-mekong-blue">
             {language === 'vi' ? 'Đăng ký tài khoản' : 'Create Account'}
           </h2>
-          <p className="text-gray-600 mt-2">
+          <p className="text-gray-600 mt-2 text-sm sm:text-base">
             {language === 'vi' ? 'Tạo tài khoản để bắt đầu học tập' : 'Create account to start learning'}
           </p>
         </div>
 
         {/* Register Form */}
-        <div className="bg-white rounded-2xl shadow-xl p-8">
-          <form onSubmit={handleSubmit} className="space-y-5">
+        <div className="bg-white rounded-xl sm:rounded-2xl shadow-xl p-5 sm:p-8">
+          <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-5">
             {/* Full Name */}
             <div>
-              <label className="block text-sm font-semibold text-gray-700 mb-2">
+              <label className="block text-xs sm:text-sm font-semibold text-gray-700 mb-2">
                 {language === 'vi' ? 'Họ và tên' : 'Full Name'} <span className="text-red-500">*</span>
               </label>
               <input
@@ -106,14 +106,15 @@ const Register = () => {
                 value={formData.fullName}
                 onChange={handleChange}
                 required
-                className="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:border-mekong-blue outline-none transition-colors"
+                className="w-full px-3 sm:px-4 py-2.5 sm:py-3 border-2 border-gray-200 rounded-lg focus:border-mekong-blue outline-none transition-colors text-sm sm:text-base"
                 placeholder={language === 'vi' ? 'Nhập họ và tên' : 'Enter full name'}
+                style={{ minHeight: '44px' }}
               />
             </div>
 
             {/* Email */}
             <div>
-              <label className="block text-sm font-semibold text-gray-700 mb-2">
+              <label className="block text-xs sm:text-sm font-semibold text-gray-700 mb-2">
                 Email <span className="text-red-500">*</span>
               </label>
               <input
@@ -122,14 +123,15 @@ const Register = () => {
                 value={formData.email}
                 onChange={handleChange}
                 required
-                className="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:border-mekong-blue outline-none transition-colors"
+                className="w-full px-3 sm:px-4 py-2.5 sm:py-3 border-2 border-gray-200 rounded-lg focus:border-mekong-blue outline-none transition-colors text-sm sm:text-base"
                 placeholder={language === 'vi' ? 'Nhập email' : 'Enter email'}
+                style={{ minHeight: '44px' }}
               />
             </div>
 
             {/* Phone */}
             <div>
-              <label className="block text-sm font-semibold text-gray-700 mb-2">
+              <label className="block text-xs sm:text-sm font-semibold text-gray-700 mb-2">
                 {language === 'vi' ? 'Số điện thoại' : 'Phone Number'}
               </label>
               <input
@@ -137,14 +139,15 @@ const Register = () => {
                 name="phone"
                 value={formData.phone}
                 onChange={handleChange}
-                className="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:border-mekong-blue outline-none transition-colors"
+                className="w-full px-3 sm:px-4 py-2.5 sm:py-3 border-2 border-gray-200 rounded-lg focus:border-mekong-blue outline-none transition-colors text-sm sm:text-base"
                 placeholder={language === 'vi' ? 'Nhập số điện thoại' : 'Enter phone number'}
+                style={{ minHeight: '44px' }}
               />
             </div>
 
             {/* Password */}
             <div>
-              <label className="block text-sm font-semibold text-gray-700 mb-2">
+              <label className="block text-xs sm:text-sm font-semibold text-gray-700 mb-2">
                 {language === 'vi' ? 'Mật khẩu' : 'Password'} <span className="text-red-500">*</span>
               </label>
               <input
@@ -154,14 +157,15 @@ const Register = () => {
                 onChange={handleChange}
                 required
                 minLength={6}
-                className="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:border-mekong-blue outline-none transition-colors"
+                className="w-full px-3 sm:px-4 py-2.5 sm:py-3 border-2 border-gray-200 rounded-lg focus:border-mekong-blue outline-none transition-colors text-sm sm:text-base"
                 placeholder={language === 'vi' ? 'Ít nhất 6 ký tự' : 'At least 6 characters'}
+                style={{ minHeight: '44px' }}
               />
             </div>
 
             {/* Confirm Password */}
             <div>
-              <label className="block text-sm font-semibold text-gray-700 mb-2">
+              <label className="block text-xs sm:text-sm font-semibold text-gray-700 mb-2">
                 {language === 'vi' ? 'Xác nhận mật khẩu' : 'Confirm Password'} <span className="text-red-500">*</span>
               </label>
               <input
@@ -170,8 +174,9 @@ const Register = () => {
                 value={formData.confirmPassword}
                 onChange={handleChange}
                 required
-                className="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:border-mekong-blue outline-none transition-colors"
+                className="w-full px-3 sm:px-4 py-2.5 sm:py-3 border-2 border-gray-200 rounded-lg focus:border-mekong-blue outline-none transition-colors text-sm sm:text-base"
                 placeholder={language === 'vi' ? 'Nhập lại mật khẩu' : 'Re-enter password'}
+                style={{ minHeight: '44px' }}
               />
             </div>
 
@@ -182,10 +187,11 @@ const Register = () => {
                 name="acceptTerms"
                 checked={formData.acceptTerms}
                 onChange={handleChange}
-                className="w-4 h-4 mt-1 text-mekong-blue border-gray-300 rounded"
+                className="w-4 h-4 mt-1 text-mekong-blue border-gray-300 rounded flex-shrink-0"
+                style={{ minWidth: '16px', minHeight: '16px' }}
                 required
               />
-              <label className="ml-2 text-sm text-gray-600">
+              <label className="ml-2 text-xs sm:text-sm text-gray-600">
                 {language === 'vi' ? 'Tôi đồng ý với ' : 'I agree to '}
                 <Link to="/terms" className="text-mekong-blue hover:underline">
                   {language === 'vi' ? 'Điều khoản sử dụng' : 'Terms of Service'}
@@ -201,7 +207,7 @@ const Register = () => {
             <button
               type="submit"
               disabled={loading}
-              className="w-full btn btn-primary py-3 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full btn btn-primary py-3 disabled:opacity-50 disabled:cursor-not-allowed text-sm sm:text-base"
             >
               {loading ? (
                 <span className="flex items-center justify-center gap-2">
@@ -215,8 +221,8 @@ const Register = () => {
           </form>
 
           {/* Login Link */}
-          <div className="mt-6 text-center">
-            <p className="text-gray-600">
+          <div className="mt-5 sm:mt-6 text-center">
+            <p className="text-gray-600 text-xs sm:text-sm">
               {language === 'vi' ? 'Đã có tài khoản?' : 'Already have an account?'}{' '}
               <Link to="/login" className="text-mekong-blue font-semibold hover:underline">
                 {language === 'vi' ? 'Đăng nhập' : 'Login'}

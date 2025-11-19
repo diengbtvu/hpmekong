@@ -118,31 +118,31 @@ const Header = () => {
       {/* Top Banner - Company Info */}
       <div className="bg-white border-b border-gray-200">
         <div className="container-custom">
-          <Link to="/" className="flex items-center justify-center gap-3 md:gap-5 py-1 md:py-2">
+          <Link to="/" className="flex items-center justify-center gap-2 sm:gap-3 md:gap-5 py-1 sm:py-1.5 md:py-2">
             {/* Logo */}
-            <img 
-              src="/logo.png" 
-              alt="Happy World Mekong Logo" 
-              className="h-14 md:h-16 lg:h-20 w-auto flex-shrink-0"
+            <img
+              src="/logo.png"
+              alt="Happy World Mekong Logo"
+              className="h-10 sm:h-12 md:h-14 lg:h-16 xl:h-20 w-auto flex-shrink-0"
             />
             
             {/* Company Info */}
             <div className="flex flex-col gap-0 md:gap-0.5 text-center">
               {/* Company Name */}
-              <h1 className="font-heading font-black text-lg md:text-2xl lg:text-3xl leading-none">
+              <h1 className="font-heading font-black text-sm sm:text-base md:text-xl lg:text-2xl xl:text-3xl leading-none">
                 <span className="text-mekong-blue">HAPPY </span>
                 <span className="text-sunrise-orange">WORLD </span>
                 <span className="text-rice-green">MEKONG</span>
               </h1>
-              
+
               {/* Slogan */}
-              <p className="font-semibold text-sunrise-orange text-[10px] md:text-sm lg:text-base italic leading-tight mt-0.5">
+              <p className="font-semibold text-sunrise-orange text-[9px] sm:text-[10px] md:text-xs lg:text-sm xl:text-base italic leading-tight mt-0.5">
                 {language === 'vi' ? 'Tiên phong - Toàn diện - Bền vững' : 'Pioneering - Comprehensive - Sustainable'}
               </p>
-              
+
               {/* Address */}
-              <p className="text-red-600 font-medium text-[10px] md:text-xs lg:text-sm leading-tight mt-0.5">
-                {language === 'vi' 
+              <p className="text-red-600 font-medium text-[9px] sm:text-[10px] md:text-xs lg:text-sm leading-tight mt-0.5">
+                {language === 'vi'
                   ? 'Số 99, Đường Phạm Ngũ Lão, phường Trà Vình, tỉnh Vĩnh Long'
                   : '99 Pham Ngu Lao Street, Tra Vinh Ward, Vinh Long Province'}
               </p>
@@ -156,16 +156,17 @@ const Header = () => {
         <div className="container-custom">
           <div className="flex items-center justify-between py-2 gap-2">
             {/* Desktop Navigation */}
-            <nav className="hidden md:flex items-start gap-1 flex-1 justify-center flex-wrap">
+            <nav className="hidden md:flex items-start gap-0.5 lg:gap-1 flex-1 justify-center flex-wrap">
               {navMenu.map((item, index) => (
                 <div key={index} className="relative group">
                   {item.children ? (
                     <>
                       <button
                         onClick={() => toggleDropdown(index)}
-                        className="px-2 py-1.5 text-sm font-semibold text-text-primary hover:text-mekong-blue transition-colors flex flex-col items-center gap-0.5 min-w-[70px]"
+                        className="px-1.5 lg:px-2 py-1.5 text-xs lg:text-sm font-semibold text-text-primary hover:text-mekong-blue transition-colors flex flex-col items-center gap-0.5 min-w-[60px] lg:min-w-[70px]"
+                        style={{ minHeight: '44px' }}
                       >
-                        {item.icon && <i className={`fas ${item.icon} text-base`}></i>}
+                        {item.icon && <i className={`fas ${item.icon} text-sm lg:text-base`}></i>}
                         <span className="text-center leading-tight whitespace-normal break-words">{t(item.nameKey)}</span>
                         <i className="fas fa-chevron-down text-xs"></i>
                       </button>
@@ -199,20 +200,22 @@ const Header = () => {
                       href={item.path}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="px-2 py-1.5 text-sm font-semibold text-text-primary hover:text-mekong-blue transition-colors flex flex-col items-center gap-0.5 min-w-[70px]"
+                      className="px-1.5 lg:px-2 py-1.5 text-xs lg:text-sm font-semibold text-text-primary hover:text-mekong-blue transition-colors flex flex-col items-center gap-0.5 min-w-[60px] lg:min-w-[70px]"
+                      style={{ minHeight: '44px' }}
                     >
-                      {item.icon && <i className={`fas ${item.icon} text-base`}></i>}
+                      {item.icon && <i className={`fas ${item.icon} text-sm lg:text-base`}></i>}
                       <span className="text-center leading-tight whitespace-normal break-words">{t(item.nameKey)}</span>
                     </a>
                   ) : (
                     <NavLink
                       to={item.path}
                       className={({ isActive }) => `
-                        px-2 py-1.5 text-sm font-semibold transition-colors flex flex-col items-center gap-0.5 min-w-[70px]
+                        px-1.5 lg:px-2 py-1.5 text-xs lg:text-sm font-semibold transition-colors flex flex-col items-center gap-0.5 min-w-[60px] lg:min-w-[70px]
                         ${isActive ? 'text-mekong-blue' : 'text-text-primary hover:text-mekong-blue'}
                       `}
+                      style={{ minHeight: '44px' }}
                     >
-                      {item.icon && <i className={`fas ${item.icon} text-base`}></i>}
+                      {item.icon && <i className={`fas ${item.icon} text-sm lg:text-base`}></i>}
                       <span className="text-center leading-tight whitespace-normal break-words">{t(item.nameKey)}</span>
                     </NavLink>
                   )}
@@ -297,10 +300,11 @@ const Header = () => {
               {/* Mobile Menu Toggle */}
               <button
                 onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                className="md:hidden w-10 h-10 rounded-lg bg-mekong-blue text-white flex items-center justify-center"
+                className="md:hidden w-11 h-11 rounded-lg bg-mekong-blue text-white flex items-center justify-center hover:bg-mekong-blue-dark transition-colors"
                 aria-label="Menu"
+                style={{ minWidth: '44px', minHeight: '44px' }}
               >
-                <i className={`fas ${isMobileMenuOpen ? 'fa-xmark' : 'fa-bars'} text-lg`}></i>
+                <i className={`fas ${isMobileMenuOpen ? 'fa-xmark' : 'fa-bars'} text-xl`}></i>
               </button>
             </div>
           </div>
@@ -317,16 +321,17 @@ const Header = () => {
                     <>
                       <button
                         onClick={() => toggleDropdown(index)}
-                        className="w-full px-4 py-3 text-left font-semibold text-gray-700 hover:text-mekong-blue transition-colors flex items-center justify-between"
+                        className="w-full px-4 py-3.5 text-left font-semibold text-base text-gray-700 hover:text-mekong-blue hover:bg-blue-50 transition-colors flex items-center justify-between rounded-lg"
+                        style={{ minHeight: '48px' }}
                       >
-                        <span className="flex items-center gap-2">
-                          {item.icon && <i className={`fas ${item.icon}`}></i>}
+                        <span className="flex items-center gap-3">
+                          {item.icon && <i className={`fas ${item.icon} text-lg`}></i>}
                           {t(item.nameKey)}
                         </span>
-                        <i className={`fas fa-chevron-down text-xs transition-transform ${activeDropdown === index ? 'rotate-180' : ''}`}></i>
+                        <i className={`fas fa-chevron-down text-sm transition-transform ${activeDropdown === index ? 'rotate-180' : ''}`}></i>
                       </button>
                       {activeDropdown === index && (
-                        <div className="bg-gray-50 py-2">
+                        <div className="bg-gray-50 py-2 rounded-lg mt-1">
                           {item.children.map((child, idx) => (
                             child.external ? (
                               <a
@@ -334,7 +339,8 @@ const Header = () => {
                                 href={child.path}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="block px-8 py-2 text-sm text-gray-600 hover:text-mekong-blue transition-colors"
+                                className="block px-8 py-3 text-base text-gray-600 hover:text-mekong-blue hover:bg-white transition-colors rounded-lg"
+                                style={{ minHeight: '44px' }}
                               >
                                 {child.nameKey ? t(child.nameKey) : child.name}
                               </a>
@@ -342,8 +348,9 @@ const Header = () => {
                               <Link
                                 key={idx}
                                 to={child.path}
-                                className="block px-8 py-2 text-sm text-gray-600 hover:text-mekong-blue transition-colors"
+                                className="block px-8 py-3 text-base text-gray-600 hover:text-mekong-blue hover:bg-white transition-colors rounded-lg"
                                 onClick={() => setIsMobileMenuOpen(false)}
+                                style={{ minHeight: '44px' }}
                               >
                                 {child.nameKey ? t(child.nameKey) : child.name}
                               </Link>
@@ -357,10 +364,11 @@ const Header = () => {
                       href={item.path}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="block px-4 py-3 font-semibold text-gray-700 hover:text-mekong-blue transition-colors"
+                      className="block px-4 py-3.5 font-semibold text-base text-gray-700 hover:text-mekong-blue hover:bg-blue-50 transition-colors rounded-lg"
+                      style={{ minHeight: '48px' }}
                     >
-                      <span className="flex items-center gap-2">
-                        {item.icon && <i className={`fas ${item.icon}`}></i>}
+                      <span className="flex items-center gap-3">
+                        {item.icon && <i className={`fas ${item.icon} text-lg`}></i>}
                         {item.name}
                       </span>
                     </a>
@@ -368,14 +376,15 @@ const Header = () => {
                     <NavLink
                       to={item.path}
                       className={({ isActive }) => `
-                        block px-4 py-3 font-semibold transition-colors
-                        ${isActive ? 'text-mekong-blue bg-blue-50' : 'text-gray-700 hover:text-mekong-blue'}
+                        block px-4 py-3.5 font-semibold text-base transition-colors rounded-lg
+                        ${isActive ? 'text-mekong-blue bg-blue-50' : 'text-gray-700 hover:text-mekong-blue hover:bg-blue-50'}
                       `}
                       onClick={() => setIsMobileMenuOpen(false)}
+                      style={{ minHeight: '48px' }}
                     >
-                      <span className="flex items-center gap-2">
-                        {item.icon && <i className={`fas ${item.icon}`}></i>}
-                        {item.name}
+                      <span className="flex items-center gap-3">
+                        {item.icon && <i className={`fas ${item.icon} text-lg`}></i>}
+                        {t(item.nameKey)}
                       </span>
                     </NavLink>
                   )}

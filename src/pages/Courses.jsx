@@ -130,18 +130,18 @@ const Courses = () => {
   return (
     <div className="courses-page">
       {/* Hero Banner */}
-      <section className="relative bg-gradient-mekong py-12 md:py-16">
+      <section className="relative bg-gradient-mekong py-8 sm:py-10 md:py-12 lg:py-16">
         <div className="container-custom">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="text-center mb-8"
+            className="text-center mb-6 sm:mb-8"
           >
-            <h1 className="text-4xl md:text-5xl font-heading font-bold text-text-primary mb-4">
+            <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-heading font-bold text-text-primary mb-3 sm:mb-4">
               {t('courses.title')}
             </h1>
-            <p className="text-lg text-gray-700 max-w-2xl mx-auto">
-              {language === 'vi' 
+            <p className="text-sm sm:text-base md:text-lg text-gray-700 max-w-2xl mx-auto px-4">
+              {language === 'vi'
                 ? 'Khám phá hàng trăm khóa học chất lượng cao từ các chuyên gia hàng đầu'
                 : 'Explore hundreds of high-quality courses from leading experts'}
             </p>
@@ -154,16 +154,18 @@ const Courses = () => {
             transition={{ delay: 0.1 }}
             className="max-w-2xl mx-auto"
           >
-            <div className="bg-white rounded-xl shadow-lg p-2 flex items-center gap-2">
-              <i className="fas fa-magnifying-glass text-gray-400 ml-3"></i>
-              <input
-                type="search"
-                placeholder={t('courses.searchPlaceholder')}
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="flex-1 py-3 px-2 outline-none"
-              />
-              <button className="btn btn-primary">
+            <div className="bg-white rounded-xl shadow-lg p-2 flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
+              <div className="flex items-center flex-1">
+                <i className="fas fa-magnifying-glass text-gray-400 ml-3 text-sm sm:text-base"></i>
+                <input
+                  type="search"
+                  placeholder={t('courses.searchPlaceholder')}
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="flex-1 py-2.5 sm:py-3 px-2 outline-none text-sm sm:text-base"
+                />
+              </div>
+              <button className="btn btn-primary w-full sm:w-auto">
                 {t('common.search')}
               </button>
             </div>
@@ -172,21 +174,22 @@ const Courses = () => {
       </section>
 
       {/* Filters & Courses Grid */}
-      <section className="py-12">
+      <section className="py-8 sm:py-10 md:py-12">
         <div className="container-custom">
-          <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
+          <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 sm:gap-8">
             {/* Sidebar Filters */}
             <div className="lg:col-span-1">
-              <div className="bg-white rounded-xl shadow-md p-6 sticky top-24">
-                <h3 className="font-bold text-lg mb-4">{t('courses.filterBy')}</h3>
+              <div className="bg-white rounded-xl shadow-md p-4 sm:p-6 lg:sticky lg:top-24">
+                <h3 className="font-bold text-base sm:text-lg mb-3 sm:mb-4">{t('courses.filterBy')}</h3>
 
                 {/* By Center */}
-                <div className="mb-6">
-                  <label className="block font-semibold text-sm mb-2">{t('courses.byCenters')}</label>
+                <div className="mb-4 sm:mb-6">
+                  <label className="block font-semibold text-xs sm:text-sm mb-2">{t('courses.byCenters')}</label>
                   <select
                     value={selectedCenter}
                     onChange={(e) => setSelectedCenter(e.target.value)}
-                    className="w-full px-3 py-2 border-2 border-gray-200 rounded-lg focus:border-mekong-blue outline-none"
+                    className="w-full px-3 py-2.5 sm:py-2 border-2 border-gray-200 rounded-lg focus:border-mekong-blue outline-none text-sm sm:text-base"
+                    style={{ minHeight: '44px' }}
                   >
                     <option value="all">{t('courses.allCourses')}</option>
                     {CENTERS.map(center => (
@@ -196,12 +199,13 @@ const Courses = () => {
                 </div>
 
                 {/* By Level */}
-                <div className="mb-6">
-                  <label className="block font-semibold text-sm mb-2">{t('courses.byLevel')}</label>
+                <div className="mb-4 sm:mb-6">
+                  <label className="block font-semibold text-xs sm:text-sm mb-2">{t('courses.byLevel')}</label>
                   <select
                     value={selectedLevel}
                     onChange={(e) => setSelectedLevel(e.target.value)}
-                    className="w-full px-3 py-2 border-2 border-gray-200 rounded-lg focus:border-mekong-blue outline-none"
+                    className="w-full px-3 py-2.5 sm:py-2 border-2 border-gray-200 rounded-lg focus:border-mekong-blue outline-none text-sm sm:text-base"
+                    style={{ minHeight: '44px' }}
                   >
                     <option value="all">{language === 'vi' ? 'Tất cả' : 'All'}</option>
                     <option value="beginner">{language === 'vi' ? 'Cơ bản' : 'Beginner'}</option>
@@ -211,12 +215,13 @@ const Courses = () => {
                 </div>
 
                 {/* By Type */}
-                <div className="mb-6">
-                  <label className="block font-semibold text-sm mb-2">{t('courses.byType')}</label>
+                <div className="mb-4 sm:mb-6">
+                  <label className="block font-semibold text-xs sm:text-sm mb-2">{t('courses.byType')}</label>
                   <select
                     value={selectedType}
                     onChange={(e) => setSelectedType(e.target.value)}
-                    className="w-full px-3 py-2 border-2 border-gray-200 rounded-lg focus:border-mekong-blue outline-none"
+                    className="w-full px-3 py-2.5 sm:py-2 border-2 border-gray-200 rounded-lg focus:border-mekong-blue outline-none text-sm sm:text-base"
+                    style={{ minHeight: '44px' }}
                   >
                     <option value="all">{language === 'vi' ? 'Tất cả' : 'All'}</option>
                     <option value="online">{t('courses.online')}</option>
@@ -243,14 +248,15 @@ const Courses = () => {
             {/* Courses Grid */}
             <div className="lg:col-span-3">
               {/* Sort & Result Count */}
-              <div className="flex items-center justify-between mb-6">
-                <p className="text-gray-600">
+              <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-4 mb-4 sm:mb-6">
+                <p className="text-gray-600 text-sm sm:text-base">
                   {language === 'vi' ? 'Tìm thấy' : 'Found'} <span className="font-bold">{filteredCourses.length}</span> {language === 'vi' ? 'khóa học' : 'courses'}
                 </p>
                 <select
                   value={sortBy}
                   onChange={(e) => setSortBy(e.target.value)}
-                  className="px-4 py-2 border-2 border-gray-200 rounded-lg focus:border-mekong-blue outline-none"
+                  className="w-full sm:w-auto px-3 sm:px-4 py-2.5 sm:py-2 border-2 border-gray-200 rounded-lg focus:border-mekong-blue outline-none text-sm sm:text-base"
+                  style={{ minHeight: '44px' }}
                 >
                   <option value="newest">{t('courses.newest')}</option>
                   <option value="popular">{t('courses.popular')}</option>
@@ -263,19 +269,19 @@ const Courses = () => {
               {/* Courses Grid */}
               {loading ? (
                 <div className="text-center py-12">
-                  <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-mekong-blue"></div>
-                  <p className="text-gray-600 mt-4">{language === 'vi' ? 'Đang tải...' : 'Loading...'}</p>
+                  <div className="inline-block animate-spin rounded-full h-10 w-10 sm:h-12 sm:w-12 border-b-2 border-mekong-blue"></div>
+                  <p className="text-gray-600 mt-4 text-sm sm:text-base">{language === 'vi' ? 'Đang tải...' : 'Loading...'}</p>
                 </div>
               ) : filteredCourses.length > 0 ? (
-                <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+                <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4 sm:gap-6">
                   {filteredCourses.map((course, index) => (
                     <CourseCard key={course.id} course={course} index={index} />
                   ))}
                 </div>
               ) : (
                 <div className="text-center py-12">
-                  <i className="fas fa-search text-6xl text-gray-300 mb-4"></i>
-                  <p className="text-gray-600 text-lg">
+                  <i className="fas fa-search text-4xl sm:text-5xl md:text-6xl text-gray-300 mb-4"></i>
+                  <p className="text-gray-600 text-base sm:text-lg">
                     {t('common.noResults')}
                   </p>
                 </div>

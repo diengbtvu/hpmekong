@@ -53,9 +53,10 @@
 }
 
 @layer components {
-  /* Button Styles */
+  /* Button Styles - Mobile Optimized */
   .btn {
-    @apply px-6 py-3 rounded-lg font-semibold text-base inline-flex items-center justify-center gap-2 transition-all duration-300;
+    @apply px-4 py-2.5 sm:px-6 sm:py-3 rounded-lg font-semibold text-sm sm:text-base inline-flex items-center justify-center gap-2 transition-all duration-300;
+    min-height: 44px; /* Touch target minimum */
   }
 
   .btn-primary {
@@ -87,11 +88,13 @@
   }
 
   .btn-sm {
-    @apply px-4 py-2 text-sm;
+    @apply px-3 py-2 sm:px-4 sm:py-2 text-xs sm:text-sm;
+    min-height: 40px;
   }
 
   .btn-lg {
-    @apply px-8 py-4 text-lg;
+    @apply px-6 py-3 sm:px-8 sm:py-4 text-base sm:text-lg;
+    min-height: 48px;
   }
 
   /* Card Styles */
@@ -120,14 +123,14 @@
     background: linear-gradient(135deg, #E8F5FF 0%, #FFF4E8 100%);
   }
 
-  /* Container */
+  /* Container - Mobile Optimized */
   .container-custom {
-    @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+    @apply max-w-7xl mx-auto px-3 sm:px-4 md:px-6 lg:px-8;
   }
 
-  /* Section Spacing */
+  /* Section Spacing - Mobile Optimized */
   .section-padding {
-    @apply py-16 md:py-20 lg:py-24;
+    @apply py-8 sm:py-12 md:py-16 lg:py-20 xl:py-24;
   }
 
   /* Gradient Background */

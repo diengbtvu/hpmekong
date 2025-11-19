@@ -63,26 +63,26 @@ const Footer = () => {
 
   return (
     <footer className="bg-[#FFFEF8] border-t border-gray-200">
-      <div className="container-custom py-12">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      <div className="container-custom py-8 sm:py-10 md:py-12">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
           {/* Column 1: Company Info */}
           <div className="lg:pr-8">
-            <div className="flex items-center gap-3 mb-4">
-              <img 
-                src="/logo.png" 
-                alt="Happy World Mekong Logo" 
-                className="h-12 w-auto object-contain"
+            <div className="flex items-center gap-2 sm:gap-3 mb-3 sm:mb-4">
+              <img
+                src="/logo.png"
+                alt="Happy World Mekong Logo"
+                className="h-10 sm:h-12 w-auto object-contain"
               />
               <div>
-                <div className="font-heading font-bold text-lg leading-tight">
+                <div className="font-heading font-bold text-sm sm:text-base md:text-lg leading-tight">
                   <span className="text-mekong-blue">HAPPY</span><br />
                   <span className="text-sunrise-orange">WORLD</span>{' '}
                   <span className="text-rice-green">MEKONG</span>
                 </div>
               </div>
             </div>
-            <h5 className="font-bold text-gray-900 mb-3 text-sm">{companyInfo.name}</h5>
-            <ul className="space-y-2 text-gray-600 text-sm">
+            <h5 className="font-bold text-gray-900 mb-2 sm:mb-3 text-xs sm:text-sm">{companyInfo.name}</h5>
+            <ul className="space-y-2 text-gray-600 text-xs sm:text-sm">
               <li className="flex items-start gap-2">
                 <i className="fas fa-map-marker-alt mt-1 text-mekong-blue flex-shrink-0"></i>
                 <span>{contactInfo.address}</span>
@@ -108,56 +108,60 @@ const Footer = () => {
             </ul>
 
             {/* Social Media */}
-            <div className="flex items-center gap-3 mt-4">
+            <div className="flex items-center gap-3 sm:gap-4 mt-4">
               <a
                 href={socialLinks.facebook}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-10 h-10 rounded-full bg-blue-600 text-white flex items-center justify-center hover:scale-110 transition-transform"
+                className="w-11 h-11 sm:w-12 sm:h-12 rounded-full bg-blue-600 text-white flex items-center justify-center hover:scale-110 transition-transform"
                 aria-label="Facebook"
+                style={{ minWidth: '44px', minHeight: '44px' }}
               >
-                <i className="fab fa-facebook-f"></i>
+                <i className="fab fa-facebook-f text-base sm:text-lg"></i>
               </a>
               <a
                 href={socialLinks.youtube}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-10 h-10 rounded-full bg-red-600 text-white flex items-center justify-center hover:scale-110 transition-transform"
+                className="w-11 h-11 sm:w-12 sm:h-12 rounded-full bg-red-600 text-white flex items-center justify-center hover:scale-110 transition-transform"
                 aria-label="YouTube"
+                style={{ minWidth: '44px', minHeight: '44px' }}
               >
-                <i className="fab fa-youtube"></i>
+                <i className="fab fa-youtube text-base sm:text-lg"></i>
               </a>
               <a
                 href={socialLinks.instagram}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-10 h-10 rounded-full bg-gradient-to-r from-purple-500 to-pink-500 text-white flex items-center justify-center hover:scale-110 transition-transform"
+                className="w-11 h-11 sm:w-12 sm:h-12 rounded-full bg-gradient-to-r from-purple-500 to-pink-500 text-white flex items-center justify-center hover:scale-110 transition-transform"
                 aria-label="Instagram"
+                style={{ minWidth: '44px', minHeight: '44px' }}
               >
-                <i className="fab fa-instagram"></i>
+                <i className="fab fa-instagram text-base sm:text-lg"></i>
               </a>
               <a
                 href={socialLinks.tiktok}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-10 h-10 rounded-full bg-black text-white flex items-center justify-center hover:scale-110 transition-transform"
+                className="w-11 h-11 sm:w-12 sm:h-12 rounded-full bg-black text-white flex items-center justify-center hover:scale-110 transition-transform"
                 aria-label="TikTok"
+                style={{ minWidth: '44px', minHeight: '44px' }}
               >
-                <i className="fab fa-tiktok"></i>
+                <i className="fab fa-tiktok text-base sm:text-lg"></i>
               </a>
             </div>
           </div>
 
           {/* Column 2: About Company & Project Description */}
           <div className="lg:px-6">
-            <p className="text-gray-700 text-justify leading-relaxed">
+            <p className="text-gray-700 text-justify leading-relaxed text-xs sm:text-sm">
               {language === 'vi' ? companyInfo.description_vi : companyInfo.description_en}
             </p>
           </div>
 
           {/* Column 3: Google Maps */}
           <div className="lg:pl-4">
-            <h5 className="font-bold text-gray-900 mb-3">{language === 'vi' ? 'Vị trí' : 'Location'}</h5>
+            <h5 className="font-bold text-gray-900 mb-2 sm:mb-3 text-xs sm:text-sm">{language === 'vi' ? 'Vị trí' : 'Location'}</h5>
             {companyInfo.google_maps_embed && companyInfo.google_maps_embed.trim() !== '' ? (
               <div 
                 className="rounded-lg shadow-md overflow-hidden w-full"
@@ -188,23 +192,23 @@ const Footer = () => {
         </div>
 
         {/* Bottom Bar */}
-        <div className="border-t border-gray-200 mt-8 pt-6">
-          <div className="flex flex-col items-center gap-4">
+        <div className="border-t border-gray-200 mt-6 sm:mt-8 pt-4 sm:pt-6">
+          <div className="flex flex-col items-center gap-3 sm:gap-4">
             {/* Logo */}
-            <div className="flex items-center gap-3">
-              <img 
-                src="/logo.png" 
-                alt="Happy World Mekong Logo" 
-                className="h-12 w-auto object-contain"
+            <div className="flex items-center gap-2 sm:gap-3">
+              <img
+                src="/logo.png"
+                alt="Happy World Mekong Logo"
+                className="h-10 sm:h-12 w-auto object-contain"
               />
-              <div className="font-heading font-bold text-base leading-tight">
+              <div className="font-heading font-bold text-sm sm:text-base leading-tight">
                 <span className="text-mekong-blue">HAPPY</span>{' '}
                 <span className="text-sunrise-orange">WORLD</span>{' '}
                 <span className="text-rice-green">MEKONG</span>
               </div>
             </div>
             {/* Copyright */}
-            <div className="text-center text-gray-600 text-sm">
+            <div className="text-center text-gray-600 text-xs sm:text-sm">
               <p>{companyInfo.copyright}</p>
             </div>
           </div>

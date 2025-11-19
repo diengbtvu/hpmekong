@@ -96,12 +96,12 @@ const Instructors = () => {
   return (
     <div className="instructors-page">
       {/* Hero Banner */}
-      <section className="bg-gradient-mekong py-16 md:py-20">
+      <section className="bg-gradient-mekong py-8 sm:py-12 md:py-16 lg:py-20">
         <div className="container-custom text-center">
           <motion.h1
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="text-4xl md:text-5xl font-heading font-bold text-text-primary mb-4"
+            className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-heading font-bold text-text-primary mb-3 sm:mb-4"
           >
             {t('instructors.title')}
           </motion.h1>
@@ -109,7 +109,7 @@ const Instructors = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
-            className="text-lg text-gray-700 max-w-2xl mx-auto"
+            className="text-sm sm:text-base md:text-lg text-gray-700 max-w-2xl mx-auto px-4"
           >
             {t('instructors.subtitle')}
           </motion.p>
@@ -117,17 +117,18 @@ const Instructors = () => {
       </section>
 
       {/* Instructors Grid */}
-      <section className="py-12">
+      <section className="py-8 sm:py-10 md:py-12">
         <div className="container-custom">
           {/* Filter */}
-          <div className="flex items-center justify-between mb-8">
-            <p className="text-gray-600">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-4 mb-6 sm:mb-8">
+            <p className="text-gray-600 text-sm sm:text-base">
               {filteredInstructors.length} {language === 'vi' ? 'giảng viên' : 'instructors'}
             </p>
             <select
               value={filterCenter}
               onChange={(e) => setFilterCenter(e.target.value)}
-              className="px-4 py-2 border-2 border-gray-200 rounded-lg focus:border-mekong-blue outline-none"
+              className="w-full sm:w-auto px-3 sm:px-4 py-2.5 sm:py-2 border-2 border-gray-200 rounded-lg focus:border-mekong-blue outline-none text-sm sm:text-base"
+              style={{ minHeight: '44px' }}
             >
               <option value="all">{language === 'vi' ? 'Tất cả Trung tâm' : 'All Centers'}</option>
               {CENTERS.map(center => (
@@ -137,7 +138,7 @@ const Instructors = () => {
           </div>
 
           {/* Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
             {filteredInstructors.map((instructor, index) => (
               <InstructorCard
                 key={instructor.id}

@@ -48,12 +48,12 @@ const Gallery = () => {
   return (
     <div className="gallery-page">
       {/* Hero */}
-      <section className="bg-gradient-mekong py-16 md:py-20">
+      <section className="bg-gradient-mekong py-8 sm:py-12 md:py-16 lg:py-20">
         <div className="container-custom text-center">
           <motion.h1
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="text-4xl md:text-5xl font-heading font-bold mb-4"
+            className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-heading font-bold mb-3 sm:mb-4"
           >
             {t('common.library')}
           </motion.h1>
@@ -61,18 +61,19 @@ const Gallery = () => {
       </section>
 
       {/* Tabs */}
-      <section className="py-12">
+      <section className="py-8 sm:py-10 md:py-12">
         <div className="container-custom">
-          <div className="flex gap-3 mb-8">
+          <div className="flex overflow-x-auto scrollbar-hide gap-2 sm:gap-3 mb-6 sm:mb-8 pb-2">
             {['photos', 'videos', 'documents'].map(tab => (
               <button
                 key={tab}
                 onClick={() => setActiveTab(tab)}
-                className={`px-6 py-3 rounded-lg font-semibold transition-all ${
+                className={`flex-shrink-0 px-4 sm:px-6 py-2.5 sm:py-3 rounded-lg font-semibold transition-all text-sm sm:text-base ${
                   activeTab === tab
                     ? 'bg-gradient-blue text-white shadow-lg'
                     : 'bg-white text-gray-700 hover:bg-gray-50'
                 }`}
+                style={{ minHeight: '44px' }}
               >
                 {t(`common.${tab}`) || (tab === 'photos' ? (language === 'vi' ? 'Hình ảnh' : 'Photos') : tab === 'videos' ? 'Videos' : (language === 'vi' ? 'Tài liệu' : 'Documents'))}
               </button>
@@ -81,7 +82,7 @@ const Gallery = () => {
 
           {/* Photos */}
           {activeTab === 'photos' && (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
               {photoAlbums.map((album, index) => (
                 <motion.div
                   key={album.id}
@@ -89,7 +90,7 @@ const Gallery = () => {
                   whileInView={{ opacity: 1, scale: 1 }}
                   transition={{ delay: index * 0.1 }}
                   viewport={{ once: true }}
-                  className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-all cursor-pointer group"
+                  className="bg-white rounded-xl sm:rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-all cursor-pointer group"
                   onClick={() => album.images && setLightboxImage(album.images[0])}
                 >
                   <div className="aspect-video bg-gray-200 overflow-hidden">
@@ -99,11 +100,11 @@ const Gallery = () => {
                       className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                     />
                   </div>
-                  <div className="p-4">
-                    <h3 className="font-bold text-lg mb-2 group-hover:text-mekong-blue transition-colors">
+                  <div className="p-3 sm:p-4">
+                    <h3 className="font-bold text-base sm:text-lg mb-1 sm:mb-2 group-hover:text-mekong-blue transition-colors">
                       {album.title}
                     </h3>
-                    <p className="text-gray-600 text-sm">
+                    <p className="text-gray-600 text-xs sm:text-sm">
                       {album.imagesCount} {language === 'vi' ? 'ảnh' : 'photos'}
                     </p>
                   </div>
@@ -114,7 +115,7 @@ const Gallery = () => {
 
           {/* Videos */}
           {activeTab === 'videos' && (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
               {videos.map((video, index) => (
                 <motion.a
                   key={video.id}
@@ -125,7 +126,7 @@ const Gallery = () => {
                   whileInView={{ opacity: 1, y: 0 }}
                   transition={{ delay: index * 0.1 }}
                   viewport={{ once: true }}
-                  className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-all group"
+                  className="bg-white rounded-xl sm:rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-all group"
                 >
                   <div className="aspect-video bg-gray-200 relative">
                     <img
@@ -134,16 +135,16 @@ const Gallery = () => {
                       className="w-full h-full object-cover"
                     />
                     <div className="absolute inset-0 bg-black bg-opacity-30 flex items-center justify-center group-hover:bg-opacity-40 transition-all">
-                      <div className="w-16 h-16 bg-white bg-opacity-90 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform">
-                        <i className="fas fa-play text-2xl text-mekong-blue ml-1"></i>
+                      <div className="w-12 h-12 sm:w-16 sm:h-16 bg-white bg-opacity-90 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform">
+                        <i className="fas fa-play text-lg sm:text-2xl text-mekong-blue ml-1"></i>
                       </div>
                     </div>
                   </div>
-                  <div className="p-4">
-                    <h3 className="font-bold line-clamp-2 mb-2 group-hover:text-mekong-blue transition-colors">
+                  <div className="p-3 sm:p-4">
+                    <h3 className="font-bold text-sm sm:text-base line-clamp-2 mb-1 sm:mb-2 group-hover:text-mekong-blue transition-colors">
                       {video.title}
                     </h3>
-                    <p className="text-sm text-gray-600">
+                    <p className="text-xs sm:text-sm text-gray-600">
                       {new Date(video.date).toLocaleDateString(language === 'vi' ? 'vi-VN' : 'en-US')}
                     </p>
                   </div>
@@ -154,8 +155,8 @@ const Gallery = () => {
 
           {/* Documents */}
           {activeTab === 'documents' && (
-            <div className="bg-white rounded-2xl shadow-lg p-8">
-              <p className="text-center text-gray-600">
+            <div className="bg-white rounded-xl sm:rounded-2xl shadow-lg p-6 sm:p-8">
+              <p className="text-center text-gray-600 text-sm sm:text-base">
                 {language === 'vi' ? 'Chức năng đang được phát triển' : 'Feature under development'}
               </p>
             </div>
@@ -166,14 +167,15 @@ const Gallery = () => {
       {/* Lightbox */}
       {lightboxImage && (
         <div
-          className="fixed inset-0 bg-black bg-opacity-90 z-50 flex items-center justify-center p-4"
+          className="fixed inset-0 bg-black bg-opacity-90 z-50 flex items-center justify-center p-3 sm:p-4"
           onClick={() => setLightboxImage(null)}
         >
           <button
-            className="absolute top-4 right-4 w-12 h-12 bg-white rounded-full flex items-center justify-center hover:bg-gray-100"
+            className="absolute top-3 right-3 sm:top-4 sm:right-4 w-11 h-11 sm:w-12 sm:h-12 bg-white rounded-full flex items-center justify-center hover:bg-gray-100"
             onClick={() => setLightboxImage(null)}
+            style={{ minWidth: '44px', minHeight: '44px' }}
           >
-            <i className="fas fa-times text-2xl"></i>
+            <i className="fas fa-times text-xl sm:text-2xl"></i>
           </button>
           <img
             src={lightboxImage}

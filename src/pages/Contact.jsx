@@ -119,12 +119,12 @@ const Contact = () => {
   return (
     <div className="contact-page">
       {/* Hero Banner */}
-      <section className="relative bg-gradient-to-br from-[#1F294B] to-[#002191] py-12 md:py-16">
+      <section className="relative bg-gradient-to-br from-[#1F294B] to-[#002191] py-8 sm:py-10 md:py-12 lg:py-16">
         <div className="container-custom text-center text-white">
           <motion.h1
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="text-4xl md:text-5xl font-heading font-bold mb-4"
+            className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-heading font-bold mb-3 sm:mb-4"
           >
             {t('contact.title')}
           </motion.h1>
@@ -132,7 +132,7 @@ const Contact = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
-            className="text-lg md:text-xl max-w-2xl mx-auto"
+            className="text-sm sm:text-base md:text-lg lg:text-xl max-w-2xl mx-auto px-4"
           >
             {t('contact.subtitle')}
           </motion.p>
@@ -140,20 +140,20 @@ const Contact = () => {
       </section>
 
       {/* Contact Form & Map */}
-      <section className="py-12 md:py-16">
+      <section className="py-8 sm:py-10 md:py-12 lg:py-16">
         <div className="container-custom">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8">
             {/* Map */}
             <motion.div
               initial={{ opacity: 0, x: -30 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: 0.2 }}
             >
-              <div className="bg-white rounded-2xl overflow-hidden shadow-lg h-full min-h-[400px]">
+              <div className="bg-white rounded-xl sm:rounded-2xl overflow-hidden shadow-lg h-full min-h-[300px] sm:min-h-[400px]">
                 {settings?.google_maps_embed ? (
-                  <div 
+                  <div
                     dangerouslySetInnerHTML={{ __html: settings.google_maps_embed }}
-                    className="w-full h-full min-h-[400px]"
+                    className="w-full h-full min-h-[300px] sm:min-h-[400px]"
                     style={{ border: 0 }}
                   />
                 ) : (
@@ -161,7 +161,7 @@ const Contact = () => {
                     src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3928.841459932746!2d105.78164431533394!3d10.029933692833894!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31a0629f6de3cfbd%3A0x30b3c5f90e5d1ec8!2zQ-G6p24gVGjGoSwgVmnhu4d0IE5hbQ!5e0!3m2!1svi!2s!4v1234567890"
                     width="100%"
                     height="100%"
-                    style={{ border: 0, minHeight: '400px' }}
+                    style={{ border: 0, minHeight: '300px' }}
                     allowFullScreen=""
                     loading="lazy"
                   ></iframe>
@@ -174,24 +174,25 @@ const Contact = () => {
               initial={{ opacity: 0, x: 30 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: 0.3 }}
-              className="bg-white rounded-2xl shadow-lg p-6 md:p-8"
+              className="bg-white rounded-xl sm:rounded-2xl shadow-lg p-4 sm:p-6 md:p-8"
             >
-              <form onSubmit={handleSubmit} className="space-y-4">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <form onSubmit={handleSubmit} className="space-y-3 sm:space-y-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
                   {/* Topic */}
                   <div>
                     <select
                       name="topic"
                       value={formData.topic}
                       onChange={handleChange}
-                      className={`w-full px-4 py-3 rounded-lg border-2 ${errors.topic ? 'border-red-500' : 'border-gray-200'} focus:border-mekong-blue focus:outline-none transition-colors`}
+                      className={`w-full px-3 sm:px-4 py-2.5 sm:py-3 rounded-lg border-2 ${errors.topic ? 'border-red-500' : 'border-gray-200'} focus:border-mekong-blue focus:outline-none transition-colors text-sm sm:text-base`}
+                      style={{ minHeight: '44px' }}
                     >
                       <option value="">{t('contact.selectTopic')}</option>
                       {Object.keys(t('contact.topics')).map(key => (
                         <option key={key} value={key}>{t(`contact.topics.${key}`)}</option>
                       ))}
                     </select>
-                    {errors.topic && <p className="text-red-500 text-sm mt-1">{errors.topic}</p>}
+                    {errors.topic && <p className="text-red-500 text-xs sm:text-sm mt-1">{errors.topic}</p>}
                   </div>
 
                   {/* Full Name */}
